@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpenConnection.cs" />
     <Compile Include="ConnectionString\ConStrCreate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,7 +57,7 @@
     <Compile Include="ConnectionString\SQLPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DBTablesCheck.cs" />
+    <Compile Include="DBTableCheck.cs" />
     <Compile Include="Fonts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestToSQL.cs" />

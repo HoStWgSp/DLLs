@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Data;
+using System.Windows.Forms;
 
-namespace DLLs.DataBase.Requests
+namespace WorkWithDB
 {
     public class RequestToSQL
     {
         public static bool ConnectionOk { get; private set; }
 
-       
+
 
         /// <summary>
         /// Ищет Id строки в таблице с одной колонкой (имя колонки как у таблицы) по данным из этой колонки
@@ -89,23 +90,20 @@ namespace DLLs.DataBase.Requests
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        //public static void RequestExecuteNonQuery(string строкаЗапроса)
-        //{
-        //    SqlConnection sqlConnection = new SqlConnection(ConnectionString.ConStr);
-        //    sqlConnection.Open();
-        //    SqlCommand sqlCommand = new SqlCommand(строкаЗапроса, sqlConnection);
-        //    try
-        //    {
-        //        sqlCommand.ExecuteNonQuery();
-        //        ConnectionOk = true;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(e.ToString());
-        //        ConnectionOk = false;
-        //    }
-        //    sqlConnection.Close();
-        //}
+        public static bool RequestExecuteNonQuery(SqlConnection sqlConnection, string queryString)
+        {
+            SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+        }
 
         /// <summary>
         /// Отправляет команду в SQL DataBase и выполняет ExecuteScalar()
@@ -138,19 +136,17 @@ namespace DLLs.DataBase.Requests
         /// <param name="table"></param>
         /// <param name="request"></param>
         /// <param name="connectinString"></param>
-        //public static void ExecuteReaderToDataTable(string строкаЗапроса, DataTable dataTable)
-        //{
-        //    SqlConnection sqlConnection = new SqlConnection(ConnectionString.ConStr);
-        //    sqlConnection.Open();
-        //    SqlCommand sqlCommand = new SqlCommand(строкаЗапроса, sqlConnection);
+        public static DataTable ExecuteReaderToDataTable(SqlConnection sqlConnection, string QueryString)
+        {
+            SqlCommand sqlCommand = new SqlCommand(QueryString, sqlConnection);
 
-        //    SqlDataReader dr = sqlCommand.ExecuteReader();
-        //    //DataTable dt = new DataTable();
-        //    dataTable.Load(dr);
+            SqlDataReader dr = sqlCommand.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
 
-        //    sqlConnection.Close();
+            sqlConnection.Close();
 
-        //    //return dt;
-        //}
+            return dt;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 using System;
+using System.Data.SqlClient;
 
 namespace WorkWithDB.ConnectionString
 {
@@ -17,7 +18,8 @@ namespace WorkWithDB.ConnectionString
         /// <summary>
         /// Строка подключения к БД
         /// </summary>
-        public string ConStr { get; set; }
+        public string ConStr { get; set; } = "";
+        public SqlConnection SqlConnection {  get; set; }
         
         public ConStrCreate() 
         {

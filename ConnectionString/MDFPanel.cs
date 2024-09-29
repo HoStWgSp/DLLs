@@ -31,9 +31,14 @@ namespace WorkWithDB.ConnectionString
             if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
             string constr = $"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename={openFileDialog.FileName};Integrated Security=True";
 
-            SqlConnection sqlConnection = new SqlConnection(constr);
-            try { sqlConnection.Open(); conStrCreate.ConStr = constr; }
-            catch { MessageBox.Show("Убедитесь, что выбран правильный файл с базой данных."); return; }
+            OpenConnection openConnection = new OpenConnection(constr);
+            if (openConnection.Connection)
+            {
+                conStrCreate.ConStr = constr;
+                conStrCreate.SqlConnection = openConnection.SqlConnection;
+            }
+            else { MessageBox.Show("Убедитесь, что выбран правильный файл с базой данных."); return; }
+
             conStrCreate.Close();
         }
     }
