@@ -51,9 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableActions.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserAdd.cs" />
+    <Compile Include="UsersTableActions.cs" />
     <Compile Include="Vars.cs" />
-    <Compile Include="WorkWithUser.cs" />
+    <Compile Include="UserAauthorization.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

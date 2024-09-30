@@ -7,8 +7,19 @@ using System.Threading.Tasks;
 
 namespace WorkWithUser
 {
-    internal class TableActions
+    public class UsersTableActions
     {
+        /// <summary>
+        /// Проверяет существование таблицы с данными пользователей.
+        /// Возвращает true, если таблица существует.
+        /// </summary>
+        /// <param name="sqlConnection"></param>
+        /// <returns></returns>
+        public static bool UsersTableCheck(SqlConnection sqlConnection)
+        {
+            return WorkWithDB.DBTableCheck.TableCheck(sqlConnection, Vars.TableName);
+        }
+        
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
@@ -21,7 +32,6 @@ namespace WorkWithUser
                 $"[Id] INT IDENTITY (1, 1) NOT NULL," +
                 $"[{Vars.UserName}] NVARCHAR({Vars.UserNames}) NULL," +
                 $"[{Vars.UserLastName}] NVARCHAR({Vars.UserNames}) NULL," +
-                $"[{Vars.UserNickName}] NVARCHAR({Vars.UserNames}) NULL," +
                 $"[{Vars.UserPassword}] NVARCHAR({Vars.UserPasswordL}) NULL," +
                 $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NULL," +
                 $"[{Vars.UserGroup}] NVARCHAR({Vars.UserGroupL}) NULL)");

@@ -11,7 +11,6 @@ namespace WorkWithUser
         public static string TableName = "Users",
             UserName = "Name",
             UserLastName = "LastName",
-            UserNickName = "NickName",
             UserPassword = "Password",
             UserEMail = "EMail",
             UserGroup = "Level";
@@ -21,7 +20,7 @@ namespace WorkWithUser
             UserEMailL = 30,
             UserGroupL = 10;
 
-        public static string TableNotExsist = "Таблица с пользователями отсутствует. Хотите создать?",
+        public static string 
             TableNotCreated = "Не удалось создать таблицу с пользователями.";
     }
 }
