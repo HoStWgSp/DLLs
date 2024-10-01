@@ -9,11 +9,11 @@ namespace WorkWithUser
     internal class Vars
     {
         public static string TableName = "Users",
-            UserName = "Name",
-            UserLastName = "LastName",
-            UserPassword = "Password",
-            UserEMail = "EMail",
-            UserGroup = "Level";
+            UserName = "UName",
+            UserLastName = "ULastName",
+            UserPassword = "UPassword",
+            UserEMail = "UEMail",
+            UserGroup = "UGroup";
 
         public static int UserNames = 20,
             UserPasswordL = 30,

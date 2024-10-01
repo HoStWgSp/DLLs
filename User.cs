@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using WorkWithUser.UserForms;
 
 namespace WorkWithUser
 {
@@ -15,6 +16,7 @@ namespace WorkWithUser
         SqlConnection sqlConnection;
         DataTable usersData;
         DataRow authorizedUser;
+        MainForm mainForm;
 
         public User(SqlConnection sqlConnection)
         {
@@ -22,6 +24,8 @@ namespace WorkWithUser
 
             usersData = WorkWithDB.RequestToSQL.ExecuteReaderToDataTable(sqlConnection,
                 $"select * from {Vars.TableName}");
+
+            mainForm = new MainForm();
         }
 
         /// <summary>
@@ -49,6 +53,7 @@ namespace WorkWithUser
         /// <param name="password"></param>
         public bool Aauthorization(string userName, string UserPassword)
         {
+            mainForm.ShowDialog();
             authorizedUser = UserActions.Aauthorization(usersData, userName, UserPassword);
             if (!authorizedUser.IsNull(1))
             {
@@ -56,6 +61,40 @@ namespace WorkWithUser
                 UserLastName = authorizedUser[Vars.UserLastName].ToString();
                 UserEMail = authorizedUser[Vars.UserEMail].ToString();
                 UserGroup = authorizedUser[Vars.UserGroup].ToString();
+                return true;
+            }
+            return false;
+        }
+
+        public bool Registration(string name, string lastName, string password, string eMail, string group)
+        {
+            if (!Add(name, lastName, password, eMail, group)) 
+                return false;
+
+            UserName = name;
+            UserLastName = lastName;
+            UserEMail = password;
+            UserGroup = group;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Добавляет нового пользователя в таблицу с пользователями.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="lastName"></param>
+        /// <param name="password"></param>
+        /// <param name="eMail"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public bool Add(string name, string lastName, string password, string eMail, string group)
+        {
+            string[] newUserData = { name, lastName, password, eMail, group };
+            if (UserActions.Add(sqlConnection, newUserData))
+            {
+                usersData = WorkWithDB.RequestToSQL.ExecuteReaderToDataTable(sqlConnection,
+                $"select * from {Vars.TableName}");
                 return true;
             }
             return false;

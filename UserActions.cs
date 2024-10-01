@@ -12,7 +12,7 @@ namespace WorkWithUser
     internal class UserActions
     {        
         /// <summary>
-        /// Проверяет существование пользователя. И возвращает строку с данными найденного пользователя.
+        /// Проверяет существование пользователя в DataTable. И возвращает строку с данными найденного пользователя.
         /// </summary>
         /// <param name="sqlConnection"></param>
         /// <param name="username"></param>
@@ -29,5 +29,19 @@ namespace WorkWithUser
             }
             return authirizedUser;
         }
+        /// <summary>
+        /// Добавляет пользователя в таблицу пользователей.
+        /// </summary>
+        /// <param name="sqlConnection"></param>
+        /// <param name="userData"></param>
+        /// <returns></returns>
+        public static bool Add(SqlConnection sqlConnection, string[] userData)
+        {
+            return WorkWithDB.RequestToSQL.RequestExecuteNonQuery(sqlConnection,
+                $"INSERT INTO {Vars.TableName} ({Vars.UserName}, {Vars.UserLastName}, {Vars.UserPassword}, {Vars.UserEMail}, {Vars.UserGroup}) " +
+                $"VALUES " +
+                $"('{userData[0]}', '{userData[1]}', '{userData[2]}', '{userData[3]}', '{userData[4]}')");
+        } 
+
     }
 }
