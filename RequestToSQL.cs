@@ -144,7 +144,6 @@ namespace WorkWithDB
             DataTable dt = new DataTable();
             dt.Load(dr);
 
-            sqlConnection.Close();
 
             return dt;
         }

@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Fonts">
+      <HintPath>..\Fonts\bin\Debug\Fonts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -44,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fonts.cs" />
     <Compile Include="OpenConnection.cs" />
     <Compile Include="ConnectionString\ConStrCreate.cs">
       <SubType>Form</SubType>
@@ -58,7 +62,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DBTableCheck.cs" />
-    <Compile Include="Fonts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestToSQL.cs" />
     <Compile Include="Vars.cs" />
