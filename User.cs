@@ -6,8 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using WorkWithUser.UserForms;
+using System.Runtime.Versioning;
+using System.Drawing;
+using System.ComponentModel;
+using System.IO;
+using System.Security.Policy;
+using System.Reflection;
 
 namespace WorkWithUser
 {
@@ -51,8 +56,11 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public bool Aauthorization(string userName, string UserPassword)
-        {
+        public bool Aauthorization(string userName, string UserPassword, Icon icon = null)
+        { 
+            Сделать иф по наличию icon
+            //Icon icon = Icon.ExtractAssociatedIcon("Icons.dll");
+            mainForm.Icon = icon;
             mainForm.ShowDialog();
             authorizedUser = UserActions.Aauthorization(usersData, userName, UserPassword);
             if (!authorizedUser.IsNull(1))

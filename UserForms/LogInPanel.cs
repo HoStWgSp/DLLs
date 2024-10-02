@@ -12,7 +12,7 @@ namespace WorkWithUser.UserForms
     {
         Label loginLabel;
 
-        TextBox userNameOrMailTextBox,
+        TextBox userNameTextBox,
             userPasswordTextBox;
 
 
@@ -20,22 +20,23 @@ namespace WorkWithUser.UserForms
         {
             loginLabel = new Label()
             {
-                Text = "Авторизация пользователя",
-                TextAlign = ContentAlignment.MiddleLeft,
+                Text = "Авторизация",
+                TextAlign = ContentAlignment.BottomCenter,
                 Font = new Font("Calibri", 20, FontStyle.Bold),
                 AutoSize = false,
-                Size = new Size(350, 40),
-                BackColor=Color.DarkBlue
+                Size = new Size(200, 30),
+                //BackColor=Color.DarkBlue
             };
-            loginLabel.Location = new Point(form.Width / 2 - loginLabel.Width / 2, 5);
-            userNameOrMailTextBox = new TextBox()
+            loginLabel.Location = new Point(form.ClientSize.Width / 2 - loginLabel.Width / 2, 5);
+            userNameTextBox = new TextBox()
             {
-                Location = new Point(20, loginLabel.Location.Y+ loginLabel.Height+10),
-
+                Width = 300,
+                Font = new Font("Calibri", 15, FontStyle.Regular),
             };
+            userNameTextBox.Location = new Point(form.ClientSize.Width / 2 - userNameTextBox.Width / 2, loginLabel.Location.Y + loginLabel.Height + 10);
 
             Controls.Add(loginLabel);
-            Controls.Add(userNameOrMailTextBox);
+            Controls.Add(userNameTextBox);
         }
     }
 }

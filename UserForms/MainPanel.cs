@@ -19,7 +19,7 @@ namespace WorkWithUser.UserForms
         {
             Dock = DockStyle.Fill;
             this.form = form;
-            //BackColor = Color.Green;
+            BackColor = Color.Green;
             
         }
     }

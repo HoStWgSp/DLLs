@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace WorkWithUser.UserForms
 {
@@ -13,6 +14,7 @@ namespace WorkWithUser.UserForms
         MainPanel mainPanel;
         public MainForm()
         {
+            //ClientSize = new Size(200, 200);
             Size = new Size(400, 300);
             StartPosition = FormStartPosition.CenterParent;
             AutoSize = false;
