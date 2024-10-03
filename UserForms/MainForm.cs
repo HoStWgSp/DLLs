@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
+using WorkWithUser.UserForms.LogIn;
 
 namespace WorkWithUser.UserForms
 {
     internal class MainForm : Form
     {
-        MainPanel mainPanel;
+        public Icon FormIcon { set { Icon = value; } }
+        private Image userImage = null;
+        //public Image UserImage { set { mainPanel.UserImage = value; } }
+        public Image UserPassword { private get; set; } = null;
+        public MainPanel mainPanel;
         public MainForm()
         {
             //ClientSize = new Size(200, 200);
@@ -21,8 +26,8 @@ namespace WorkWithUser.UserForms
             MinimizeBox = false;
             MaximizeBox = false;
 
-            mainPanel = new LogInPanel(this);
-            Controls.Add(mainPanel);
+            //mainPanel = new LogInPanel(this);
+            //Controls.Add(mainPanel);
         }
     }
 }

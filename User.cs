@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Security.Policy;
 using System.Reflection;
+using WorkWithUser.UserForms.LogIn;
 
 namespace WorkWithUser
 {
@@ -52,15 +53,20 @@ namespace WorkWithUser
 
         /// <summary>
         /// Проверяет существование пользователя и возвращает его данные.
+        /// Иконка на форму обязательно (формат ico).
+        /// Картинки на пользователя желательно, но не обязательно. (Формат png).
+        /// 
         /// </summary>
         /// <param name="sqlConnection"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public bool Aauthorization(string userName, string UserPassword, Icon icon = null)
-        { 
-            Сделать иф по наличию icon
-            //Icon icon = Icon.ExtractAssociatedIcon("Icons.dll");
-            mainForm.Icon = icon;
+        public bool Aauthorization(string userName, string UserPassword, Icon formIcon, Image userImage = null, Image userPassword = null)
+        {
+            mainForm.FormIcon = formIcon;
+            mainForm.Text = Vars.Authorization + " " + Vars.User2;
+            mainForm.Controls.Clear();
+            mainForm.mainPanel = new LogInPanel(mainForm, userImage, userPassword);
+            mainForm.Controls.Add(mainForm.mainPanel);
             mainForm.ShowDialog();
             authorizedUser = UserActions.Aauthorization(usersData, userName, UserPassword);
             if (!authorizedUser.IsNull(1))

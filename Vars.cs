@@ -20,7 +20,11 @@ namespace WorkWithUser
             UserEMailL = 30,
             UserGroupL = 10;
 
-        public static string 
+        public static string User = "Пользователь",
+            User2 = "пользователя",
+            Password = "Пароль",
+            Authorization = "Авторизация",
             TableNotCreated = "Не удалось создать таблицу с пользователями.";
+
     }
 }

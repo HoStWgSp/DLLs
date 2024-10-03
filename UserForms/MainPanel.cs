@@ -10,8 +10,9 @@ namespace WorkWithUser.UserForms
 {
     internal class MainPanel : Panel
     {
-        public Button loginButton,
-            registrationButton;
+        //public Image UserImage {  get; set; }
+        //public Button loginButton,
+            //registrationButton;
 
         MainForm form;
 
@@ -19,8 +20,7 @@ namespace WorkWithUser.UserForms
         {
             Dock = DockStyle.Fill;
             this.form = form;
-            BackColor = Color.Green;
-            
+            //BackColor = Color.Green;            
         }
     }
 }
