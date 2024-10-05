@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlertConfirm">
+    <Reference Include="AlertConfirm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AlertConfirm\bin\Debug\AlertConfirm.dll</HintPath>
     </Reference>
     <Reference Include="Fonts">

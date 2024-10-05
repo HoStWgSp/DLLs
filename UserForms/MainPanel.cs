@@ -11,22 +11,10 @@ namespace WorkWithUser.UserForms
 {
     public class MainPanel : Panel
     {
-        //public Image UserImage {  get; set; }
-        //public Button loginButton,
-            //registrationButton;
-
-        //User user;
-
-        public DataRow userDataRow { get; set; }
-
-        public string UserName { get; set; } = "";
-        public string UserPassword { get; set; } = "";
+        public bool UserAuthorized { get; set; } = false;
         public MainPanel(User user)
         {
             Dock = DockStyle.Fill;
-            //this.user = user;
         }
-
-        //public virtual void LogInFormError(bool loginError = false, bool passwordError = false) { }
     }
 }

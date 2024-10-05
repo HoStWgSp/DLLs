@@ -8,18 +8,7 @@ using System.Threading.Tasks;
 namespace WorkWithUser
 {
     public class UsersTableActions
-    {
-        /// <summary>
-        /// Проверяет существование таблицы с данными пользователей.
-        /// Возвращает true, если таблица существует.
-        /// </summary>
-        /// <param name="sqlConnection"></param>
-        /// <returns></returns>
-        public static bool UsersTableCheck(SqlConnection sqlConnection)
-        {
-            return WorkWithDB.DBTableCheck.TableCheck(sqlConnection, Vars.TableName);
-        }
-        
+    {        
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
@@ -35,6 +24,20 @@ namespace WorkWithUser
                 $"[{Vars.UserPassword}] NVARCHAR({Vars.UserPasswordL}) NULL," +
                 $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NULL," +
                 $"[{Vars.UserGroup}] NVARCHAR({Vars.UserGroupL}) NULL)");
+        }
+
+        /// <summary>
+        /// Добавляет пользователя в таблицу пользователей.
+        /// </summary>
+        /// <param name="sqlConnection"></param>
+        /// <param name="userData"></param>
+        /// <returns></returns>
+        public static bool Add(SqlConnection sqlConnection, string[] userData)
+        {
+            return WorkWithDB.RequestToSQL.RequestExecuteNonQuery(sqlConnection,
+                $"INSERT INTO {Vars.TableName} ({Vars.UserName}, {Vars.UserLastName}, {Vars.UserPassword}, {Vars.UserEMail}, {Vars.UserGroup}) " +
+                $"VALUES " +
+                $"('{userData[0]}', '{userData[1]}', '{userData[2]}', '{userData[3]}', '{userData[4]}')");
         }
     }
 }

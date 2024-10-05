@@ -13,6 +13,7 @@ namespace WorkWithUser.UserForms
     internal class LogInPanel : MainPanel
     {
         User user;
+        Dictionary<string, Image> images;
 
         Label loginLabel,
             errorLabel,
@@ -23,11 +24,14 @@ namespace WorkWithUser.UserForms
 
         Button logInButton;
 
+        DataRow userDataRow;
+
         bool registration;
 
-        public LogInPanel(User user, Image userImage, Image passwordImage, bool registration) :base(user)
+        public LogInPanel(User user, Dictionary<string, Image> images, bool registration) :base(user)
         {
             this.user = user;
+            this.images = images;
             this.registration = registration;
 
             loginLabel = new Label()
@@ -42,13 +46,13 @@ namespace WorkWithUser.UserForms
 
             userGroupBox = new UserDataGroupBox(
                 Vars.User + ":", 41, 45,
-                userImage, Vars.UserNamesL, Vars.NameAndLastName
+                images[Vars.User], Vars.UserNamesL, Vars.NameAndLastName
                 );
             userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
 
             passwordGroupBox = new UserDataGroupBox(
                 Vars.Password + ":", 41, 105,
-                passwordImage, Vars.UserPasswordL, Vars.Password, true
+                images[Vars.Password], Vars.UserPasswordL, Vars.Password, true
                 );
             (passwordGroupBox.Controls["textBox"] as TextBox).PasswordChar = '*';
             passwordGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
@@ -120,7 +124,9 @@ namespace WorkWithUser.UserForms
         }
         private void RegistrationLabel_Click(object sender, EventArgs e)
         {
-            user.Registration();
+            user.UserRegistration();
+            UserAuthorized = true;
+            user.mainForm.Close();
         }
 
         private void LogInButton_Click(object sender, EventArgs e)
@@ -131,13 +137,20 @@ namespace WorkWithUser.UserForms
             { LogInFormError(false, true); return; }
             else if (!CheckUserName(userGroupBox.Controls["textBox"].Text))
             { LogInFormError(false, false, true); return; }
-            
+
             userDataRow = Aauthorization(
                 userGroupBox.Controls["textBox"].Text,
                 passwordGroupBox.Controls["textBox"].Text);
 
-            if (userDataRow == null )
+            if (userDataRow == null)
             { LogInFormError(false, false, false, true); return; }
+
+            user.UserDataFill(userDataRow[Vars.UserName].ToString(),
+                userDataRow[Vars.UserLastName].ToString(),
+                userDataRow[Vars.UserEMail].ToString(),
+                userDataRow[Vars.UserGroup].ToString());
+
+            UserAuthorized = true;
 
             user.mainForm.Close();
         }
