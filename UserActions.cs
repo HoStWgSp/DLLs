@@ -10,7 +10,26 @@ using System.Windows.Forms;
 namespace WorkWithUser
 {
     internal class UserActions
-    {        
+    {   
+        /// <summary>
+        /// Проверяет существует ли пользователь с таким именем.
+        /// </summary>
+        /// <param name="usersDataTable"></param>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public static bool CheckUserName(DataTable usersDataTable, string userName)
+        {
+            foreach (DataRow dataRow in usersDataTable.Rows)
+            {
+                if (dataRow[Vars.UserName].ToString() == userName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         /// <summary>
         /// Проверяет существование пользователя в DataTable. И возвращает строку с данными найденного пользователя.
         /// </summary>

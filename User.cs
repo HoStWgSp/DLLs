@@ -14,6 +14,7 @@ using System.IO;
 using System.Security.Policy;
 using System.Reflection;
 using WorkWithUser.UserForms.LogIn;
+using System.Windows.Forms;
 
 namespace WorkWithUser
 {
@@ -21,17 +22,36 @@ namespace WorkWithUser
     {
         SqlConnection sqlConnection;
         DataTable usersData;
-        DataRow authorizedUser;
+        DataRow userDataRow;
         MainForm mainForm;
 
-        public User(SqlConnection sqlConnection)
+        public bool TableExsist { get; private set; } = true;
+
+        /// <summary>
+        /// Создает объект Пользователь.
+        /// Проверяет существует ли таблица пользователей.
+        /// Если не существует, то предлагает создать.
+        /// На выходе переменная TableExsist.
+        /// </summary>
+        /// <param name="sqlConnection"></param>
+        public User(Icon formIcon, SqlConnection sqlConnection)
         {
             this.sqlConnection = sqlConnection;
+
+            // Проверяет существование таблицы пользователей
+            if (!WorkWithDB.DBTableCheck.TableCheck(sqlConnection, Vars.TableName))
+            {
+                AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm();
+                if (!alertConfirm.Confirmation("Таблица с пользователями отсутствует. Хотите создать?", 300, 90)) return;
+
+                // Создание таблицы с пользователями
+                if (!UsersTableActions.Creation(sqlConnection)) { MessageBox.Show("Не удалось создать таблицу с пользователями."); return; }
+            }
 
             usersData = WorkWithDB.RequestToSQL.ExecuteReaderToDataTable(sqlConnection,
                 $"select * from {Vars.TableName}");
 
-            mainForm = new MainForm();
+            mainForm = new MainForm(formIcon);
         }
 
         /// <summary>
@@ -60,22 +80,39 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public bool Aauthorization(string userName, string UserPassword, Icon formIcon, Image userImage = null, Image userPassword = null)
+        public bool Aauthorization(Image userImage = null, Image passwordImage = null)
         {
-            mainForm.FormIcon = formIcon;
+            AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm();
+
             mainForm.Text = Vars.Authorization + " " + Vars.User2;
             mainForm.Controls.Clear();
-            mainForm.mainPanel = new LogInPanel(mainForm, userImage, userPassword);
+            mainForm.mainPanel = new LogInPanel(mainForm, userImage, passwordImage);
             mainForm.Controls.Add(mainForm.mainPanel);
             mainForm.ShowDialog();
-            authorizedUser = UserActions.Aauthorization(usersData, userName, UserPassword);
-            if (!authorizedUser.IsNull(1))
+
+            if (!UserActions.CheckUserName(usersData, mainForm.mainPanel.UserName))
             {
-                UserName = authorizedUser[Vars.UserName].ToString();
-                UserLastName = authorizedUser[Vars.UserLastName].ToString();
-                UserEMail = authorizedUser[Vars.UserEMail].ToString();
-                UserGroup = authorizedUser[Vars.UserGroup].ToString();
+                if (!alertConfirm.Confirmation(Vars.UserNotExsistConfirmation, 320, 110))
+                    return false;
+
+                
+            }
+
+            userDataRow = UserActions.Aauthorization(
+                usersData, mainForm.mainPanel.UserName,
+                mainForm.mainPanel.UserPassword);
+            if (!userDataRow.IsNull(1))
+            {
+                UserName = userDataRow[Vars.UserName].ToString();
+                UserLastName = userDataRow[Vars.UserLastName].ToString();
+                UserEMail = userDataRow[Vars.UserEMail].ToString();
+                UserGroup = userDataRow[Vars.UserGroup].ToString();
                 return true;
+            }
+            else
+            {
+                
+                //alertConfirm.Confirmation()
             }
             return false;
         }

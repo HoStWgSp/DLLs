@@ -13,21 +13,16 @@ namespace WorkWithUser.UserForms
     internal class MainForm : Form
     {
         public Icon FormIcon { set { Icon = value; } }
-        private Image userImage = null;
-        //public Image UserImage { set { mainPanel.UserImage = value; } }
-        public Image UserPassword { private get; set; } = null;
+
         public MainPanel mainPanel;
-        public MainForm()
+        public MainForm(Icon formIcon)
         {
-            //ClientSize = new Size(200, 200);
-            Size = new Size(400, 300);
+            FormIcon = formIcon;
+            Size = new Size(400, 270);
             StartPosition = FormStartPosition.CenterParent;
             AutoSize = false;
             MinimizeBox = false;
             MaximizeBox = false;
-
-            //mainPanel = new LogInPanel(this);
-            //Controls.Add(mainPanel);
         }
     }
 }

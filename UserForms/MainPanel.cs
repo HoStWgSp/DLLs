@@ -16,6 +16,8 @@ namespace WorkWithUser.UserForms
 
         MainForm form;
 
+        public string UserName { get; set; } = "";
+        public string UserPassword { get; set; } = "";
         public MainPanel(MainForm form)
         {
             Dock = DockStyle.Fill;

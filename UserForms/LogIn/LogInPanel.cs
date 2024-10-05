@@ -15,8 +15,15 @@ namespace WorkWithUser.UserForms.LogIn
         GroupBox userGroupBox,
             passwordGroupBox;
 
-        public LogInPanel(MainForm form, Image userImage, Image passwordImage):base(form)
+        Button logInButton;
+
+        MainForm mainForm;
+
+
+        public LogInPanel(MainForm mainForm, Image userImage, Image passwordImage) :base(mainForm)
         {
+            this.mainForm = mainForm;
+
             loginLabel = new Label()
             {
                 Text = Vars.Authorization,
@@ -25,23 +32,41 @@ namespace WorkWithUser.UserForms.LogIn
                 AutoSize = false,
                 Size = new Size(200, 30)
             };
-            loginLabel.Location = new Point(form.ClientSize.Width / 2 - loginLabel.Width / 2, 5);
+            loginLabel.Location = new Point(mainForm.ClientSize.Width / 2 - loginLabel.Width / 2, 5);
 
-            userGroupBox = new UserPassGroupBox(form,
+            userGroupBox = new UserPassGroupBox(mainForm,
                 Vars.User + ":",
                 loginLabel.Location.Y + loginLabel.Height + 10,
-                userImage
+                userImage, Vars.NameAndLastName
                 );
 
-            passwordGroupBox = new UserPassGroupBox(form,
+            passwordGroupBox = new UserPassGroupBox(mainForm,
                 Vars.Password + ":",
                 userGroupBox.Location.Y + userGroupBox.Height + 10,
                 passwordImage
                 );
 
+            logInButton = new Button()
+            {
+                Font = new Font("Calibri", 15, FontStyle.Bold),
+                Size = new Size(200, 50),
+                Text = Vars.Enter,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            logInButton.Location = new Point(mainForm.ClientSize.Width / 2 - logInButton.Width / 2, passwordGroupBox.Location.Y + passwordGroupBox.Height + 10);
+            logInButton.Click += LogInButton_Click;
+
             Controls.Add(loginLabel);
             Controls.Add(userGroupBox);
             Controls.Add(passwordGroupBox);
+            Controls.Add(logInButton);
+        }
+
+        private void LogInButton_Click(object sender, EventArgs e)
+        {
+            UserName = userGroupBox.Controls["textBox"].Text;
+            UserPassword = passwordGroupBox.Controls["textBox"].Text;
+            mainForm.Close();
         }
     }
 }

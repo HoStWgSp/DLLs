@@ -12,14 +12,23 @@ namespace WorkWithUser.UserForms.LogIn
     {
         private Label label;
         private TextBox textBox;
+        private string watermarkText;
 
-        public UserPassGroupBox(MainForm form, string groupBoxText, int Y, Image userImage)
+        public UserPassGroupBox(MainForm form, string groupBoxText, int Y, Image userImage, string textBoxWatermarkText = "")
         {
+            this.watermarkText = textBoxWatermarkText;
+
             ClientSize = new Size(303, 50);
             Text = groupBoxText;
             Location= new Point(form.ClientSize.Width / 2 - Width / 2, Y);
 
-            textBox = new TextBox() { Name = "textBox", Font = new Font("Calibri", 15, FontStyle.Regular) };
+            textBox = new TextBox() 
+            { 
+                Name = "textBox", 
+                Font = new Font("Calibri", 15, FontStyle.Regular),
+                Text = textBoxWatermarkText,
+                ForeColor = SystemColors.GrayText
+            };
 
             if (userImage != null)
             {
@@ -43,6 +52,39 @@ namespace WorkWithUser.UserForms.LogIn
             }
 
             Controls.Add(textBox);
+
+            //textBox.GotFocus += TextBox_GotFocus;
+            //textBox.LostFocus += TextBox_LostFocus;
+            textBox.TextChanged += TextBox_TextChanged;
+            textBox.KeyPress += TextBox_KeyPress;
+        }
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void TextBox_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void TextBox_LostFocus(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                textBox.Text = watermarkText;
+                textBox.ForeColor = SystemColors.GrayText;
+            }
+        }
+
+        private void TextBox_GotFocus(object sender, EventArgs e)
+        {
+            if (textBox.Text == watermarkText)
+            {
+                textBox.Text = string.Empty;
+                textBox.ForeColor = SystemColors.WindowText;
+            }
         }
     }
 }

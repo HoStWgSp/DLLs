@@ -21,10 +21,13 @@ namespace WorkWithUser
             UserGroupL = 10;
 
         public static string User = "Пользователь",
+            NameAndLastName = "Имя Фамилия",
             User2 = "пользователя",
             Password = "Пароль",
             Authorization = "Авторизация",
-            TableNotCreated = "Не удалось создать таблицу с пользователями.";
+            Enter = "Войти",
+            TableNotCreated = "Не удалось создать таблицу с пользователями.",
+            UserNotExsistConfirmation = "Пользователь с данным именем не существует. Хотите зарегистрироваться?";
 
     }
 }
