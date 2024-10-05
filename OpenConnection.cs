@@ -9,24 +9,28 @@ using WorkWithDB.ConnectionString;
 
 namespace WorkWithDB
 {
-    /// <summary>
-    /// Открывает соединение с Базой Данных.
-    /// </summary>
     public class OpenConnection
     {
         /// <summary>
         /// True - соединение открыто. False - Закрыто.
         /// </summary>
         public bool Connection {  get; private set; }
+
         /// <summary>
         /// Хранит строку подключения к Базе Данных.
         /// </summary>
         public string ConnectionString { get; private set; }
+
         /// <summary>
         /// Объект подключения к Базе Данных.
         /// </summary>
         public SqlConnection SqlConnection {  get; private set; }
 
+        /// <summary>
+        /// Создает объект соединения с Базой Данных.
+        /// После создания объекта доступны 2 переменных.
+        /// Connection и ConnectionString.
+        /// </summary>
         public OpenConnection(string connectionString)
         {
             SqlConnection = new SqlConnection(connectionString);
