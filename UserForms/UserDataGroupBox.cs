@@ -6,29 +6,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WorkWithUser.UserForms.LogIn
+namespace WorkWithUser.UserForms
 {
-    internal class UserPassGroupBox : GroupBox
+    internal class UserDataGroupBox : GroupBox
     {
         private Label label;
         private TextBox textBox;
         private string watermarkText;
+        bool textBoxWatermarkTextKeyPressed = false;
 
-        public UserPassGroupBox(MainForm form, string groupBoxText, int Y, Image userImage, string textBoxWatermarkText = "")
+        public UserDataGroupBox(string groupBoxText, int X, int Y, Image userImage, int textBoxMaxLength, string textBoxWatermarkText = "", bool hidenTextBoxText = false)
         {
-            this.watermarkText = textBoxWatermarkText;
+            watermarkText = textBoxWatermarkText;
 
             ClientSize = new Size(303, 50);
             Text = groupBoxText;
-            Location= new Point(form.ClientSize.Width / 2 - Width / 2, Y);
+            Location = new Point(X, Y);
 
             textBox = new TextBox() 
             { 
                 Name = "textBox", 
                 Font = new Font("Calibri", 15, FontStyle.Regular),
                 Text = textBoxWatermarkText,
-                ForeColor = SystemColors.GrayText
+                MaxLength = textBoxMaxLength
             };
+
+            if (textBoxWatermarkText != "")
+                textBox.ForeColor = SystemColors.GrayText;
+
+            if (hidenTextBoxText)
+                textBox.PasswordChar = '*';
 
             if (userImage != null)
             {
@@ -53,37 +60,32 @@ namespace WorkWithUser.UserForms.LogIn
 
             Controls.Add(textBox);
 
-            //textBox.GotFocus += TextBox_GotFocus;
-            //textBox.LostFocus += TextBox_LostFocus;
-            textBox.TextChanged += TextBox_TextChanged;
             textBox.KeyPress += TextBox_KeyPress;
-        }
-
-        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void TextBox_TextChanged(object sender, EventArgs e)
-        {
-            
+            textBox.LostFocus += TextBox_LostFocus;
         }
 
         private void TextBox_LostFocus(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox.Text))
+            if (textBox.Text == "")
             {
-                textBox.Text = watermarkText;
                 textBox.ForeColor = SystemColors.GrayText;
+                textBox.Text = watermarkText;
+                textBoxWatermarkTextKeyPressed = false;
             }
         }
-
-        private void TextBox_GotFocus(object sender, EventArgs e)
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (textBox.Text == watermarkText)
+            textBox.ForeColor = SystemColors.WindowText;
+            if (textBox.Text == watermarkText && !textBoxWatermarkTextKeyPressed)
             {
-                textBox.Text = string.Empty;
-                textBox.ForeColor = SystemColors.WindowText;
+                textBox.Text = "";
+                textBoxWatermarkTextKeyPressed = true;
+            }
+            if (e.KeyChar.ToString() == "\b" && textBox.Text.Length == 1)
+            {
+                textBox.ForeColor = SystemColors.GrayText;
+                textBox.Text = watermarkText;
+                textBoxWatermarkTextKeyPressed = false;
             }
         }
     }

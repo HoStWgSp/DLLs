@@ -13,7 +13,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Security.Policy;
 using System.Reflection;
-using WorkWithUser.UserForms.LogIn;
 using System.Windows.Forms;
 
 namespace WorkWithUser
@@ -21,9 +20,8 @@ namespace WorkWithUser
     public class User
     {
         SqlConnection sqlConnection;
-        DataTable usersData;
-        DataRow userDataRow;
-        MainForm mainForm;
+        public DataTable usersData;
+        public MainForm mainForm;
 
         public bool TableExsist { get; private set; } = true;
 
@@ -75,58 +73,42 @@ namespace WorkWithUser
         /// Проверяет существование пользователя и возвращает его данные.
         /// Иконка на форму обязательно (формат ico).
         /// Картинки на пользователя желательно, но не обязательно. (Формат png).
-        /// 
+        /// Registration - true если вы хотите, что бы на форме была ссылка на регистрацию.
         /// </summary>
         /// <param name="sqlConnection"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public bool Aauthorization(Image userImage = null, Image passwordImage = null)
+        public bool Aauthorization(Image userImage = null, Image passwordImage = null, bool registration = false)
         {
             AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm();
 
             mainForm.Text = Vars.Authorization + " " + Vars.User2;
             mainForm.Controls.Clear();
-            mainForm.mainPanel = new LogInPanel(mainForm, userImage, passwordImage);
+            mainForm.mainPanel = new LogInPanel(this, userImage, passwordImage, registration);
             mainForm.Controls.Add(mainForm.mainPanel);
             mainForm.ShowDialog();
 
-            if (!UserActions.CheckUserName(usersData, mainForm.mainPanel.UserName))
+            if (mainForm.mainPanel.userDataRow != null)
             {
-                if (!alertConfirm.Confirmation(Vars.UserNotExsistConfirmation, 320, 110))
-                    return false;
-
-                
-            }
-
-            userDataRow = UserActions.Aauthorization(
-                usersData, mainForm.mainPanel.UserName,
-                mainForm.mainPanel.UserPassword);
-            if (!userDataRow.IsNull(1))
-            {
-                UserName = userDataRow[Vars.UserName].ToString();
-                UserLastName = userDataRow[Vars.UserLastName].ToString();
-                UserEMail = userDataRow[Vars.UserEMail].ToString();
-                UserGroup = userDataRow[Vars.UserGroup].ToString();
+                UserName = mainForm.mainPanel.userDataRow[Vars.UserName].ToString();
+                UserLastName = mainForm.mainPanel.userDataRow[Vars.UserLastName].ToString();
+                UserEMail = mainForm.mainPanel.userDataRow[Vars.UserEMail].ToString();
+                UserGroup = mainForm.mainPanel.userDataRow[Vars.UserGroup].ToString();
                 return true;
             }
-            else
-            {
-                
-                //alertConfirm.Confirmation()
-            }
+
             return false;
         }
 
-        public bool Registration(string name, string lastName, string password, string eMail, string group)
+        public bool Registration()
         {
-            if (!Add(name, lastName, password, eMail, group)) 
+
+
+
+            if (!Add("", "", "", "", "")) 
                 return false;
 
-            UserName = name;
-            UserLastName = lastName;
-            UserEMail = password;
-            UserGroup = group;
-
+            
             return true;
         }
 

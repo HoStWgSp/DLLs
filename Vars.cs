@@ -15,13 +15,17 @@ namespace WorkWithUser
             UserEMail = "UEMail",
             UserGroup = "UGroup";
 
-        public static int UserNames = 20,
+        public static int UserNamesL = 20,
             UserPasswordL = 30,
             UserEMailL = 30,
             UserGroupL = 10;
 
         public static string User = "Пользователь",
             NameAndLastName = "Имя Фамилия",
+            LoginNameError = "Пользователя с таким именем не существует!",
+            PasswordError = "Неправельный пароль!",
+            LoginEmpty = "Заполните поле",
+            Registration = "Зарегистрироваться",
             User2 = "пользователя",
             Password = "Пароль",
             Authorization = "Авторизация",

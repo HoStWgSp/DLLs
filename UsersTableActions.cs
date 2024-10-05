@@ -30,8 +30,8 @@ namespace WorkWithUser
             return WorkWithDB.RequestToSQL.RequestExecuteNonQuery(sqlConnection,
                 $"CREATE TABLE [dbo].[" + Vars.TableName + "](" +
                 $"[Id] INT IDENTITY (1, 1) NOT NULL," +
-                $"[{Vars.UserName}] NVARCHAR({Vars.UserNames}) NULL," +
-                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserNames}) NULL," +
+                $"[{Vars.UserName}] NVARCHAR({Vars.UserNamesL}) NULL," +
+                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserNamesL}) NULL," +
                 $"[{Vars.UserPassword}] NVARCHAR({Vars.UserPasswordL}) NULL," +
                 $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NULL," +
                 $"[{Vars.UserGroup}] NVARCHAR({Vars.UserGroupL}) NULL)");

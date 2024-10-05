@@ -56,10 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UserForms\LogIn\LogInPanel.cs">
+    <Compile Include="UserForms\LogInPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\LogIn\UserPassGroupBox.cs">
+    <Compile Include="UserForms\UserDataGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\MainForm.cs">
