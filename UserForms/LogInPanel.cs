@@ -13,7 +13,6 @@ namespace WorkWithUser.UserForms
     internal class LogInPanel : MainPanel
     {
         User user;
-        Dictionary<string, Image> images;
 
         Label loginLabel,
             errorLabel,
@@ -24,14 +23,17 @@ namespace WorkWithUser.UserForms
 
         Button logInButton;
 
-        DataRow userDataRow;
-
         bool registration;
 
-        public LogInPanel(User user, Dictionary<string, Image> images, bool registration) :base(user)
+        /// <summary>
+        /// Панель для проверки авторизации пользователя.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="registration"></param>
+        public LogInPanel(User user, bool registration) :base(user)
         {
             this.user = user;
-            this.images = images;
+            UserAuthorized = false;
             this.registration = registration;
 
             loginLabel = new Label()
@@ -40,21 +42,18 @@ namespace WorkWithUser.UserForms
                 TextAlign = ContentAlignment.BottomCenter,
                 Font = new Font("Calibri", 20, FontStyle.Bold),
                 AutoSize = false,
-                Size = new Size(200, 30)
+                Size = new Size(200, 30),
+                Location = new Point(92, 5)
             };
-            loginLabel.Location = new Point(92, 5);
 
             userGroupBox = new UserDataGroupBox(
                 Vars.User + ":", 41, 45,
-                images[Vars.User], Vars.UserNamesL, Vars.NameAndLastName
-                );
+                Properties.Resources.User, Vars.UserNamesL, Vars.NameAndLastName);
             userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
 
             passwordGroupBox = new UserDataGroupBox(
                 Vars.Password + ":", 41, 105,
-                images[Vars.Password], Vars.UserPasswordL, Vars.Password, true
-                );
-            (passwordGroupBox.Controls["textBox"] as TextBox).PasswordChar = '*';
+                Properties.Resources.Password, Vars.UserPasswordL, Vars.Password, true);
             passwordGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
 
             errorLabel = new Label()
@@ -83,7 +82,7 @@ namespace WorkWithUser.UserForms
                 {
                     AutoSize = false,
                     Size = new Size(200, 16),
-                    Text = Vars.Registration,
+                    Text = Vars.GetRegistration,
                     Font = new Font("Calibri", 8, FontStyle.Bold),
                     TextAlign = ContentAlignment.TopCenter,
                     ForeColor = Color.Blue
@@ -104,7 +103,6 @@ namespace WorkWithUser.UserForms
 
             Controls["errorLabel"].Visible = false;
         }
-
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
@@ -124,9 +122,7 @@ namespace WorkWithUser.UserForms
         }
         private void RegistrationLabel_Click(object sender, EventArgs e)
         {
-            user.UserRegistration();
-            UserAuthorized = true;
-            user.mainForm.Close();
+            UserActions.Registration(user);
         }
 
         private void LogInButton_Click(object sender, EventArgs e)
@@ -138,17 +134,17 @@ namespace WorkWithUser.UserForms
             else if (!CheckUserName(userGroupBox.Controls["textBox"].Text))
             { LogInFormError(false, false, true); return; }
 
-            userDataRow = Aauthorization(
+            DataRow userDataRow = Aauthorization(
                 userGroupBox.Controls["textBox"].Text,
                 passwordGroupBox.Controls["textBox"].Text);
 
             if (userDataRow == null)
             { LogInFormError(false, false, false, true); return; }
 
-            user.UserDataFill(userDataRow[Vars.UserName].ToString(),
-                userDataRow[Vars.UserLastName].ToString(),
-                userDataRow[Vars.UserEMail].ToString(),
-                userDataRow[Vars.UserGroup].ToString());
+            user.NewUserData.Add(Vars.UserName, userDataRow[Vars.UserName].ToString());
+            user.NewUserData.Add(Vars.UserLastName, userDataRow[Vars.UserLastName].ToString());
+            user.NewUserData.Add(Vars.UserEMail, userDataRow[Vars.UserEMail].ToString());
+            user.NewUserData.Add(Vars.UserPhone, userDataRow[Vars.UserPhone].ToString());
 
             UserAuthorized = true;
 
@@ -162,7 +158,7 @@ namespace WorkWithUser.UserForms
         /// <param name="passwordError"></param>
         public void LogInFormError( bool loginEmpty, bool passwordEmty = false, bool loginError = false, bool passwordError = false)
         {
-            user.mainForm.Size = new Size(400, 264);
+            user.mainForm.Height = 264;
             errorLabel.Location = new Point(41, 155);
             logInButton.Location = new Point(92, 175);
 
@@ -177,12 +173,12 @@ namespace WorkWithUser.UserForms
             if (loginEmpty)
             {
                 userGroupBox.Controls["textBox"].ForeColor = Color.Red;
-                errorLabel.Text = Vars.LoginEmpty + " " + Vars.User + "!";
+                errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.User + "!";
             }
             else if (passwordEmty)
             { 
                 passwordGroupBox.Controls["textBox"].ForeColor = Color.Red;
-                errorLabel.Text = Vars.LoginEmpty + " " + Vars.Password + "!";
+                errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Password + "!";
 
             }
             else if (loginError)
@@ -208,7 +204,7 @@ namespace WorkWithUser.UserForms
         {
             foreach (DataRow dataRow in user.usersData.Rows)
             {
-                if (dataRow[Vars.UserName].ToString() == userName)
+                if ((dataRow[Vars.UserName].ToString() + " " + dataRow[Vars.UserLastName].ToString()) == userName)
                 {
                     return true;
                 }
@@ -227,7 +223,7 @@ namespace WorkWithUser.UserForms
             // Проверка существования пользователя            
             foreach (DataRow row in user.usersData.Rows)
             {
-                if (row[Vars.UserName].ToString() == userName && row[Vars.UserPassword].ToString() == password)
+                if ((row[Vars.UserName].ToString() + " " + row[Vars.UserLastName].ToString()) == userName && row[Vars.UserPassword].ToString() == password)
                     return row;
             }
             return null;

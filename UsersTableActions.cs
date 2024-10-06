@@ -23,7 +23,7 @@ namespace WorkWithUser
                 $"[{Vars.UserLastName}] NVARCHAR({Vars.UserNamesL}) NULL," +
                 $"[{Vars.UserPassword}] NVARCHAR({Vars.UserPasswordL}) NULL," +
                 $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NULL," +
-                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserGroupL}) NULL)");
+                $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NULL)");
         }
 
         /// <summary>
@@ -32,12 +32,23 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="userData"></param>
         /// <returns></returns>
-        public static bool Add(SqlConnection sqlConnection, string[] userData)
+        public static bool Add(SqlConnection sqlConnection, string userName, string userLastName,
+            string userPassword, string userEMail, string userPhone)
         {
             return WorkWithDB.RequestToSQL.RequestExecuteNonQuery(sqlConnection,
-                $"INSERT INTO {Vars.TableName} ({Vars.UserName}, {Vars.UserLastName}, {Vars.UserPassword}, {Vars.UserEMail}, {Vars.UserGroup}) " +
-                $"VALUES " +
-                $"('{userData[0]}', '{userData[1]}', '{userData[2]}', '{userData[3]}', '{userData[4]}')");
+                $"INSERT INTO {Vars.TableName} (" +
+                $"{Vars.UserName}, " +
+                $"{Vars.UserLastName}, " +
+                $"{Vars.UserPassword}, " +
+                $"{Vars.UserEMail}, " +
+                $"{Vars.UserPhone}" +
+                $") VALUES (" +
+                $"'{userName}', " +
+                $"'{userLastName}', " +
+                $"'{userPassword}', " +
+                $"'{userEMail}', " +
+                $"'{userPhone}')"
+                );
         }
     }
 }

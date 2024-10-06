@@ -23,23 +23,29 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public static bool Authorization(User user, Dictionary<string, Image> images, bool registration = false)
+        public static void Authorization(User user, bool registration = false)
         {
             AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm();
 
             user.mainForm.Text = Vars.Authorization + " " + Vars.User2;
             user.mainForm.Controls.Clear();
-            user.mainForm.mainPanel = new LogInPanel(user, images, registration);
+            user.mainForm.mainPanel = new LogInPanel(user, registration);
             user.mainForm.Controls.Add(user.mainForm.mainPanel);
-            user.mainForm.ShowDialog();
-
-            return user.mainForm.mainPanel.UserAuthorized;
+            user.mainForm.Refresh();
         }
 
-
-        public static bool Registration()
+        /// <summary>
+        /// Добавляет нового пользователя и возвращает его данные.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="images"></param>
+        public static void Registration(User user)
         {
-            return true;
+            user.mainForm.Text = Vars.RegistrationText;
+            user.mainForm.Controls.Clear();
+            user.mainForm.mainPanel = new RegistrationPanel(user);
+            user.mainForm.Controls.Add(user.mainForm.mainPanel);
+            user.mainForm.Refresh();
         }
     }
 }

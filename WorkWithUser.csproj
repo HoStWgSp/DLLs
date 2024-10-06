@@ -55,9 +55,20 @@
     <Reference Include="WorkWithDB">
       <HintPath>..\WorkWithDB\bin\Debug\WorkWithDB.dll</HintPath>
     </Reference>
+    <Reference Include="WorkWithWFElements">
+      <HintPath>..\WorkWithWFElements\bin\Debug\WorkWithWFElements.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\LogInPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\RegistrationPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\UserDataGroupBox.cs">
@@ -76,6 +87,30 @@
     <Compile Include="UsersTableActions.cs" />
     <Compile Include="Vars.cs" />
     <Compile Include="UserActions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\User.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EMail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Password.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Phone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FormIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconLogIn.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

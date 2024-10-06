@@ -11,7 +11,7 @@ namespace WorkWithUser.UserForms
 {
     public class MainPanel : Panel
     {
-        public bool UserAuthorized { get; set; } = false;
+        public bool UserAuthorized { get; set; }
         public MainPanel(User user)
         {
             Dock = DockStyle.Fill;
