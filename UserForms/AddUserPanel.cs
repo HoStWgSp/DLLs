@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows;
 using System.Net.Mail;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace WorkWithUser.UserForms
 {
-    internal class RegistrationPanel : MainPanel
+    internal class AddUserPanel : MainPanel
     {
         User user;
 
@@ -21,7 +15,8 @@ namespace WorkWithUser.UserForms
         GroupBox userGroupBox,
             passwordGroupBox,
             eMailGroupBox,
-            phoneGroupBox;
+            phoneGroupBox,
+            groupGroupBox;
 
         Button addButton;
 
@@ -29,10 +24,9 @@ namespace WorkWithUser.UserForms
         /// Панель для регистрации нового пользователя
         /// </summary>
         /// <param name="user"></param>
-        public RegistrationPanel(User user):base(user)
+        public AddUserPanel(User user):base(user)
         {
             this.user = user;
-            UserAuthorized = false;
 
             loginLabel = new Label()
             {
@@ -43,27 +37,40 @@ namespace WorkWithUser.UserForms
                 Size = new Size(200, 30),
                 Location = new Point(92, 5)
             };
+            Controls.Add(loginLabel);
 
             userGroupBox = new UserDataGroupBox(
                 Vars.User + ":", 41, 45,
-                Properties.Resources.User, Vars.UserNamesL, Vars.Name, false, false,
-                true, Vars.LastName);
+                Properties.Resources.User, Vars.UserTextL,
+                false, Vars.Name, true, Vars.LastName);
+            userGroupBox.Name = "userGroupBox";
             userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
+            (userGroupBox.Controls["textBox"] as TextBox).SelectionStart = 0;
+            Controls.Add(userGroupBox);
 
             passwordGroupBox = new UserDataGroupBox(
                 Vars.Password + ":", 41, 105,
-                Properties.Resources.Password, Vars.UserPasswordL, Vars.Password);
+                Properties.Resources.Password, Vars.UserTextL, true, Vars.Password);
             passwordGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
+            Controls.Add(passwordGroupBox);
 
             eMailGroupBox = new UserDataGroupBox(
-                Vars.EMail + ":", 41, 165,
-                Properties.Resources.EMail, Vars.UserEMailL, Vars.EMail);
+                Vars.EMail + ":", 41, 165, 
+                Properties.Resources.EMail, Vars.UserEMailL, false, Vars.EMail);
             eMailGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
+            Controls.Add(eMailGroupBox);
 
             phoneGroupBox = new UserDataGroupBox(
                 Vars.Phone + ":", 41, 225,
-                Properties.Resources.Phone, Vars.UserPhoneL, Vars.Phone, false, true);
+                Properties.Resources.Phone, "+0(000) 000-00-00");
             phoneGroupBox.Controls["maskedTextBox"].KeyDown += TextBox_KeyDown;
+            Controls.Add(phoneGroupBox);
+
+            groupGroupBox = new UserDataGroupBox(
+                Vars.Group + ":", 41, 285,
+                Properties.Resources.Group, user.groupList);
+            groupGroupBox.Controls["comboBox"].KeyDown += TextBox_KeyDown;
+            Controls.Add(groupGroupBox);
 
             errorLabel = new Label()
             {
@@ -74,31 +81,24 @@ namespace WorkWithUser.UserForms
                 TextAlign = ContentAlignment.MiddleCenter,
                 ForeColor = Color.Red
             };
+            Controls.Add(errorLabel);
+            Controls["errorLabel"].Visible = false;
 
             addButton = new Button()
             {
                 Font = new Font("Calibri", 15, FontStyle.Bold),
                 Size = new Size(200, 40),
                 Text = Vars.Registration,
-                TextAlign = ContentAlignment.MiddleCenter
+                TextAlign = ContentAlignment.MiddleCenter,
+                Location = new Point(92, 345)
             };
-            addButton.Location = new Point(92, 285);
             addButton.Click += AddButton_Click;
+            Controls.Add(addButton);
 
-            user.mainForm.Height = 374;
+            user.mainForm.Height = 434;
             user.mainForm.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Width - user.mainForm.Width) / 2,
                 (Screen.PrimaryScreen.Bounds.Height - user.mainForm.Height) / 2);
-
-            Controls.Add(loginLabel);
-            Controls.Add(userGroupBox);
-            Controls.Add(passwordGroupBox);
-            Controls.Add(eMailGroupBox);
-            Controls.Add(phoneGroupBox);
-            Controls.Add(errorLabel);
-            Controls.Add(addButton);
-
-            Controls["errorLabel"].Visible = false;
         }
 
         private void AddButton_Click(object sender, EventArgs e)
@@ -130,23 +130,29 @@ namespace WorkWithUser.UserForms
                 !(phoneGroupBox.Controls["maskedTextBox"] as MaskedTextBox).MaskCompleted)
             { LogInFormError(false, false, false, false, false, true); return; }
 
-            if (!UsersTableActions.Add(user.sqlConnection, userGroupBox.Controls["textBox"].Text,
-                userGroupBox.Controls["textBox2"].Text,
-                passwordGroupBox.Controls["textBox"].Text,
-                eMailGroupBox.Controls["textBox"].Text,
-                phoneGroupBox.Controls["maskedTextBox"].Text))
+            if (groupGroupBox.Controls["comboBox"].Text == "" ||
+                groupGroupBox.Controls["comboBox"].Text == null)
+            { LogInFormError(false, false, false, false, false, false, true); return; }
+
+            Dictionary<string, string> newUser = new Dictionary<string, string>()
             {
-                LogInFormError(false, false, false, false, false, false, true);
+                { Vars.UserName, userGroupBox.Controls["textBox"].Text },
+                { Vars.UserLastName, userGroupBox.Controls["textBox2"].Text },
+                { Vars.UserEMail, eMailGroupBox.Controls["textBox"].Text },
+                { Vars.UserPhone, phoneGroupBox.Controls["maskedTextBox"].Text },
+                { Vars.UserGroup, groupGroupBox.Controls["comboBox"].Text} ,
+                { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text}
+            };
+
+            if (!UsersTableActions.Add(user.sqlConnection, newUser))
+            {
+                LogInFormError(false, false, false, false, false, false, false, true);
                 return;
             }
 
-            user.NewUserData.Add(Vars.UserName, userGroupBox.Controls["textBox"].Text);
-            user.NewUserData.Add(Vars.UserLastName, userGroupBox.Controls["textBox2"].Text);
-            user.NewUserData.Add(Vars.UserEMail, eMailGroupBox.Controls["textBox"].Text);
-            user.NewUserData.Add(Vars.UserPhone, phoneGroupBox.Controls["maskedTextBox"].Text);
-
-            UserAuthorized = true;
-
+            newUser.Remove(Vars.UserPassword);
+            user.NewUserData = new Dictionary<string, string>(newUser);
+            
             user.mainForm.Close();
         }
 
@@ -166,11 +172,11 @@ namespace WorkWithUser.UserForms
         /// <param name="passwordError"></param>
         public void LogInFormError(bool nameEmpty, bool lastNameEmpty = false,
             bool passwordEmty = false, bool eMailEmpty = false, bool eMailIncorrect = false,
-            bool phoneEmpty = false, bool userNotRegistred = false)
+            bool phoneEmpty = false, bool groupNotChoosen = false, bool userNotRegistred = false)
         {
-            user.mainForm.Height = 384;
-            errorLabel.Location = new Point(41, 275);
-            addButton.Location = new Point(92, 295);
+            user.mainForm.Height = 444;
+            errorLabel.Location = new Point(41, 335);
+            addButton.Location = new Point(92, 355);
 
             Controls["errorLabel"].Visible = true;
 
@@ -207,6 +213,10 @@ namespace WorkWithUser.UserForms
             else if (userNotRegistred)
             {
                 errorLabel.Text = Vars.UserNorRegistred;
+            }
+            else if (groupNotChoosen)
+            {
+                errorLabel.Text = Vars.GroupNotChoosen;
             }
             user.mainForm.Refresh();
         }

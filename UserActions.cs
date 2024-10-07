@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+﻿using System.Windows.Forms;
 using WorkWithUser.UserForms;
-using System.Drawing;
 
 namespace WorkWithUser
 {
@@ -25,13 +16,12 @@ namespace WorkWithUser
         /// <param name="password"></param>
         public static void Authorization(User user, bool registration = false)
         {
-            AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm();
-
             user.mainForm.Text = Vars.Authorization + " " + Vars.User2;
             user.mainForm.Controls.Clear();
             user.mainForm.mainPanel = new LogInPanel(user, registration);
             user.mainForm.Controls.Add(user.mainForm.mainPanel);
             user.mainForm.Refresh();
+            (user.mainForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).Focus();
         }
 
         /// <summary>
@@ -39,13 +29,14 @@ namespace WorkWithUser
         /// </summary>
         /// <param name="user"></param>
         /// <param name="images"></param>
-        public static void Registration(User user)
+        public static void AddNewUser(User user)
         {
             user.mainForm.Text = Vars.RegistrationText;
             user.mainForm.Controls.Clear();
-            user.mainForm.mainPanel = new RegistrationPanel(user);
+            user.mainForm.mainPanel = new AddUserPanel(user);
             user.mainForm.Controls.Add(user.mainForm.mainPanel);
             user.mainForm.Refresh();
+            (user.mainForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).Focus();
         }
     }
 }

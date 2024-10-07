@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WorkWithUser.UserForms
@@ -13,18 +9,122 @@ namespace WorkWithUser.UserForms
         private Label label;
         private MaskedTextBox maskedTextBox;
         private TextBox textBox, textBox2;
+        private ComboBox comboBox;
         private string watermarkText, watermark2Text;
         bool textBoxWatermarkTextKeyPressed = false;
         bool textBox2WatermarkTextKeyReleased = false;
 
-        public UserDataGroupBox(string groupBoxText, int X, int Y,
-            Image userImage, int textBoxMaxLength, string textBoxWatermarkText = "",
-            bool hidenTextBoxText = false, bool mask = false, bool twoTextBoxes = false,
+        /// <summary>
+        /// Создает GroupBox с TextBox
+        /// </summary>
+        /// <param name="groupBoxText"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="labelImage"></param>
+        /// <param name="textBoxMaxLength"></param>
+        /// <param name="hidenTextBoxText"></param>
+        /// <param name="textBoxWatermarkText"></param>
+        /// <param name="twoTextBoxes"></param>
+        /// <param name="textBox2WatermarkText"></param>
+        public UserDataGroupBox(string groupBoxText, int X, int Y, Image labelImage,
+            int textBoxMaxLength, bool hidenTextBoxText = false,
+            string textBoxWatermarkText = "", bool twoTextBoxes = false,
             string textBox2WatermarkText = "")
         {
+            MajorInits(groupBoxText, X, Y, labelImage);
+
             watermarkText = textBoxWatermarkText;
             watermark2Text = textBox2WatermarkText;
 
+            textBox = new TextBox()
+            {
+                Name = "textBox",
+                Font = new Font("Calibri", 15, FontStyle.Regular),
+                Text = textBoxWatermarkText,
+                MaxLength = textBoxMaxLength,
+                Width = 267,
+                Location = new Point(34, 15),
+                ForeColor=SystemColors.GrayText
+            };
+
+            if (hidenTextBoxText)
+                textBox.PasswordChar = '*';
+
+            Controls.Add(textBox);
+            textBox.KeyPress += TextBox_KeyPress;
+            textBox.LostFocus += TextBox_LostFocus;
+
+            if (twoTextBoxes)
+            {
+                textBox2 = new TextBox()
+                {
+                    Name = "textBox2",
+                    Font = new Font("Calibri", 15, FontStyle.Regular),
+                    Text = textBox2WatermarkText,
+                    MaxLength = textBoxMaxLength,
+                    Width = 133,
+                    Location = new Point(168, 15),
+                    ForeColor = SystemColors.GrayText
+                };
+                textBox.Width = 133;
+                Controls.Add(textBox2);
+                textBox2.KeyPress += TextBox2_KeyPress;
+                textBox2.LostFocus += TextBox2_LostFocus;
+            }
+        }
+
+        /// <summary>
+        /// Создает GroupBox с MaskedTextBox
+        /// </summary>
+        /// <param name="groupBoxText"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="labelImage"></param>
+        /// <param name="mask"></param>
+        public UserDataGroupBox(string groupBoxText, int X, int Y, Image labelImage,
+            string mask)
+        {
+            MajorInits(groupBoxText, X, Y, labelImage);
+
+            maskedTextBox = new MaskedTextBox()
+            {
+                Name = "maskedTextBox",
+                Mask = mask,
+                Font = new Font("Calibri", 15, FontStyle.Regular),
+                Width = 267,
+                Location = new Point(34, 15)
+            };
+            Controls.Add(maskedTextBox);
+            maskedTextBox.TextChanged += MaskedTextBox_TextChanged;
+        }
+
+        /// <summary>
+        /// Создает GroupBox с ComboBox
+        /// </summary>
+        /// <param name="groupBoxText"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="labelImage"></param>
+        /// <param name="groups"></param>
+        public UserDataGroupBox(string groupBoxText, int X, int Y, Image labelImage,
+            string[] groups)
+        {
+            MajorInits(groupBoxText, X, Y, labelImage);
+
+            comboBox = new ComboBox()
+            {
+                Name = "comboBox",
+                Font = new Font("Calibri", 15, FontStyle.Regular),
+                Width = 267,
+                Location = new Point(34, 15),
+                DropDownStyle=ComboBoxStyle.DropDownList
+            };
+            comboBox.Items.AddRange(groups);
+            Controls.Add(comboBox);
+        }
+
+        private void MajorInits(string groupBoxText, int X, int Y, Image labelImage)
+        {
             ClientSize = new Size(303, 50);
             Text = groupBoxText;
             Location = new Point(X, Y);
@@ -34,64 +134,9 @@ namespace WorkWithUser.UserForms
                 AutoSize = false,
                 Size = new Size(32, 32),
                 Location = new Point(2, 15),
-                //TextAlign = ContentAlignment.MiddleRight,
-                //Font = new Font("Calibri", 15, FontStyle.Regular),
-                Image = userImage
+                Image = labelImage
             };
             Controls.Add(label);
-
-            if (!mask)
-            {
-                textBox = new TextBox()
-                {
-                    Name = "textBox",
-                    Font = new Font("Calibri", 15, FontStyle.Regular),
-                    Text = textBoxWatermarkText,
-                    MaxLength = textBoxMaxLength,
-                    Width = 267,
-                    Location = new Point(34, 15),
-                    ForeColor=SystemColors.GrayText
-                };
-
-                if (hidenTextBoxText)
-                    textBox.PasswordChar = '*';
-
-                Controls.Add(textBox);
-                textBox.KeyPress += TextBox_KeyPress;
-                textBox.LostFocus += TextBox_LostFocus;
-
-                if (twoTextBoxes)
-                {
-                    textBox2 = new TextBox()
-                    {
-                        Name = "textBox2",
-                        Font = new Font("Calibri", 15, FontStyle.Regular),
-                        Text = textBox2WatermarkText,
-                        MaxLength = textBoxMaxLength,
-                        Width = 133,
-                        Location = new Point(168, 15),
-                        ForeColor = SystemColors.GrayText
-                    };
-                    textBox.Width = 133;
-                    Controls.Add (textBox2);
-                    textBox2.KeyPress += TextBox2_KeyPress;
-                    textBox2.LostFocus += TextBox2_LostFocus;
-                }
-
-            }
-            else
-            {
-                maskedTextBox = new MaskedTextBox()
-                {
-                    Name = "maskedTextBox",
-                    Mask = "+0(000) 000-00-00",
-                    Font = new Font("Calibri", 15, FontStyle.Regular),
-                    Width = 267,
-                    Location = new Point(34, 15)
-                };
-                Controls.Add(maskedTextBox);
-                maskedTextBox.TextChanged += MaskedTextBox_TextChanged;
-            }
         }
 
         private void TextBox_LostFocus(object sender, EventArgs e)

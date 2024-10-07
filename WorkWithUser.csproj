@@ -68,7 +68,7 @@
     <Compile Include="UserForms\LogInPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\RegistrationPanel.cs">
+    <Compile Include="UserForms\AddUserPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\UserDataGroupBox.cs">
@@ -111,6 +111,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\IconLogIn.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

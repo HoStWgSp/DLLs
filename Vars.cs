@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace WorkWithUser
 {
     internal class Vars
@@ -13,10 +8,10 @@ namespace WorkWithUser
             UserLastName = "ULastName",
             UserPassword = "UPassword",
             UserEMail = "UEMail",
-            UserPhone = "UPhone";
+            UserPhone = "UPhone",
+            UserGroup = "UGroup";
 
-        public static int UserNamesL = 20,
-            UserPasswordL = 30,
+        public static int UserTextL = 30,
             UserEMailL = 50,
             UserPhoneL = 17;
 
@@ -32,6 +27,8 @@ namespace WorkWithUser
             TextBoxEmpty = "Заполните поле",
             Registration = "Регистрация",
             GetRegistration = "Зарегистрироваться",
+            Group = "Группа",
+            GroupNotChoosen = "Группа пользователя не выбрана",
             User2 = "пользователя",
             Password = "Пароль",
             Authorization = "Авторизация",

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WorkWithUser
 {
@@ -19,11 +15,12 @@ namespace WorkWithUser
             return WorkWithDB.RequestToSQL.RequestExecuteNonQuery(sqlConnection,
                 $"CREATE TABLE [dbo].[" + Vars.TableName + "](" +
                 $"[Id] INT IDENTITY (1, 1) NOT NULL," +
-                $"[{Vars.UserName}] NVARCHAR({Vars.UserNamesL}) NULL," +
-                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserNamesL}) NULL," +
-                $"[{Vars.UserPassword}] NVARCHAR({Vars.UserPasswordL}) NULL," +
+                $"[{Vars.UserName}] NVARCHAR({Vars.UserTextL}) NULL," +
+                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserTextL}) NULL," +
+                $"[{Vars.UserPassword}] NVARCHAR({Vars.UserTextL}) NULL," +
                 $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NULL," +
-                $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NULL)");
+                $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NULL," +
+                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserTextL}) NULL)");
         }
 
         /// <summary>
@@ -32,8 +29,7 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="userData"></param>
         /// <returns></returns>
-        public static bool Add(SqlConnection sqlConnection, string userName, string userLastName,
-            string userPassword, string userEMail, string userPhone)
+        public static bool Add(SqlConnection sqlConnection, Dictionary<string, string> userData)
         {
             return WorkWithDB.RequestToSQL.RequestExecuteNonQuery(sqlConnection,
                 $"INSERT INTO {Vars.TableName} (" +
@@ -41,13 +37,15 @@ namespace WorkWithUser
                 $"{Vars.UserLastName}, " +
                 $"{Vars.UserPassword}, " +
                 $"{Vars.UserEMail}, " +
-                $"{Vars.UserPhone}" +
+                $"{Vars.UserPhone}, " +
+                $"{Vars.UserGroup}" +
                 $") VALUES (" +
-                $"'{userName}', " +
-                $"'{userLastName}', " +
-                $"'{userPassword}', " +
-                $"'{userEMail}', " +
-                $"'{userPhone}')"
+                $"'{userData[Vars.UserName]}', " +
+                $"'{userData[Vars.UserLastName]}', " +
+                $"'{userData[Vars.UserPassword]}', " +
+                $"'{userData[Vars.UserEMail]}', " +
+                $"'{userData[Vars.UserPhone]}', " +
+                $"'{userData[Vars.UserGroup]}')"
                 );
         }
     }

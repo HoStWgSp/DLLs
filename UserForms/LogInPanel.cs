@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using AlertConfirm;
 using System.Data;
 
 namespace WorkWithUser.UserForms
@@ -33,7 +28,6 @@ namespace WorkWithUser.UserForms
         public LogInPanel(User user, bool registration) :base(user)
         {
             this.user = user;
-            UserAuthorized = false;
             this.registration = registration;
 
             loginLabel = new Label()
@@ -48,12 +42,14 @@ namespace WorkWithUser.UserForms
 
             userGroupBox = new UserDataGroupBox(
                 Vars.User + ":", 41, 45,
-                Properties.Resources.User, Vars.UserNamesL, Vars.NameAndLastName);
+                Properties.Resources.User, Vars.UserTextL, false, Vars.NameAndLastName);
+            userGroupBox.Name = "userGroupBox";
             userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
+            (userGroupBox.Controls["textBox"] as TextBox).SelectionStart = 0;
 
             passwordGroupBox = new UserDataGroupBox(
                 Vars.Password + ":", 41, 105,
-                Properties.Resources.Password, Vars.UserPasswordL, Vars.Password, true);
+                Properties.Resources.Password, Vars.UserTextL, false, Vars.Password);
             passwordGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
 
             errorLabel = new Label()
@@ -103,6 +99,7 @@ namespace WorkWithUser.UserForms
 
             Controls["errorLabel"].Visible = false;
         }
+
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
@@ -122,7 +119,7 @@ namespace WorkWithUser.UserForms
         }
         private void RegistrationLabel_Click(object sender, EventArgs e)
         {
-            UserActions.Registration(user);
+            UserActions.AddNewUser(user);
         }
 
         private void LogInButton_Click(object sender, EventArgs e)
@@ -145,8 +142,7 @@ namespace WorkWithUser.UserForms
             user.NewUserData.Add(Vars.UserLastName, userDataRow[Vars.UserLastName].ToString());
             user.NewUserData.Add(Vars.UserEMail, userDataRow[Vars.UserEMail].ToString());
             user.NewUserData.Add(Vars.UserPhone, userDataRow[Vars.UserPhone].ToString());
-
-            UserAuthorized = true;
+            user.NewUserData.Add(Vars.UserGroup, userDataRow[Vars.UserGroup].ToString());
 
             user.mainForm.Close();
         }
