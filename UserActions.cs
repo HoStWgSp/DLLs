@@ -38,5 +38,18 @@ namespace WorkWithUser
             user.mainForm.Refresh();
             (user.mainForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).Focus();
         }
+
+        /// <summary>
+        /// Позволяет работать со списком пользователей
+        /// </summary>
+        /// <param name="user"></param>
+        public static void UserList(User user)
+        {
+            user.mainForm.Text = Vars.UserList;
+            user.mainForm.Controls.Clear();
+            user.mainForm.mainPanel = new UserListPanel(user);
+            user.mainForm.Controls.Add(user.mainForm.mainPanel);
+            user.mainForm.Refresh();
+        }
     }
 }

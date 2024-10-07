@@ -32,10 +32,14 @@ namespace WorkWithUser
             User2 = "пользователя",
             Password = "Пароль",
             Authorization = "Авторизация",
+            UserList = "Список пользователей",
             RegistrationText = "Регистрация нового пользователя",
             Enter = "Войти",
             TableNotCreated = "Не удалось создать таблицу с пользователями.",
             UserNorRegistred = "Не удалось зарегистрировать пользователя.",
+            Add = "Добавить",
+            Change = "Изменить",
+            Delete = "Удалить",
             UserNotExsistConfirmation = "Пользователь с данным именем не существует. Хотите зарегистрироваться?";
 
     }

@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data;
 using WorkWithUser.UserForms;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace WorkWithUser
 {
@@ -10,7 +11,7 @@ namespace WorkWithUser
     {
         internal SqlConnection sqlConnection;
         internal MainForm mainForm;
-        internal DataTable usersData;
+        public DataTable usersData;
         internal string[] groupList;
         public Dictionary<string, string> NewUserData { get; internal set; }
         public Dictionary<string, string> UserData { get; internal set; }
@@ -24,10 +25,10 @@ namespace WorkWithUser
         /// На выходе переменная TableExsist.
         /// </summary>
         /// <param name="sqlConnection"></param>
-        public User(SqlConnection sqlConnection, List<string> groupList)
+        public User(SqlConnection sqlConnection, Icon formIcon, List<string> groupList)
         {
             this.sqlConnection = sqlConnection;
-            mainForm = new MainForm(Properties.Resources.IconLogIn);
+            mainForm = new MainForm(formIcon);
             this.groupList = groupList.ToArray();
             UserData = new Dictionary<string, string>();
             NewUserData = new Dictionary<string, string>();
@@ -67,6 +68,14 @@ namespace WorkWithUser
             UserActions.AddNewUser(this);
             mainForm.ShowDialog();
             return NewUserData;
+        }
+
+        public void UserList()
+        {
+            usersData = RequestToSQL.ExecuteReaderToDataTable(sqlConnection,
+                    $"select * from {Vars.TableName}");
+            UserActions.UserList(this);
+            mainForm.ShowDialog();
         }
     }
 }

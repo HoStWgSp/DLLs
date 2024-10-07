@@ -25,7 +25,7 @@ namespace WorkWithUser.UserForms
         /// </summary>
         /// <param name="user"></param>
         /// <param name="registration"></param>
-        public LogInPanel(User user, bool registration) :base(user)
+        public LogInPanel(User user, bool registration) : base(user)
         {
             this.user = user;
             this.registration = registration;

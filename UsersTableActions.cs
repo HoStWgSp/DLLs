@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace WorkWithUser
 {
@@ -12,7 +14,7 @@ namespace WorkWithUser
         /// <returns></returns>
         public static bool Creation(SqlConnection sqlConnection)
         {
-            return WorkWithDB.RequestToSQL.RequestExecuteNonQuery(sqlConnection,
+            return RequestExecuteNonQuery(sqlConnection,
                 $"CREATE TABLE [dbo].[" + Vars.TableName + "](" +
                 $"[Id] INT IDENTITY (1, 1) NOT NULL," +
                 $"[{Vars.UserName}] NVARCHAR({Vars.UserTextL}) NULL," +
@@ -31,7 +33,7 @@ namespace WorkWithUser
         /// <returns></returns>
         public static bool Add(SqlConnection sqlConnection, Dictionary<string, string> userData)
         {
-            return WorkWithDB.RequestToSQL.RequestExecuteNonQuery(sqlConnection,
+            return RequestExecuteNonQuery(sqlConnection,
                 $"INSERT INTO {Vars.TableName} (" +
                 $"{Vars.UserName}, " +
                 $"{Vars.UserLastName}, " +
@@ -47,6 +49,26 @@ namespace WorkWithUser
                 $"'{userData[Vars.UserPhone]}', " +
                 $"'{userData[Vars.UserGroup]}')"
                 );
+        }
+
+        /// <summary>
+        /// Отправляет команду в SQL DataBase и выполняет ExecuteNonQuery()
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private static bool RequestExecuteNonQuery(SqlConnection sqlConnection, string queryString)
+        {
+            SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ namespace WorkWithUser.UserForms
         /// Панель для регистрации нового пользователя
         /// </summary>
         /// <param name="user"></param>
-        public AddUserPanel(User user):base(user)
+        public AddUserPanel(User user) : base(user)
         {
             this.user = user;
 
@@ -97,8 +97,8 @@ namespace WorkWithUser.UserForms
 
             user.mainForm.Height = 434;
             user.mainForm.Location = new Point(
-                (Screen.PrimaryScreen.Bounds.Width - user.mainForm.Width) / 2,
-                (Screen.PrimaryScreen.Bounds.Height - user.mainForm.Height) / 2);
+                (Screen.PrimaryScreen.WorkingArea.Width - user.mainForm.Width) / 2,
+                (Screen.PrimaryScreen.WorkingArea.Height - user.mainForm.Height) / 5);
         }
 
         private void AddButton_Click(object sender, EventArgs e)
