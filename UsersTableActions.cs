@@ -42,12 +42,12 @@ namespace WorkWithUser
                 $"{Vars.UserPhone}, " +
                 $"{Vars.UserGroup}" +
                 $") VALUES (" +
-                $"'{userData[Vars.UserName]}', " +
-                $"'{userData[Vars.UserLastName]}', " +
-                $"'{userData[Vars.UserPassword]}', " +
-                $"'{userData[Vars.UserEMail]}', " +
-                $"'{userData[Vars.UserPhone]}', " +
-                $"'{userData[Vars.UserGroup]}')"
+                $"N'{userData[Vars.UserName]}', " +
+                $"N'{userData[Vars.UserLastName]}', " +
+                $"N'{userData[Vars.UserPassword]}', " +
+                $"N'{userData[Vars.UserEMail]}', " +
+                $"N'{userData[Vars.UserPhone]}', " +
+                $"N'{userData[Vars.UserGroup]}')"
                 );
         }
 

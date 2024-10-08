@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using WorkWithUser.UserForms;
 
 namespace WorkWithUser
@@ -16,12 +17,13 @@ namespace WorkWithUser
         /// <param name="password"></param>
         public static void Authorization(User user, bool registration = false)
         {
-            user.mainForm.Text = Vars.Authorization + " " + Vars.User2;
-            user.mainForm.Controls.Clear();
-            user.mainForm.mainPanel = new LogInPanel(user, registration);
-            user.mainForm.Controls.Add(user.mainForm.mainPanel);
-            user.mainForm.Refresh();
-            (user.mainForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).Focus();
+            user.userForm.Text = Vars.Authorization + " " + Vars.User2;
+            user.userForm.Controls.Clear();
+            user.userForm.mainPanel = new LogInPanel(user, registration);
+            user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
+            user.userForm.Controls.Add(user.userForm.mainPanel);
+            user.userForm.Refresh();
+            (user.userForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).Focus();
         }
 
         /// <summary>
@@ -29,14 +31,14 @@ namespace WorkWithUser
         /// </summary>
         /// <param name="user"></param>
         /// <param name="images"></param>
-        public static void AddNewUser(User user)
+        public static void UserData(User user, string action)
         {
-            user.mainForm.Text = Vars.RegistrationText;
-            user.mainForm.Controls.Clear();
-            user.mainForm.mainPanel = new AddUserPanel(user);
-            user.mainForm.Controls.Add(user.mainForm.mainPanel);
-            user.mainForm.Refresh();
-            (user.mainForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).Focus();
+            user.userForm.Controls.Clear();
+            user.userForm.mainPanel = new UserPanel(user, action);
+            user.userForm.Controls.Add(user.userForm.mainPanel);
+            user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
+            user.userForm.Refresh();
+            user.userForm.mainPanel.Controls["userGroupBox2"].Controls["textBox"].Focus();
         }
 
         /// <summary>
@@ -45,11 +47,10 @@ namespace WorkWithUser
         /// <param name="user"></param>
         public static void UserList(User user)
         {
-            user.mainForm.Text = Vars.UserList;
-            user.mainForm.Controls.Clear();
-            user.mainForm.mainPanel = new UserListPanel(user);
-            user.mainForm.Controls.Add(user.mainForm.mainPanel);
-            user.mainForm.Refresh();
+            user.userListForm.Text = Vars.UserList;
+            user.userListForm.usersList = new UsersList(user);
+            user.userListForm.Controls.Add(user.userListForm.usersList);
+            //user.userListForm.Refresh();
         }
     }
 }

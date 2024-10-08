@@ -4,15 +4,18 @@ using System.Windows.Forms;
 
 namespace WorkWithUser.UserForms
 {
-    internal class UserDataGroupBox : GroupBox
+    public class UserDataGroupBox : GroupBox
     {
         private Label label;
         private MaskedTextBox maskedTextBox;
         private TextBox textBox, textBox2;
         private ComboBox comboBox;
-        private string watermarkText, watermark2Text;
+        public string watermarkText, watermark2Text;
         bool textBoxWatermarkTextKeyPressed = false;
         bool textBox2WatermarkTextKeyReleased = false;
+        internal bool TextBoxEmpty { get; private set; } = true;
+        internal bool TextBox2Empty { get; private set; } = true;
+
 
         /// <summary>
         /// Создает GroupBox с TextBox
@@ -31,6 +34,8 @@ namespace WorkWithUser.UserForms
             string textBoxWatermarkText = "", bool twoTextBoxes = false,
             string textBox2WatermarkText = "")
         {
+            Name = "userGroupBox";
+
             MajorInits(groupBoxText, X, Y, labelImage);
 
             watermarkText = textBoxWatermarkText;
@@ -56,6 +61,8 @@ namespace WorkWithUser.UserForms
 
             if (twoTextBoxes)
             {
+                Name = "userGroupBox2";
+
                 textBox2 = new TextBox()
                 {
                     Name = "textBox2",
@@ -81,9 +88,10 @@ namespace WorkWithUser.UserForms
         /// <param name="Y"></param>
         /// <param name="labelImage"></param>
         /// <param name="mask"></param>
-        public UserDataGroupBox(string groupBoxText, int X, int Y, Image labelImage,
-            string mask)
+        public UserDataGroupBox(string groupBoxText, int X, int Y, Image labelImage, string mask)
         {
+            Name = "userGroupBox";
+
             MajorInits(groupBoxText, X, Y, labelImage);
 
             maskedTextBox = new MaskedTextBox()
@@ -106,9 +114,10 @@ namespace WorkWithUser.UserForms
         /// <param name="Y"></param>
         /// <param name="labelImage"></param>
         /// <param name="groups"></param>
-        public UserDataGroupBox(string groupBoxText, int X, int Y, Image labelImage,
-            string[] groups)
+        public UserDataGroupBox(string groupBoxText, int X, int Y, Image labelImage, string[] groups)
         {
+            Name = "userGroupBox";
+
             MajorInits(groupBoxText, X, Y, labelImage);
 
             comboBox = new ComboBox()
@@ -122,6 +131,11 @@ namespace WorkWithUser.UserForms
             comboBox.Items.AddRange(groups);
             Controls.Add(comboBox);
         }
+
+
+
+
+
 
         private void MajorInits(string groupBoxText, int X, int Y, Image labelImage)
         {
@@ -146,6 +160,7 @@ namespace WorkWithUser.UserForms
                 textBox.ForeColor = SystemColors.GrayText;
                 textBox.Text = watermarkText;
                 textBoxWatermarkTextKeyPressed = false;
+                TextBoxEmpty = true;
             }
         }
         private void TextBox2_LostFocus(object sender, EventArgs e)
@@ -155,6 +170,7 @@ namespace WorkWithUser.UserForms
                 textBox2.ForeColor = SystemColors.GrayText;
                 textBox2.Text = watermark2Text;
                 textBox2WatermarkTextKeyReleased = false;
+                TextBox2Empty = true;
             }
         }
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -164,12 +180,14 @@ namespace WorkWithUser.UserForms
             {
                 textBox.Text = "";
                 textBoxWatermarkTextKeyPressed = true;
+                TextBoxEmpty = false;
             }
             if (e.KeyChar.ToString() == "\b" && textBox.Text.Length == 1)
             {
                 textBox.ForeColor = SystemColors.GrayText;
                 textBox.Text = watermarkText;
                 textBoxWatermarkTextKeyPressed = false;
+                TextBoxEmpty = true;
             }
         }
         private void TextBox2_KeyPress(object sender, KeyPressEventArgs e)
@@ -179,12 +197,14 @@ namespace WorkWithUser.UserForms
             {                                       
                 textBox2.Text = "";
                 textBox2WatermarkTextKeyReleased = true;
+                TextBox2Empty = false;
             }
             if (e.KeyChar.ToString() == "\b" && textBox2.Text.Length == 1)
             {
                 textBox2.ForeColor = SystemColors.GrayText;
                 textBox2.Text = watermark2Text;
                 textBox2WatermarkTextKeyReleased = false;
+                TextBox2Empty = true;
             }
         }
         private void MaskedTextBox_TextChanged(object sender, EventArgs e)

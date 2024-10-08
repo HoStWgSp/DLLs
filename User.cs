@@ -10,8 +10,10 @@ namespace WorkWithUser
     public class User
     {
         internal SqlConnection sqlConnection;
-        internal MainForm mainForm;
-        public DataTable usersData;
+        internal UserForm userForm;
+        internal UserListForm userListForm;
+        internal Icon formIcon;
+        public DataTable UsersData {  get; private set; }
         internal string[] groupList;
         public Dictionary<string, string> NewUserData { get; internal set; }
         public Dictionary<string, string> UserData { get; internal set; }
@@ -28,7 +30,7 @@ namespace WorkWithUser
         public User(SqlConnection sqlConnection, Icon formIcon, List<string> groupList)
         {
             this.sqlConnection = sqlConnection;
-            mainForm = new MainForm(formIcon);
+            this.formIcon = formIcon;
             this.groupList = groupList.ToArray();
             UserData = new Dictionary<string, string>();
             NewUserData = new Dictionary<string, string>();
@@ -41,7 +43,7 @@ namespace WorkWithUser
                 else { MessageBox.Show("Таблица Users создана!"); }
             }
 
-            usersData = WorkWithDB.RequestToSQL.ExecuteReaderToDataTable(sqlConnection,
+            UsersData = WorkWithDB.RequestToSQL.ExecuteReaderToDataTable(sqlConnection,
                     $"select * from {Vars.TableName}");
         }
 
@@ -52,9 +54,10 @@ namespace WorkWithUser
         /// <param name="registration"></param>
         /// <returns></returns>
         public Dictionary<string, string> UserAuthorization(bool registration = false)
-        { 
+        {
+            userForm = new UserForm(formIcon);
             UserActions.Authorization(this, registration);
-            mainForm.ShowDialog();
+            userForm.ShowDialog();
             UserData = new Dictionary<string, string>(NewUserData);
             return UserData;
         }
@@ -65,17 +68,19 @@ namespace WorkWithUser
         /// <returns></returns>
         public Dictionary<string, string> AddNewUser()
         {
-            UserActions.AddNewUser(this);
-            mainForm.ShowDialog();
+            userForm = new UserForm(formIcon);
+            UserActions.UserData(this, Vars.Add);
+            userForm.ShowDialog();
             return NewUserData;
         }
 
         public void UserList()
         {
-            usersData = RequestToSQL.ExecuteReaderToDataTable(sqlConnection,
+            userListForm = new UserListForm(formIcon);
+            UsersData = RequestToSQL.ExecuteReaderToDataTable(sqlConnection,
                     $"select * from {Vars.TableName}");
             UserActions.UserList(this);
-            mainForm.ShowDialog();
+            userListForm.ShowDialog();
         }
     }
 }

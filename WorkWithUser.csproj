@@ -73,13 +73,16 @@
     <Compile Include="UserForms\LogInPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\AddUserPanel.cs">
+    <Compile Include="UserForms\UserListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\UserPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\UserDataGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\MainForm.cs">
+    <Compile Include="UserForms\UserForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,7 +92,7 @@
     <Compile Include="UserForms\MainPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\UserListPanel.cs">
+    <Compile Include="UserForms\UsersList.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UsersTableActions.cs" />

@@ -11,32 +11,30 @@ using System.Data.SqlClient;
 
 namespace WorkWithUser.UserForms
 {
-    internal class UserListPanel : MainPanel
+    internal class UsersList : DataGridView
     {
         User user;
-        DataGridView dataGridView;
         DataGridViewTextBoxColumn id_column, name_column,
             lastname_column, email_column, phone_column, group_column;
         StripMenu stripMenu;
         int rowId;
-        public UserListPanel(User user) : base(user)
+        public UsersList(User user)
         {
             this.user = user;
 
-            dataGridView = new DataGridView()
-            {
-                Dock = DockStyle.Fill,
-                Name = "dataGridView",
-                DataSource = user.usersData,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true,
-                RowHeadersVisible = false,
-                MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width - 200, Screen.PrimaryScreen.WorkingArea.Height - 100)
-            };
-            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
-            Controls.Add(dataGridView);
+            Dock = DockStyle.Fill;
+            Name = "dataGridView";
+            DataSource = user.UsersData;
+            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            ReadOnly = true;
+            RowHeadersVisible = false;
+            Size = new Size(880, 60);
+            AutoSize = false;
+            MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width - 200, Screen.PrimaryScreen.WorkingArea.Height - 100);
+            
+            ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
 
-            user.mainForm.ClientSize = new Size(900, dataGridView.Height + 58);
+            user.userListForm.ClientSize = new Size(900, Height + 158);
 
             id_column = new DataGridViewTextBoxColumn()
             {
@@ -89,27 +87,27 @@ namespace WorkWithUser.UserForms
             DataGridViewTextBoxColumnAdjast(group_column, Vars.UserGroup, 6);
 
             // Добавляем колонки в DataGridView
-            dataGridView.Columns.AddRange(new DataGridViewColumn[]
+            Columns.AddRange(new DataGridViewColumn[]
                 { id_column, name_column, lastname_column,
                     email_column, phone_column, group_column });
 
             // Настраиваем колонки
-            dataGridView.AutoGenerateColumns = false;
-            dataGridView.AllowUserToAddRows = false;
-            dataGridView.Columns["Id"].Visible = false;
-            dataGridView.Columns["name_column"].Visible = true;
-            dataGridView.Columns["lastname_column"].Visible = true;
-            dataGridView.Columns["email_column"].Visible = true;
-            dataGridView.Columns["phone_column"].Visible = true;
-            dataGridView.Columns["group_column"].Visible = true;
+            AutoGenerateColumns = false;
+            AllowUserToAddRows = false;
+            Columns["Id"].Visible = false;
+            Columns["name_column"].Visible = true;
+            Columns["lastname_column"].Visible = true;
+            Columns["email_column"].Visible = true;
+            Columns["phone_column"].Visible = true;
+            Columns["group_column"].Visible = true;
 
             // Добавляем всплывающее меню к таблице
             stripMenu = new StripMenu(Vars.Add, Vars.Change, Vars.Delete);
-            dataGridView.ContextMenuStrip = stripMenu;
+            ContextMenuStrip = stripMenu;
 
-            dataGridView.MouseDown += DataGridView_MouseDown;
-            dataGridView.CellMouseDown += DataGridView_CellMouseDown;
-            dataGridView.CellDoubleClick += DataGridView_CellDoubleClick;
+            MouseDown += DataGridView_MouseDown;
+            CellMouseDown += DataGridView_CellMouseDown;
+            CellDoubleClick += DataGridView_CellDoubleClick;
 
             stripMenu.Items[Vars.Add].Click += Add_Click;
             stripMenu.Items[Vars.Change].Click += Change_Click;
@@ -119,7 +117,8 @@ namespace WorkWithUser.UserForms
 
         private void Add_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            
+            UserActions.UserData(user, Vars.Add);
         }
         private void Change_Click(object sender, EventArgs e)
         {
@@ -140,12 +139,12 @@ namespace WorkWithUser.UserForms
         {
             if (e.Button == MouseButtons.Left) { return; }
             stripMenu.Items[Vars.Delete].Visible = true;
-            rowId = DataGridViewActions.DataTableRowId(dataGridView, e.RowIndex);
+            rowId = DataGridViewActions.DataTableRowId(this, e.RowIndex);
         }
         private void DataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // Узнаем номер строки в таблице
-            rowId = DataGridViewActions.DataTableRowId(dataGridView, e.RowIndex);
+            rowId = DataGridViewActions.DataTableRowId(this, e.RowIndex);
 
             //пишем Form для добавления и изменения данных об авто
             // Создаем объект окна для добавления новой части в ВОМ
@@ -154,14 +153,14 @@ namespace WorkWithUser.UserForms
 
 
             // Обновляем DataSource
-            dataGridView.DataSource = null;
-            dataGridView.DataSource = RequestToSQL.ExecuteReaderToDataTable(user.sqlConnection,
+            DataSource = null;
+            DataSource = RequestToSQL.ExecuteReaderToDataTable(user.sqlConnection,
                     $"select * from {Vars.TableName}");
         }
 
         private DataTable TableForDataGridView()
         {
-            написать это
+            ///написать это
             return new DataTable();
         }
         private void DataGridViewTextBoxColumnAdjast(DataGridViewTextBoxColumn columnName, string PropertyName, int DispIndex)
