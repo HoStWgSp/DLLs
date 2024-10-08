@@ -31,6 +31,7 @@ namespace WorkWithUser
             LoginNameError = "Пользователя с таким именем не существует!",
             Name = "Имя",
             NameAndLastName = "Имя Фамилия",
+            NewUser = "Новый пользователь",
             NewUserData = "Данные нового пользователя",
             Password = "Пароль",
             PasswordError = "Неправельный пароль!",

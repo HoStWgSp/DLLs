@@ -6,11 +6,9 @@ using System.Net.Mail;
 
 namespace WorkWithUser.UserForms
 {
-    internal class UserPanel : MainPanel
+    internal class UserPanel : UserMainPanel
     {
         User user;
-
-
 
         /// <summary>
         /// Панель для регистрации нового пользователя
@@ -48,6 +46,8 @@ namespace WorkWithUser.UserForms
             if (action == Vars.Add)
             {
                 user.userForm.Text = Vars.NewUserData;
+                loginLabel.Text += Vars.NewUser;
+                button.Text = Vars.Add;
                 button.Click += Button_Click;
             }
             if (action == Vars.Change)
@@ -92,7 +92,7 @@ namespace WorkWithUser.UserForms
             };
 
             if (button.Text == Vars.RegistrationButtonText ||
-                button.Text == Vars.NewUserData) { AddUser(newUser); }
+                button.Text == Vars.Add) { AddUser(newUser); }
         }
 
         private void AddUser(Dictionary<string, string> newUser)

@@ -132,11 +132,6 @@ namespace WorkWithUser.UserForms
             Controls.Add(comboBox);
         }
 
-
-
-
-
-
         private void MajorInits(string groupBoxText, int X, int Y, Image labelImage)
         {
             ClientSize = new Size(303, 50);

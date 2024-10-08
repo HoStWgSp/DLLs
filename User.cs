@@ -13,7 +13,7 @@ namespace WorkWithUser
         internal UserForm userForm;
         internal UserListForm userListForm;
         internal Icon formIcon;
-        public DataTable UsersData {  get; private set; }
+        public DataTable UsersData {  get; internal set; }
         internal string[] groupList;
         public Dictionary<string, string> NewUserData { get; internal set; }
         public Dictionary<string, string> UserData { get; internal set; }
@@ -66,7 +66,7 @@ namespace WorkWithUser
         /// Добавление нового пользователя.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, string> AddNewUser()
+        internal Dictionary<string, string> AddNewUser()
         {
             userForm = new UserForm(formIcon);
             UserActions.UserData(this, Vars.Add);
@@ -74,6 +74,9 @@ namespace WorkWithUser
             return NewUserData;
         }
 
+        /// <summary>
+        /// Показывает таблицу со списком валидных пользователей
+        /// </summary>
         public void UserList()
         {
             userListForm = new UserListForm(formIcon);

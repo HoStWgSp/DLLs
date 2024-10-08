@@ -19,7 +19,7 @@ namespace WorkWithUser
         {
             user.userForm.Text = Vars.Authorization + " " + Vars.User2;
             user.userForm.Controls.Clear();
-            user.userForm.mainPanel = new LogInPanel(user, registration);
+            user.userForm.mainPanel = new UserLogInPanel(user, registration);
             user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
             user.userForm.Controls.Add(user.userForm.mainPanel);
             user.userForm.Refresh();

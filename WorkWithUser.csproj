@@ -70,7 +70,7 @@
     <Compile Include="StripMenu.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\LogInPanel.cs">
+    <Compile Include="UserForms\UserLogInPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\UserListForm.cs">
@@ -89,7 +89,7 @@
     <Compile Include="User.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="UserForms\MainPanel.cs">
+    <Compile Include="UserForms\UserMainPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\UsersList.cs">

@@ -5,7 +5,7 @@ using System.Net.Mail;
 
 namespace WorkWithUser.UserForms
 {
-    public class MainPanel : Panel
+    public class UserMainPanel : Panel
     {
         internal Label loginLabel,
             errorLabel,
@@ -19,15 +19,15 @@ namespace WorkWithUser.UserForms
         internal Button button;
 
 
-        public MainPanel(User user)
+        public UserMainPanel(User user)
         {
             loginLabel = new Label()
             {
                 TextAlign = ContentAlignment.BottomCenter,
                 Font = new Font("Calibri", 20, FontStyle.Bold),
                 AutoSize = false,
-                Size = new Size(200, 30),
-                Location = new Point(92, 5)
+                Size = new Size(300, 30),
+                Location = new Point(42, 5)
             };
 
             userGroupBox = new UserDataGroupBox(
@@ -44,7 +44,7 @@ namespace WorkWithUser.UserForms
 
             passwordGroupBox = new UserDataGroupBox(
                 Vars.Password + ":", 41, 105,
-                Properties.Resources.Password, Vars.UserTextL, false, Vars.Password);
+                Properties.Resources.Password, Vars.UserTextL, true, Vars.Password);
             passwordGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
 
             eMailGroupBox = new UserDataGroupBox(

@@ -5,14 +5,14 @@ using System.Windows.Forms;
 
 namespace WorkWithUser
 {
-    public class UsersTableActions
+    internal class UsersTableActions
     {        
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
         /// <param name="connectionString"></param>
         /// <returns></returns>
-        public static bool Creation(SqlConnection sqlConnection)
+        internal static bool Creation(SqlConnection sqlConnection)
         {
             return RequestExecuteNonQuery(sqlConnection,
                 $"CREATE TABLE [dbo].[" + Vars.TableName + "](" +
@@ -31,7 +31,7 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="userData"></param>
         /// <returns></returns>
-        public static bool Add(SqlConnection sqlConnection, Dictionary<string, string> userData)
+        internal static bool Add(SqlConnection sqlConnection, Dictionary<string, string> userData)
         {
             return RequestExecuteNonQuery(sqlConnection,
                 $"INSERT INTO {Vars.TableName} (" +
@@ -51,6 +51,36 @@ namespace WorkWithUser
                 );
         }
 
+        /// <summary>
+        /// Заменяет данные в строке
+        /// </summary>
+        /// <param name="sqlConnection"></param>
+        /// <param name="rowId"></param>
+        /// <returns></returns>
+        internal static bool Change(SqlConnection sqlConnection, int rowId)
+        {
+
+        }
+
+        /// <summary>
+        /// Заменяет все данные в строке на null
+        /// </summary>
+        /// <param name="sqlConnection"></param>
+        /// <param name="rowId"></param>
+        /// <returns></returns>
+        internal static bool RemoveTableRow(SqlConnection sqlConnection, int rowId)
+        {
+            return RequestExecuteNonQuery(sqlConnection,
+                $"UPDATE {Vars.TableName} SET " +
+                $"{Vars.UserName}=NULL," +
+                $"{Vars.UserLastName}=NULL," +
+                $"{Vars.UserPassword}=NULL," +
+                $"{Vars.UserEMail}=NULL," +
+                $"{Vars.UserPhone}=NULL," +
+                $"{Vars.UserGroup}=NULL WHERE ID={rowId}");
+        }
+        
+        
         /// <summary>
         /// Отправляет команду в SQL DataBase и выполняет ExecuteNonQuery()
         /// </summary>

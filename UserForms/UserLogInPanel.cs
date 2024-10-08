@@ -5,7 +5,7 @@ using System.Data;
 
 namespace WorkWithUser.UserForms
 {
-    internal class LogInPanel : MainPanel
+    internal class UserLogInPanel : UserMainPanel
     {
         User user;
 
@@ -16,7 +16,7 @@ namespace WorkWithUser.UserForms
         /// </summary>
         /// <param name="user"></param>
         /// <param name="registration"></param>
-        public LogInPanel(User user, bool registration) : base(user)
+        public UserLogInPanel(User user, bool registration) : base(user)
         {
             this.user = user;
             this.registration = registration;

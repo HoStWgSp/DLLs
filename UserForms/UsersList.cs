@@ -22,19 +22,18 @@ namespace WorkWithUser.UserForms
         {
             this.user = user;
 
-            Dock = DockStyle.Fill;
+            //Dock = DockStyle.Fill;
             Name = "dataGridView";
-            DataSource = user.UsersData;
+            DataSource = ReadValidUsers();
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             ReadOnly = true;
             RowHeadersVisible = false;
-            Size = new Size(880, 60);
-            AutoSize = false;
+            Size = new Size(800, 201);
             MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width - 200, Screen.PrimaryScreen.WorkingArea.Height - 100);
             
             ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
 
-            user.userListForm.ClientSize = new Size(900, Height + 158);
+            user.userListForm.ClientSize = new Size(Width, Height + 40);
 
             id_column = new DataGridViewTextBoxColumn()
             {
@@ -69,7 +68,7 @@ namespace WorkWithUser.UserForms
                 Name = "phone_column",
                 HeaderText = Vars.Phone,
                 MinimumWidth = 10,
-                Width = 10
+                Width = 160
             };
             group_column = new DataGridViewTextBoxColumn()
             {
@@ -87,9 +86,9 @@ namespace WorkWithUser.UserForms
             DataGridViewTextBoxColumnAdjast(group_column, Vars.UserGroup, 6);
 
             // Добавляем колонки в DataGridView
-            Columns.AddRange(new DataGridViewColumn[]
-                { id_column, name_column, lastname_column,
-                    email_column, phone_column, group_column });
+            Columns.AddRange(new DataGridViewColumn[] {
+                id_column, name_column, lastname_column,
+                email_column, phone_column, group_column });
 
             // Настраиваем колонки
             AutoGenerateColumns = false;
@@ -117,8 +116,9 @@ namespace WorkWithUser.UserForms
 
         private void Add_Click(object sender, EventArgs e)
         {
-            
-            UserActions.UserData(user, Vars.Add);
+            user.AddNewUser();
+            DataSource = null;
+            DataSource = ReadValidUsers();
         }
         private void Change_Click(object sender, EventArgs e)
         {
@@ -126,7 +126,9 @@ namespace WorkWithUser.UserForms
         }
         private void Delete_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            UsersTableActions.RemoveTableRow(user.sqlConnection, rowId);
+            DataSource = null;
+            DataSource = ReadValidUsers();
         }
 
 
@@ -168,6 +170,27 @@ namespace WorkWithUser.UserForms
             columnName.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             columnName.DataPropertyName = PropertyName;
             columnName.DisplayIndex = DispIndex;
+        }
+        internal DataTable ReadValidUsers()
+        {
+            user.UsersData = RequestToSQL.ExecuteReaderToDataTable(user.sqlConnection,
+                    $"select * from {Vars.TableName}");
+            DataTable table = user.UsersData.Clone();
+            foreach (DataRow dataRow in user.UsersData.Rows)
+            {
+                if (dataRow[Vars.UserName].ToString() != null && dataRow[Vars.UserName].ToString() != "")
+                {
+                    DataRow row = table.NewRow();
+                    row["Id"] = dataRow["Id"];
+                    row[Vars.UserName] = dataRow[Vars.UserName];
+                    row[Vars.UserLastName] = dataRow[Vars.UserLastName];
+                    row[Vars.UserEMail] = dataRow[Vars.UserEMail];
+                    row[Vars.UserPhone] = dataRow[Vars.UserPhone];
+                    row[Vars.UserGroup] = dataRow[Vars.UserGroup];
+                    table.Rows.Add(row);
+                }
+            }
+            return table;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace WorkWithUser.UserForms
 {
     public class UserForm : Form
     {
-        internal MainPanel mainPanel;
+        internal UserMainPanel mainPanel;
         public UserForm(Icon formIcon)
         {
             Icon = formIcon;
