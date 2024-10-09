@@ -14,15 +14,15 @@ namespace WorkWithUser.UserForms
         /// Панель для регистрации нового пользователя
         /// </summary>
         /// <param name="user"></param>
-        public UserPanel(User user, string action) : base(user)
+        public UserPanel(User user, string action, Dictionary<string, string> userData = null) : base(user)
         {
             this.user = user;
             Size = new Size(384, 421);
 
             Controls.Add(loginLabel);
 
-            (userGroupBox2.Controls["textBox"] as TextBox).SelectionStart = 0;
-            Controls.Add(userGroupBox2);
+            (userGroupBox.Controls["textBox"] as TextBox).SelectionStart = 0;
+            Controls.Add(userGroupBox);
 
             Controls.Add(passwordGroupBox);
 
@@ -30,7 +30,15 @@ namespace WorkWithUser.UserForms
 
             Controls.Add(phoneGroupBox);
 
-            Controls.Add(groupGroupBox);
+            if (user.Admin) Controls.Add(groupGroupBox);
+            else
+            {
+                groupGroupBox = new UserDataGroupBox(
+                Vars.EMail + ":", 41, 285,
+                Properties.Resources.Group, Vars.UserEMailL);
+                (groupGroupBox.Controls["textBox"] as TextBox).ReadOnly = true;
+                Controls.Add(groupGroupBox);
+            }
 
             Controls.Add(errorLabel);
 
@@ -51,21 +59,54 @@ namespace WorkWithUser.UserForms
                 button.Click += Button_Click;
             }
             if (action == Vars.Change)
+            {
                 user.userForm.Text = Vars.UserData;
+                loginLabel.Text += Vars.UserData;
+                button.Text = Vars.Change;
+
+                userGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
+                userGroupBox.Controls["textBox"].Text = userData[Vars.UserName];
+
+                userGroupBox.Controls["textBox2"].ForeColor = SystemColors.WindowText;
+                userGroupBox.Controls["textBox2"].Text = userData[Vars.UserLastName];
+
+                passwordGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
+                passwordGroupBox.Controls["textBox"].Text = "";
+
+                eMailGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
+                eMailGroupBox.Controls["textBox"].Text = userData[Vars.UserEMail];
+
+                phoneGroupBox.Controls["maskedTextBox"].ForeColor = SystemColors.WindowText;
+                phoneGroupBox.Controls["maskedTextBox"].Text = userData[Vars.UserPhone];
+
+                if (user.Admin)
+                {
+                    groupGroupBox.Controls["comboBox"].ForeColor = SystemColors.WindowText;
+                    groupGroupBox.Controls["comboBox"].Text = userData[Vars.UserGroup];
+                }
+                else
+                {
+                    groupGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
+                    groupGroupBox.Controls["textBox"].Text = userData[Vars.UserGroup];
+                }
+
+
+                (userGroupBox.Controls["textBox"] as TextBox).SelectionStart = 0;
+            }
         }
 
         internal override bool UserTextBoxOK()
         {
-            if (userGroupBox2.TextBoxEmpty)
+            if (userGroupBox.TextBoxEmpty)
             {
-                userGroupBox2.Controls["textBox"].ForeColor = Color.Red;
+                userGroupBox.Controls["textBox"].ForeColor = Color.Red;
                 errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Name + "!";
                 return false;
             }
 
-            if (userGroupBox2.TextBox2Empty)
+            if (userGroupBox.TextBox2Empty)
             {
-                userGroupBox2.Controls["textBox2"].ForeColor = Color.Red;
+                userGroupBox.Controls["textBox2"].ForeColor = Color.Red;
                 errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.LastName + "!";
                 return false;
             }
@@ -75,38 +116,26 @@ namespace WorkWithUser.UserForms
 
         private void Button_Click(object sender, EventArgs e)
         {
-            if (!UserTextBoxOK()) return; 
-            if (!PasswordTextBoxOK()) return;
+            if (!UserTextBoxOK()) return;
+            if (!PasswordTextBoxOK()) return; 
             if (!EMailTextBoxOK()) return;
             if (!PhoneMaskedTextBoxOK()) return;
             if (!GroupComboBoxOK()) return;
 
-            Dictionary<string, string> newUser = new Dictionary<string, string>()
-            {
-                { Vars.UserName, userGroupBox2.Controls["textBox"].Text },
-                { Vars.UserLastName, userGroupBox2.Controls["textBox2"].Text },
-                { Vars.UserEMail, eMailGroupBox.Controls["textBox"].Text },
-                { Vars.UserPhone, phoneGroupBox.Controls["maskedTextBox"].Text },
-                { Vars.UserGroup, groupGroupBox.Controls["comboBox"].Text} ,
-                { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text}
-            };
-
             if (button.Text == Vars.RegistrationButtonText ||
-                button.Text == Vars.Add) { AddUser(newUser); }
+                button.Text == Vars.Add) { AddUser(); }
+            else if (button.Text == Vars.Change) { ChangeUserData(); }
         }
 
-        private void AddUser(Dictionary<string, string> newUser)
+        private void AddUser()
         {
-            if (!UsersTableActions.Add(user.sqlConnection, newUser))
-            {
-                errorLabel.Text = Vars.UserNorRegistred;
-                return;
-            }
+            
 
-            newUser.Remove(Vars.UserPassword);
-            user.NewUserData = new Dictionary<string, string>(newUser);
+            
+        }
+        private void ChangeUserData()
+        {
 
-            user.userForm.Close();
         }
     }
 }

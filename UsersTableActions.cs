@@ -1,12 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace WorkWithUser
 {
     internal class UsersTableActions
-    {        
+    {
+        /// <summary>
+        /// Проверяет, существует ли таблица в базе данных. Возвращает true, если таблица существует.
+        /// </summary>
+        internal static bool TableCheck(SqlConnection sqlConnection, string tableName)
+        {
+            SqlCommand sqlCommand = new SqlCommand($"SELECT Id FROM {tableName}", sqlConnection);
+            try
+            {
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                sqlDataReader.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Производит поиск строк в таблице и возвращает DataTable со списком данных строк.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="request"></param>
+        /// <param name="connectinString"></param>
+        public static DataTable ExecuteReaderToDataTable(SqlConnection sqlConnection, string QueryString)
+        {
+            SqlCommand sqlCommand = new SqlCommand(QueryString, sqlConnection);
+
+            SqlDataReader dr = sqlCommand.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            return dt;
+        }
+
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
@@ -22,7 +57,8 @@ namespace WorkWithUser
                 $"[{Vars.UserPassword}] NVARCHAR({Vars.UserTextL}) NULL," +
                 $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NULL," +
                 $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NULL," +
-                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserTextL}) NULL)");
+                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserTextL}) NULL)," +
+                $"[{Vars.UserAdmin}] CHAR(1) NOT NULL)");
         }
 
         /// <summary>
@@ -40,14 +76,16 @@ namespace WorkWithUser
                 $"{Vars.UserPassword}, " +
                 $"{Vars.UserEMail}, " +
                 $"{Vars.UserPhone}, " +
-                $"{Vars.UserGroup}" +
+                $"{Vars.UserGroup}, " +
+                $"{Vars.UserAdmin}" +
                 $") VALUES (" +
                 $"N'{userData[Vars.UserName]}', " +
                 $"N'{userData[Vars.UserLastName]}', " +
                 $"N'{userData[Vars.UserPassword]}', " +
                 $"N'{userData[Vars.UserEMail]}', " +
                 $"N'{userData[Vars.UserPhone]}', " +
-                $"N'{userData[Vars.UserGroup]}')"
+                $"N'{userData[Vars.UserGroup]}', " +
+                $"'{userData[Vars.UserAdmin]}')"
                 );
         }
 
@@ -57,18 +95,7 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="rowId"></param>
         /// <returns></returns>
-        internal static bool Change(SqlConnection sqlConnection, int rowId)
-        {
-
-        }
-
-        /// <summary>
-        /// Заменяет все данные в строке на null
-        /// </summary>
-        /// <param name="sqlConnection"></param>
-        /// <param name="rowId"></param>
-        /// <returns></returns>
-        internal static bool RemoveTableRow(SqlConnection sqlConnection, int rowId)
+        internal static bool Change(SqlConnection sqlConnection, int rowId, Dictionary<string, string> userData)
         {
             return RequestExecuteNonQuery(sqlConnection,
                 $"UPDATE {Vars.TableName} SET " +
@@ -79,7 +106,27 @@ namespace WorkWithUser
                 $"{Vars.UserPhone}=NULL," +
                 $"{Vars.UserGroup}=NULL WHERE ID={rowId}");
         }
-        
+
+        /// <summary>
+        /// Заменяет все данные в строке на null
+        /// </summary>
+        /// <param name="sqlConnection"></param>
+        /// <param name="rowId"></param>
+        /// <returns></returns>
+        internal static bool RemoveTableRow(SqlConnection sqlConnection, int rowId)
+        {
+            Dictionary<string, string> UserNull = new Dictionary<string, string>()
+            {
+                { Vars.UserName, "NULL" },
+                { Vars.UserLastName, "NULL" },
+                { Vars.UserEMail, "NULL" },
+                { Vars.UserPhone, "NULL" },
+                { Vars.UserGroup, "NULL" } ,
+                { Vars.UserPassword, "NULL" }
+            };
+
+            return Change(sqlConnection, rowId, UserNull);
+        }
         
         /// <summary>
         /// Отправляет команду в SQL DataBase и выполняет ExecuteNonQuery()

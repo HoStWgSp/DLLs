@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using WorkWithUser.UserForms;
 
@@ -31,10 +32,10 @@ namespace WorkWithUser
         /// </summary>
         /// <param name="user"></param>
         /// <param name="images"></param>
-        public static void UserData(User user, string action)
+        public static void UserData(User user, string action, Dictionary<string, string> userData = null)
         {
             user.userForm.Controls.Clear();
-            user.userForm.mainPanel = new UserPanel(user, action);
+            user.userForm.mainPanel = new AddNewUser(user);
             user.userForm.Controls.Add(user.userForm.mainPanel);
             user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
             user.userForm.Refresh();

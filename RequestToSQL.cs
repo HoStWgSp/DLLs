@@ -85,25 +85,6 @@ namespace WorkWithUser
         //    RequestExecuteNonQuery($"UPDATE {tableName} SET {column_to_check} = N'{item_to_change}' WHERE Id = '{rowId}'");
         //}
 
-        /// <summary>
-        /// Отправляет команду в SQL DataBase и выполняет ExecuteNonQuery()
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public static bool RequestExecuteNonQuery(SqlConnection sqlConnection, string queryString)
-        {
-            SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
-            try
-            {
-                sqlCommand.ExecuteNonQuery();
-                return true;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-                return false;
-            }
-        }
 
         /// <summary>
         /// Отправляет команду в SQL DataBase и выполняет ExecuteScalar()
@@ -130,20 +111,6 @@ namespace WorkWithUser
         //    return str;
         //}
 
-        /// <summary>
-        /// Производит поиск строк в таблице и возвращает DataTable со списком данных строк.
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="request"></param>
-        /// <param name="connectinString"></param>
-        public static DataTable ExecuteReaderToDataTable(SqlConnection sqlConnection, string QueryString)
-        {
-            SqlCommand sqlCommand = new SqlCommand(QueryString, sqlConnection);
-
-            SqlDataReader dr = sqlCommand.ExecuteReader();
-            DataTable dt = new DataTable();
-            dt.Load(dr);
-            return dt;
-        }
+        
     }
 }

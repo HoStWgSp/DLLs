@@ -14,6 +14,7 @@ namespace WorkWithUser.UserForms
     internal class UsersList : DataGridView
     {
         User user;
+
         DataGridViewTextBoxColumn id_column, name_column,
             lastname_column, email_column, phone_column, group_column;
         StripMenu stripMenu;
@@ -101,7 +102,7 @@ namespace WorkWithUser.UserForms
             Columns["group_column"].Visible = true;
 
             // Добавляем всплывающее меню к таблице
-            stripMenu = new StripMenu(Vars.Add, Vars.Change, Vars.Delete);
+            stripMenu = new StripMenu(Vars.Add, Vars.Delete);
             ContextMenuStrip = stripMenu;
 
             MouseDown += DataGridView_MouseDown;
@@ -109,20 +110,20 @@ namespace WorkWithUser.UserForms
             CellDoubleClick += DataGridView_CellDoubleClick;
 
             stripMenu.Items[Vars.Add].Click += Add_Click;
-            stripMenu.Items[Vars.Change].Click += Change_Click;
+            //stripMenu.Items[Vars.Change].Click += Change_Click;
             stripMenu.Items[Vars.Delete].Click += Delete_Click;
         }
 
 
         private void Add_Click(object sender, EventArgs e)
         {
-            user.AddNewUser();
+            user.NewUser();
             DataSource = null;
             DataSource = ReadValidUsers();
         }
         private void Change_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
         private void Delete_Click(object sender, EventArgs e)
         {
@@ -148,16 +149,23 @@ namespace WorkWithUser.UserForms
             // Узнаем номер строки в таблице
             rowId = DataGridViewActions.DataTableRowId(this, e.RowIndex);
 
-            //пишем Form для добавления и изменения данных об авто
-            // Создаем объект окна для добавления новой части в ВОМ
-            // и передаем в качестве аргумента новую строку для заполнения
-
-
-
-            // Обновляем DataSource
+            Dictionary<string, string> userData = new Dictionary<string, string>();
+            foreach (DataRow row in user.UsersData.Rows)
+            {
+                if (Convert.ToInt32(row["Id"]) == rowId)
+                {
+                    userData.Add(Vars.UserName, row[Vars.UserName].ToString());
+                    userData.Add(Vars.UserLastName, row[Vars.UserLastName].ToString());
+                    userData.Add(Vars.UserPassword, row[Vars.UserPassword].ToString());
+                    userData.Add(Vars.UserEMail, row[Vars.UserEMail].ToString());
+                    userData.Add(Vars.UserPhone, row[Vars.UserPhone].ToString());
+                    userData.Add(Vars.UserGroup, row[Vars.UserGroup].ToString());
+                    userData.Add(Vars.UserAdmin, row[Vars.UserAdmin].ToString());
+                }
+            }
+            user.UserPersonalData(userData);
             DataSource = null;
-            DataSource = RequestToSQL.ExecuteReaderToDataTable(user.sqlConnection,
-                    $"select * from {Vars.TableName}");
+            DataSource = ReadValidUsers();
         }
 
         private DataTable TableForDataGridView()
@@ -173,7 +181,7 @@ namespace WorkWithUser.UserForms
         }
         internal DataTable ReadValidUsers()
         {
-            user.UsersData = RequestToSQL.ExecuteReaderToDataTable(user.sqlConnection,
+            user.UsersData = UsersTableActions.ExecuteReaderToDataTable(user.sqlConnection,
                     $"select * from {Vars.TableName}");
             DataTable table = user.UsersData.Clone();
             foreach (DataRow dataRow in user.UsersData.Rows)
@@ -187,6 +195,7 @@ namespace WorkWithUser.UserForms
                     row[Vars.UserEMail] = dataRow[Vars.UserEMail];
                     row[Vars.UserPhone] = dataRow[Vars.UserPhone];
                     row[Vars.UserGroup] = dataRow[Vars.UserGroup];
+                    row[Vars.UserAdmin] = dataRow[Vars.UserAdmin];
                     table.Rows.Add(row);
                 }
             }

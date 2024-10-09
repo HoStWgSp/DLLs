@@ -52,12 +52,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WorkWithDB">
-      <HintPath>..\WorkWithDB\bin\Debug\WorkWithDB.dll</HintPath>
-    </Reference>
-    <Reference Include="WorkWithWFElements">
-      <HintPath>..\WorkWithWFElements\bin\Debug\WorkWithWFElements.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataGridViewActions.cs" />
@@ -68,6 +62,9 @@
     </Compile>
     <Compile Include="RequestToSQL.cs" />
     <Compile Include="StripMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\AddNewUser.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\UserLogInPanel.cs">

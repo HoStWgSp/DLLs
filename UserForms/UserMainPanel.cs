@@ -7,11 +7,12 @@ namespace WorkWithUser.UserForms
 {
     public class UserMainPanel : Panel
     {
+        internal User user;
+
         internal Label loginLabel,
             errorLabel,
             registrationLabel;
         public UserDataGroupBox userGroupBox,
-            userGroupBox2,
             passwordGroupBox,
             eMailGroupBox,
             phoneGroupBox,
@@ -21,6 +22,8 @@ namespace WorkWithUser.UserForms
 
         public UserMainPanel(User user)
         {
+            this.user = user;
+
             loginLabel = new Label()
             {
                 TextAlign = ContentAlignment.BottomCenter,
@@ -28,28 +31,16 @@ namespace WorkWithUser.UserForms
                 AutoSize = false,
                 Size = new Size(300, 30),
                 Location = new Point(42, 5)
-            };
-
-            userGroupBox = new UserDataGroupBox(
-                Vars.User + ":", 41, 45,
-                Properties.Resources.User, Vars.UserTextL, false, Vars.NameAndLastName);
-            userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
-
-            userGroupBox2 = new UserDataGroupBox(
-                Vars.User + ":", 41, 45,
-                Properties.Resources.User, Vars.UserTextL,
-                false, Vars.Name, true, Vars.LastName);
-            userGroupBox2.Controls["textBox"].KeyDown += TextBox_KeyDown;
-            userGroupBox2.Controls["textBox2"].KeyDown += TextBox_KeyDown;
+            };   
 
             passwordGroupBox = new UserDataGroupBox(
                 Vars.Password + ":", 41, 105,
-                Properties.Resources.Password, Vars.UserTextL, true, Vars.Password);
+                Properties.Resources.Password, Vars.UserTextL, Vars.Password);
             passwordGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
 
             eMailGroupBox = new UserDataGroupBox(
                 Vars.EMail + ":", 41, 165,
-                Properties.Resources.EMail, Vars.UserEMailL, false, Vars.EMail);
+                Properties.Resources.EMail, Vars.UserEMailL, Vars.EMail);
             eMailGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
 
             phoneGroupBox = new UserDataGroupBox(
@@ -57,10 +48,6 @@ namespace WorkWithUser.UserForms
                 Properties.Resources.Phone, "+0(000) 000-00-00");
             phoneGroupBox.Controls["maskedTextBox"].KeyDown += TextBox_KeyDown;
 
-            groupGroupBox = new UserDataGroupBox(
-                Vars.Group + ":", 41, 285,
-                Properties.Resources.Group, user.groupList);
-            groupGroupBox.Controls["comboBox"].KeyDown += TextBox_KeyDown;
 
             errorLabel = new Label()
             {
@@ -83,18 +70,7 @@ namespace WorkWithUser.UserForms
             };
             button.Click += Button_Click;
 
-            registrationLabel = new Label()
-            {
-                AutoSize = false,
-                Size = new Size(200, 16),
-                Text = Vars.GetRegistration,
-                Font = new Font("Calibri", 8, FontStyle.Bold),
-                TextAlign = ContentAlignment.TopCenter,
-                ForeColor = Color.Blue
-            };
-            registrationLabel.Click += RegistrationLabel_Click;
-            registrationLabel.MouseEnter += RegistrationLabel_MouseEnter;
-            registrationLabel.MouseLeave += RegistrationLabel_MouseLeave;
+            
 
 
         }
@@ -152,19 +128,25 @@ namespace WorkWithUser.UserForms
             return false;
         }
 
-        private void RegistrationLabel_MouseEnter(object sender, EventArgs e)
+        internal void RegistrationLabel_MouseEnter(object sender, EventArgs e)
         {
             Cursor = Cursors.Hand;
         }
-        private void RegistrationLabel_MouseLeave(object sender, EventArgs e)
+        internal void RegistrationLabel_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
         }
-        internal virtual void RegistrationLabel_Click(object sender, System.EventArgs e) { }
+        internal void RegistrationLabel_Click(object sender, System.EventArgs e)
+        {
+            UserActions.UserData(user, Vars.Registration);
+            user.userForm.Location = new Point(
+                (Screen.PrimaryScreen.WorkingArea.Width - user.userForm.Width) / 2,
+                (Screen.PrimaryScreen.WorkingArea.Height - user.userForm.Height) / 2);
+        }
 
         internal virtual void Button_Click(object sender, System.EventArgs e) { }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        internal void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
             {

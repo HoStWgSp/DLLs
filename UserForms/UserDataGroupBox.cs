@@ -30,9 +30,8 @@ namespace WorkWithUser.UserForms
         /// <param name="twoTextBoxes"></param>
         /// <param name="textBox2WatermarkText"></param>
         public UserDataGroupBox(string groupBoxText, int X, int Y, Image labelImage,
-            int textBoxMaxLength, bool hidenTextBoxText = false,
-            string textBoxWatermarkText = "", bool twoTextBoxes = false,
-            string textBox2WatermarkText = "")
+            int textBoxMaxLength, string textBoxWatermarkText = "",
+            bool twoTextBoxes = false, string textBox2WatermarkText = "")
         {
             Name = "userGroupBox";
 
@@ -49,11 +48,8 @@ namespace WorkWithUser.UserForms
                 MaxLength = textBoxMaxLength,
                 Width = 267,
                 Location = new Point(34, 15),
-                ForeColor=SystemColors.GrayText
+                ForeColor = SystemColors.GrayText
             };
-
-            if (hidenTextBoxText)
-                textBox.PasswordChar = '*';
 
             Controls.Add(textBox);
             textBox.KeyPress += TextBox_KeyPress;

@@ -9,11 +9,14 @@ namespace WorkWithUser
             UserPassword = "UPassword",
             UserEMail = "UEMail",
             UserPhone = "UPhone",
-            UserGroup = "UGroup";
+            UserGroup = "UGroup",
+            UserAdmin = "UAdmin";
+
 
         public static int UserTextL = 30,
             UserEMailL = 50,
             UserPhoneL = 17;
+
 
         public static string Add = "Добавить",
             AddNewUser = "Добавление нового пользователя",
