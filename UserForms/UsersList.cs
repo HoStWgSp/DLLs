@@ -127,7 +127,7 @@ namespace WorkWithUser.UserForms
         }
         private void Delete_Click(object sender, EventArgs e)
         {
-            UsersTableActions.RemoveTableRow(user.sqlConnection, rowId);
+            UsersTableActions.RemoveTableRow(user, rowId);
             DataSource = null;
             DataSource = ReadValidUsers();
         }
@@ -160,7 +160,6 @@ namespace WorkWithUser.UserForms
                     userData.Add(Vars.UserEMail, row[Vars.UserEMail].ToString());
                     userData.Add(Vars.UserPhone, row[Vars.UserPhone].ToString());
                     userData.Add(Vars.UserGroup, row[Vars.UserGroup].ToString());
-                    userData.Add(Vars.UserAdmin, row[Vars.UserAdmin].ToString());
                 }
             }
             user.UserPersonalData(userData);
@@ -168,11 +167,6 @@ namespace WorkWithUser.UserForms
             DataSource = ReadValidUsers();
         }
 
-        private DataTable TableForDataGridView()
-        {
-            ///написать это
-            return new DataTable();
-        }
         private void DataGridViewTextBoxColumnAdjast(DataGridViewTextBoxColumn columnName, string PropertyName, int DispIndex)
         {
             columnName.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -181,7 +175,7 @@ namespace WorkWithUser.UserForms
         }
         internal DataTable ReadValidUsers()
         {
-            user.UsersData = UsersTableActions.ExecuteReaderToDataTable(user.sqlConnection,
+            user.UsersData = UsersTableActions.ExecuteReaderToDataTable(user,
                     $"select * from {Vars.TableName}");
             DataTable table = user.UsersData.Clone();
             foreach (DataRow dataRow in user.UsersData.Rows)
@@ -196,6 +190,7 @@ namespace WorkWithUser.UserForms
                     row[Vars.UserPhone] = dataRow[Vars.UserPhone];
                     row[Vars.UserGroup] = dataRow[Vars.UserGroup];
                     row[Vars.UserAdmin] = dataRow[Vars.UserAdmin];
+                    row[Vars.UserPassword] = dataRow[Vars.UserPassword];
                     table.Rows.Add(row);
                 }
             }

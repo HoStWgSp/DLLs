@@ -11,9 +11,9 @@ namespace WorkWithUser
         /// <summary>
         /// Проверяет, существует ли таблица в базе данных. Возвращает true, если таблица существует.
         /// </summary>
-        internal static bool TableCheck(SqlConnection sqlConnection, string tableName)
+        internal static bool TableCheck(User user, string tableName)
         {
-            SqlCommand sqlCommand = new SqlCommand($"SELECT Id FROM {tableName}", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand($"SELECT Id FROM {tableName}", user.sqlConnection);
             try
             {
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
@@ -32,9 +32,9 @@ namespace WorkWithUser
         /// <param name="table"></param>
         /// <param name="request"></param>
         /// <param name="connectinString"></param>
-        public static DataTable ExecuteReaderToDataTable(SqlConnection sqlConnection, string QueryString)
+        public static DataTable ExecuteReaderToDataTable(User user, string QueryString)
         {
-            SqlCommand sqlCommand = new SqlCommand(QueryString, sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand(QueryString, user.sqlConnection);
 
             SqlDataReader dr = sqlCommand.ExecuteReader();
             DataTable dt = new DataTable();
@@ -47,18 +47,31 @@ namespace WorkWithUser
         /// </summary>
         /// <param name="connectionString"></param>
         /// <returns></returns>
-        internal static bool Creation(SqlConnection sqlConnection)
+        internal static bool Creation(User user)
         {
-            return RequestExecuteNonQuery(sqlConnection,
+            if (!RequestExecuteNonQuery(user.sqlConnection,
                 $"CREATE TABLE [dbo].[" + Vars.TableName + "](" +
                 $"[Id] INT IDENTITY (1, 1) NOT NULL," +
-                $"[{Vars.UserName}] NVARCHAR({Vars.UserTextL}) NULL," +
-                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserTextL}) NULL," +
-                $"[{Vars.UserPassword}] NVARCHAR({Vars.UserTextL}) NULL," +
-                $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NULL," +
-                $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NULL," +
-                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserTextL}) NULL)," +
-                $"[{Vars.UserAdmin}] CHAR(1) NOT NULL)");
+                $"[{Vars.UserName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserPassword}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NOT NULL," +
+                $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
+                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserAdmin}] CHAR(1) NOT NULL)")) return false;
+
+            Dictionary<string, string> adminUser = new Dictionary<string, string>()
+            {
+                { Vars.UserName, "admin" },
+                { Vars.UserLastName, "" },
+                { Vars.UserEMail, "" },
+                { Vars.UserPhone, "" },
+                { Vars.UserGroup, "" },
+                { Vars.UserPassword, "admin" },
+                { Vars.UserAdmin, "1"}
+            };
+
+            return Add(user, adminUser);
         }
 
         /// <summary>
@@ -67,9 +80,17 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="userData"></param>
         /// <returns></returns>
-        internal static bool Add(SqlConnection sqlConnection, Dictionary<string, string> userData)
+        internal static bool Add(User user, Dictionary<string, string> userData)
         {
-            return RequestExecuteNonQuery(sqlConnection,
+            foreach (DataRow dataRow in user.UsersData.Rows)
+            {
+                if ((dataRow[Vars.UserName].ToString() == null  || dataRow[Vars.UserName].ToString() == "") && 
+                    (dataRow[Vars.UserLastName].ToString() == null || dataRow[Vars.UserLastName].ToString() == ""))
+                {
+                    return Change(user, Convert.ToInt32(dataRow["Id"]), userData);
+                }
+            }
+            return RequestExecuteNonQuery(user.sqlConnection,
                 $"INSERT INTO {Vars.TableName} (" +
                 $"{Vars.UserName}, " +
                 $"{Vars.UserLastName}, " +
@@ -95,16 +116,17 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="rowId"></param>
         /// <returns></returns>
-        internal static bool Change(SqlConnection sqlConnection, int rowId, Dictionary<string, string> userData)
+        internal static bool Change(User user, int rowId, Dictionary<string, string> userData)
         {
-            return RequestExecuteNonQuery(sqlConnection,
+            return RequestExecuteNonQuery(user.sqlConnection,
                 $"UPDATE {Vars.TableName} SET " +
-                $"{Vars.UserName}=NULL," +
-                $"{Vars.UserLastName}=NULL," +
-                $"{Vars.UserPassword}=NULL," +
-                $"{Vars.UserEMail}=NULL," +
-                $"{Vars.UserPhone}=NULL," +
-                $"{Vars.UserGroup}=NULL WHERE ID={rowId}");
+                $"{Vars.UserName}='{userData[Vars.UserName]}'," +
+                $"{Vars.UserLastName}='{userData[Vars.UserLastName]}'," +
+                $"{Vars.UserPassword}='{userData[Vars.UserPassword]}'," +
+                $"{Vars.UserEMail}='{userData[Vars.UserEMail]}'," +
+                $"{Vars.UserPhone}='{userData[Vars.UserPhone]}'," +
+                $"{Vars.UserGroup}='{userData[Vars.UserGroup]}' " +
+                $"WHERE ID={rowId}");
         }
 
         /// <summary>
@@ -113,7 +135,7 @@ namespace WorkWithUser
         /// <param name="sqlConnection"></param>
         /// <param name="rowId"></param>
         /// <returns></returns>
-        internal static bool RemoveTableRow(SqlConnection sqlConnection, int rowId)
+        internal static bool RemoveTableRow(User user, int rowId)
         {
             Dictionary<string, string> UserNull = new Dictionary<string, string>()
             {
@@ -125,7 +147,7 @@ namespace WorkWithUser
                 { Vars.UserPassword, "NULL" }
             };
 
-            return Change(sqlConnection, rowId, UserNull);
+            return Change(user, rowId, UserNull);
         }
         
         /// <summary>

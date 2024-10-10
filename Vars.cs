@@ -47,6 +47,7 @@ namespace WorkWithUser
             User = "Пользователь",
             User2 = "пользователя",
             UserData = Data + " " + User2,
+            UserPasswordChange = "Вы уверены, что хотите сменить пароль?",
             UserList = "Список пользователей",
             UserNorRegistred = "Не удалось зарегистрировать пользователя.",
             UserNotExsistConfirmation = "Пользователь с данным именем не существует. Хотите зарегистрироваться?";

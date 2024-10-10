@@ -14,37 +14,24 @@ namespace WorkWithUser.UserForms
 
         public AddNewUser(User user ) : base( user)
         {
-
             this.user = user;
             Size = new Size(384, 421);
 
-            Controls.Add(loginLabel);
-
-            userGroupBox = new UserDataGroupBox(
-                Vars.User + ":", 41, 45,
-                Properties.Resources.User, Vars.UserTextL, Vars.Name, true, Vars.LastName);
-            (userGroupBox.Controls["textBox"] as TextBox).SelectionStart = 0;
-            Controls.Add(userGroupBox);
-            userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
-            userGroupBox.Controls["textBox2"].KeyDown += TextBox_KeyDown;
-
-            дописать контролы
-
-            groupGroupBox = new UserDataGroupBox(
-                Vars.Group + ":", 41, 285,
-                Properties.Resources.Group, user.groupList);
-            groupGroupBox.Controls["comboBox"].KeyDown += TextBox_KeyDown;
-            Controls.Add(groupGroupBox);
-
             user.userForm.Text = Vars.NewUserData;
-            loginLabel.Text += Vars.NewUser;
-            button.Text = Vars.Add;
-            button.Click += Button_Click;
+
+            LoginLabel(Vars.NewUser);
+            UserGroupBox(true);
+            PasswordGroupBox();
+            EMailGroupBox();
+            PhoneGroupBox();
+            GroupGroupBox();
+            ErrorLabel();
+            ButtonBody(Vars.Add);
         }
 
         internal override void Button_Click(object sender, EventArgs e)
         {
-            if (!UserTextBoxOK()) return;
+            if (!UserTextBoxOK(true)) return;
             if (!PasswordTextBoxOK()) return;
             if (!EMailTextBoxOK()) return;
             if (!PhoneMaskedTextBoxOK()) return;
@@ -57,15 +44,11 @@ namespace WorkWithUser.UserForms
                 { Vars.UserEMail, eMailGroupBox.Controls["textBox"].Text },
                 { Vars.UserPhone, phoneGroupBox.Controls["maskedTextBox"].Text },
                 { Vars.UserGroup, groupGroupBox.Controls["comboBox"].Text} ,
-                { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text}
+                { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text},
+                { Vars.UserAdmin, "0"}
             };
 
-            if (user.UserData.Count == 0)
-                newUser.Add(Vars.UserAdmin, "1");
-            else
-                newUser.Add(Vars.UserAdmin, "0");
-
-            if (!UsersTableActions.Add(user.sqlConnection, newUser))
+            if (!UsersTableActions.Add(user, newUser))
             {
                 errorLabel.Text = Vars.UserNorRegistred;
                 return;

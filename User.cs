@@ -38,14 +38,14 @@ namespace WorkWithUser
             NewUserData = new Dictionary<string, string>();
 
             // Проверяет существование таблицы пользователей
-            if (!UsersTableActions.TableCheck(sqlConnection, Vars.TableName))
+            if (!UsersTableActions.TableCheck(this, Vars.TableName))
             {
                 // Создание таблицы с пользователями
-                if (!UsersTableActions.Creation(sqlConnection)) { MessageBox.Show("Не удалось создать таблицу с пользователями."); { TableExsist = false; return; } }
+                if (!UsersTableActions.Creation(this)) { MessageBox.Show("Не удалось создать таблицу с пользователями."); { TableExsist = false; return; } }
                 else { MessageBox.Show("Таблица Users создана!"); }
             }
 
-            UsersData = UsersTableActions.ExecuteReaderToDataTable(sqlConnection,
+            UsersData = UsersTableActions.ExecuteReaderToDataTable(this,
                     $"select * from {Vars.TableName}");
         }
 
@@ -90,7 +90,7 @@ namespace WorkWithUser
         public void UserList()
         {
             userListForm = new UserListForm(formIcon);
-            UsersData = UsersTableActions.ExecuteReaderToDataTable(sqlConnection,
+            UsersData = UsersTableActions.ExecuteReaderToDataTable(this,
                     $"select * from {Vars.TableName}");
             UserActions.UserList(this);
             userListForm.ShowDialog();

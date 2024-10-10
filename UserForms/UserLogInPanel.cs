@@ -23,40 +23,17 @@ namespace WorkWithUser.UserForms
 
             Size = new Size(384, 241);
 
-            loginLabel.Text = Vars.Authorization;
-            Controls.Add(loginLabel);
-
-            userGroupBox = new UserDataGroupBox(
-                Vars.User + ":", 41, 45,
-                Properties.Resources.User, Vars.UserTextL, Vars.NameAndLastName);
-            userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
-            (userGroupBox.Controls["textBox"] as TextBox).SelectionStart = 0;
-            Controls.Add(userGroupBox);
-
-            (passwordGroupBox.Controls["textBox"] as TextBox).PasswordChar = '*';
-            Controls.Add(passwordGroupBox);
-
+            LoginLabel(Vars.Authorization);
+            UserGroupBox();
+            PasswordGroupBox(true);
+            ErrorLabel();
             errorLabel.Location = new Point(41, 155);
-            Controls.Add(errorLabel);
 
+            ButtonBody(Vars.Enter);
             button.Location = new Point(92, 175);
-            Controls.Add(button);
 
             if (!registration) return;
-            registrationLabel = new Label()
-            {
-                AutoSize = false,
-                Size = new Size(200, 16),
-                Text = Vars.GetRegistration,
-                Font = new Font("Calibri", 8, FontStyle.Bold),
-                TextAlign = ContentAlignment.TopCenter,
-                ForeColor = Color.Blue
-            };
-            registrationLabel.Click += RegistrationLabel_Click;
-            registrationLabel.MouseEnter += RegistrationLabel_MouseEnter;
-            registrationLabel.MouseLeave += RegistrationLabel_MouseLeave;
-            registrationLabel.Location = new Point(92, 220);
-            Controls.Add(registrationLabel);
+            RegistrationLabel();
         }
 
         
@@ -65,23 +42,12 @@ namespace WorkWithUser.UserForms
         {
             if (!UserTextBoxOK()) return;
             if (!PasswordTextBoxOK()) return;
-            if (!CheckUserName(userGroupBox.Controls["textBox"].Text))
-            {
-                userGroupBox.Controls["textBox"].ForeColor = Color.Red;
-                errorLabel.Text = Vars.LoginNameError; 
-                return;
-            }
 
             DataRow userDataRow = Aauthorization(
                 userGroupBox.Controls["textBox"].Text,
                 passwordGroupBox.Controls["textBox"].Text);
 
-            if (userDataRow == null)
-            {
-                passwordGroupBox.Controls["textBox"].ForeColor = Color.Red;
-                errorLabel.Text = Vars.PasswordError;
-                return;
-            }
+            if (userDataRow == null) return;
 
             user.NewUserData.Add(Vars.UserName, userDataRow[Vars.UserName].ToString());
             user.NewUserData.Add(Vars.UserLastName, userDataRow[Vars.UserLastName].ToString());
@@ -103,10 +69,9 @@ namespace WorkWithUser.UserForms
         {
             foreach (DataRow dataRow in user.UsersData.Rows)
             {
-                if ((dataRow[Vars.UserName].ToString() + " " + dataRow[Vars.UserLastName].ToString()) == userName)
-                {
-                    return true;
-                }
+                if (dataRow[Vars.UserName].ToString() == userName) return true;
+                else if ((dataRow[Vars.UserName].ToString() + " " + dataRow[Vars.UserLastName].ToString()) == userName) return true;
+                else if (dataRow[Vars.UserLastName].ToString() == userName) return true;
             }
             return false;
         }
@@ -122,8 +87,24 @@ namespace WorkWithUser.UserForms
             // Проверка существования пользователя            
             foreach (DataRow row in user.UsersData.Rows)
             {
-                if ((row[Vars.UserName].ToString() + " " + row[Vars.UserLastName].ToString()) == userName && row[Vars.UserPassword].ToString() == password)
-                    return row;
+                if (row[Vars.UserName].ToString() == userName ||
+                    (row[Vars.UserName].ToString() + " " + row[Vars.UserLastName].ToString()) == userName ||
+                    row[Vars.UserLastName].ToString() == userName)
+                {
+                    if (row[Vars.UserPassword].ToString() == password)
+                        return row;
+                    else {
+                        passwordGroupBox.Controls["textBox"].ForeColor = Color.Red;
+                        errorLabel.Text = Vars.PasswordError;
+                        return null;
+                    }
+                }
+                else
+                {
+                    userGroupBox.Controls["textBox"].ForeColor = Color.Red;
+                    errorLabel.Text = Vars.LoginNameError;
+                    return null;
+                }
             }
             return null;
         }

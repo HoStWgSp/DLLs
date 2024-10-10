@@ -122,7 +122,7 @@ namespace WorkWithUser.UserForms
                 Font = new Font("Calibri", 15, FontStyle.Regular),
                 Width = 267,
                 Location = new Point(34, 15),
-                DropDownStyle=ComboBoxStyle.DropDownList
+                DropDownStyle = ComboBoxStyle.DropDownList
             };
             comboBox.Items.AddRange(groups);
             Controls.Add(comboBox);

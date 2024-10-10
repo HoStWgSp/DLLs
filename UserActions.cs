@@ -35,7 +35,10 @@ namespace WorkWithUser
         public static void UserData(User user, string action, Dictionary<string, string> userData = null)
         {
             user.userForm.Controls.Clear();
-            user.userForm.mainPanel = new AddNewUser(user);
+            if (userData == null)
+                user.userForm.mainPanel = new AddNewUser(user);
+            else
+                user.userForm.mainPanel = new UserChangePanel(user, userData);
             user.userForm.Controls.Add(user.userForm.mainPanel);
             user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
             user.userForm.Refresh();
