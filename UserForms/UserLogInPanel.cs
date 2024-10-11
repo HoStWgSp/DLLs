@@ -36,7 +36,7 @@ namespace WorkWithUser.UserForms
             RegistrationLabel();
         }
 
-        
+
 
         internal override void Button_Click(object sender, EventArgs e)
         {
@@ -93,19 +93,16 @@ namespace WorkWithUser.UserForms
                 {
                     if (row[Vars.UserPassword].ToString() == password)
                         return row;
-                    else {
+                    else
+                    {
                         passwordGroupBox.Controls["textBox"].ForeColor = Color.Red;
                         errorLabel.Text = Vars.PasswordError;
                         return null;
                     }
                 }
-                else
-                {
-                    userGroupBox.Controls["textBox"].ForeColor = Color.Red;
-                    errorLabel.Text = Vars.LoginNameError;
-                    return null;
-                }
             }
+            userGroupBox.Controls["textBox"].ForeColor = Color.Red;
+            errorLabel.Text = Vars.LoginNameError;
             return null;
         }
     }

@@ -120,12 +120,12 @@ namespace WorkWithUser
         {
             return RequestExecuteNonQuery(user.sqlConnection,
                 $"UPDATE {Vars.TableName} SET " +
-                $"{Vars.UserName}='{userData[Vars.UserName]}'," +
-                $"{Vars.UserLastName}='{userData[Vars.UserLastName]}'," +
-                $"{Vars.UserPassword}='{userData[Vars.UserPassword]}'," +
-                $"{Vars.UserEMail}='{userData[Vars.UserEMail]}'," +
-                $"{Vars.UserPhone}='{userData[Vars.UserPhone]}'," +
-                $"{Vars.UserGroup}='{userData[Vars.UserGroup]}' " +
+                $"{Vars.UserName}=N'{userData[Vars.UserName]}'," +
+                $"{Vars.UserLastName}=N'{userData[Vars.UserLastName]}'," +
+                $"{Vars.UserPassword}=N'{userData[Vars.UserPassword]}'," +
+                $"{Vars.UserEMail}=N'{userData[Vars.UserEMail]}'," +
+                $"{Vars.UserPhone}=N'{userData[Vars.UserPhone]}'," +
+                $"{Vars.UserGroup}=N'{userData[Vars.UserGroup]}' " +
                 $"WHERE ID={rowId}");
         }
 
@@ -139,12 +139,12 @@ namespace WorkWithUser
         {
             Dictionary<string, string> UserNull = new Dictionary<string, string>()
             {
-                { Vars.UserName, "NULL" },
-                { Vars.UserLastName, "NULL" },
-                { Vars.UserEMail, "NULL" },
-                { Vars.UserPhone, "NULL" },
-                { Vars.UserGroup, "NULL" } ,
-                { Vars.UserPassword, "NULL" }
+                { Vars.UserName, "" },
+                { Vars.UserLastName, "" },
+                { Vars.UserEMail, "" },
+                { Vars.UserPhone, "" },
+                { Vars.UserGroup, "" } ,
+                { Vars.UserPassword, "" }
             };
 
             return Change(user, rowId, UserNull);

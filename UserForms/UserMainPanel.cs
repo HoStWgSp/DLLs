@@ -101,6 +101,7 @@ namespace WorkWithUser.UserForms
             }
             Controls.Add(groupGroupBox);
         }
+        internal void AdminChecBox() { }
         internal void ErrorLabel()
         {
             errorLabel = new Label()
@@ -150,21 +151,23 @@ namespace WorkWithUser.UserForms
         {
             if (twoTextBox)
             {
-                if (userGroupBox.TextBoxEmpty)
+                if (userGroupBox.Controls["textBox"].Text == userGroupBox.watermarkText ||
+                userGroupBox.Controls["textBox"].Text == "")
                 {
                     userGroupBox.Controls["textBox"].ForeColor = Color.Red;
                     errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Name + "!";
                     return false;
                 }
-                if (!userGroupBox.TextBox2Empty) return true;
+                if (userGroupBox.Controls["textBox2"].Text != userGroupBox.watermark2Text &&
+                    userGroupBox.Controls["textBox2"].Text != "") return true;
                 {
                     userGroupBox.Controls["textBox2"].ForeColor = Color.Red;
                     errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.LastName + "!";
                     return false;
                 }
             }
-
-            if (!userGroupBox.TextBoxEmpty) return true;
+            if (userGroupBox.Controls["textBox"].Text != userGroupBox.watermarkText &&
+                userGroupBox.Controls["textBox"].Text != "") return true;
             {
                 userGroupBox.Controls["textBox"].ForeColor = Color.Red;
                 errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.User + "!";
@@ -173,14 +176,16 @@ namespace WorkWithUser.UserForms
         }
         internal bool PasswordTextBoxOK()
         {
-            if (!passwordGroupBox.TextBoxEmpty) return true;
+            if (passwordGroupBox.Controls["textBox"].Text != userGroupBox.watermarkText &&
+                passwordGroupBox.Controls["textBox"].Text != "") return true;
             passwordGroupBox.Controls["textBox"].ForeColor = Color.Red;
             errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Password + "!";
             return false;
         }
         internal bool EMailTextBoxOK()
         {
-            if (eMailGroupBox.TextBoxEmpty)
+            if (eMailGroupBox.Controls["textBox"].Text == eMailGroupBox.watermarkText ||
+                eMailGroupBox.Controls["textBox"].Text == "")
             {
                 eMailGroupBox.Controls["textBox"].ForeColor = Color.Red;
                 errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.EMail + "!";

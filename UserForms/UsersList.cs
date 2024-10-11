@@ -154,6 +154,7 @@ namespace WorkWithUser.UserForms
             {
                 if (Convert.ToInt32(row["Id"]) == rowId)
                 {
+                    userData["Id"] = row["Id"].ToString();
                     userData.Add(Vars.UserName, row[Vars.UserName].ToString());
                     userData.Add(Vars.UserLastName, row[Vars.UserLastName].ToString());
                     userData.Add(Vars.UserPassword, row[Vars.UserPassword].ToString());

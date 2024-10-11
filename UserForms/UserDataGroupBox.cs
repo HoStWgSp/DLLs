@@ -10,11 +10,12 @@ namespace WorkWithUser.UserForms
         private MaskedTextBox maskedTextBox;
         private TextBox textBox, textBox2;
         private ComboBox comboBox;
+        public CheckBox checkBox;
         public string watermarkText, watermark2Text;
         bool textBoxWatermarkTextKeyPressed = false;
         bool textBox2WatermarkTextKeyReleased = false;
-        internal bool TextBoxEmpty { get; private set; } = true;
-        internal bool TextBox2Empty { get; private set; } = true;
+        //internal bool TextBoxEmpty { get; private set; } = true;
+        //internal bool TextBox2Empty { get; private set; } = true;
 
 
         /// <summary>
@@ -124,6 +125,7 @@ namespace WorkWithUser.UserForms
                 Location = new Point(34, 15),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
+
             comboBox.Items.AddRange(groups);
             Controls.Add(comboBox);
         }
@@ -151,7 +153,7 @@ namespace WorkWithUser.UserForms
                 textBox.ForeColor = SystemColors.GrayText;
                 textBox.Text = watermarkText;
                 textBoxWatermarkTextKeyPressed = false;
-                TextBoxEmpty = true;
+                //TextBoxEmpty = true;
             }
         }
         private void TextBox2_LostFocus(object sender, EventArgs e)
@@ -161,7 +163,7 @@ namespace WorkWithUser.UserForms
                 textBox2.ForeColor = SystemColors.GrayText;
                 textBox2.Text = watermark2Text;
                 textBox2WatermarkTextKeyReleased = false;
-                TextBox2Empty = true;
+                //TextBox2Empty = true;
             }
         }
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -171,14 +173,14 @@ namespace WorkWithUser.UserForms
             {
                 textBox.Text = "";
                 textBoxWatermarkTextKeyPressed = true;
-                TextBoxEmpty = false;
+                //TextBoxEmpty = false;
             }
             if (e.KeyChar.ToString() == "\b" && textBox.Text.Length == 1)
             {
                 textBox.ForeColor = SystemColors.GrayText;
                 textBox.Text = watermarkText;
                 textBoxWatermarkTextKeyPressed = false;
-                TextBoxEmpty = true;
+                //TextBoxEmpty = true;
             }
         }
         private void TextBox2_KeyPress(object sender, KeyPressEventArgs e)
@@ -188,14 +190,14 @@ namespace WorkWithUser.UserForms
             {                                       
                 textBox2.Text = "";
                 textBox2WatermarkTextKeyReleased = true;
-                TextBox2Empty = false;
+                //TextBox2Empty = false;
             }
             if (e.KeyChar.ToString() == "\b" && textBox2.Text.Length == 1)
             {
                 textBox2.ForeColor = SystemColors.GrayText;
                 textBox2.Text = watermark2Text;
                 textBox2WatermarkTextKeyReleased = false;
-                TextBox2Empty = true;
+                //TextBox2Empty = true;
             }
         }
         private void MaskedTextBox_TextChanged(object sender, EventArgs e)

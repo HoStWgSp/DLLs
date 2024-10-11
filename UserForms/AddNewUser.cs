@@ -24,7 +24,7 @@ namespace WorkWithUser.UserForms
             PasswordGroupBox();
             EMailGroupBox();
             PhoneGroupBox();
-            GroupGroupBox();
+            GroupGroupBox(true);
             ErrorLabel();
             ButtonBody(Vars.Add);
         }

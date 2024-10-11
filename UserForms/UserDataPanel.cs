@@ -6,7 +6,7 @@ using System.Net.Mail;
 
 namespace WorkWithUser.UserForms
 {
-    internal class UserChangePanel : UserMainPanel
+    internal class UserDataPanel : UserMainPanel
     {
         User user;
         Dictionary<string, string> userData;
@@ -15,7 +15,7 @@ namespace WorkWithUser.UserForms
         /// Панель для регистрации нового пользователя
         /// </summary>
         /// <param name="user"></param>
-        public UserChangePanel(User user, Dictionary<string, string> userData = null) : base(user)
+        public UserDataPanel(User user, Dictionary<string, string> userData = null) : base(user)
         {
             this.user = user;
             this.userData = userData;
@@ -30,7 +30,7 @@ namespace WorkWithUser.UserForms
             ButtonBody(Vars.Change);
 
             userGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
-            userGroupBox.Controls["textBox"].Text = userData[Vars.UserName];
+            userGroupBox.Controls["textBox"].Text = userData[Vars.UserName].ToString();
 
             userGroupBox.Controls["textBox2"].ForeColor = SystemColors.WindowText;
             userGroupBox.Controls["textBox2"].Text = userData[Vars.UserLastName];
@@ -46,7 +46,7 @@ namespace WorkWithUser.UserForms
 
             if (user.Admin)
             {
-                GroupGroupBox();
+                GroupGroupBox(true, true);
                 groupGroupBox.Controls["comboBox"].ForeColor = SystemColors.WindowText;
                 groupGroupBox.Controls["comboBox"].Text = userData[Vars.UserGroup];
             }
@@ -62,10 +62,31 @@ namespace WorkWithUser.UserForms
 
         internal override void Button_Click(object sender, EventArgs e)
         {
-            продолжить писать изменение 
-            if (!UserTextBoxOK()) return;
+            if (!UserTextBoxOK(true)) return;
             if (!EMailTextBoxOK()) return;
             if (!PhoneMaskedTextBoxOK()) return;
+
+            if (user.Admin)
+                if (!GroupComboBoxOK()) return;
+
+            if (passwordGroupBox.Controls["textBox"].Text != "")
+            {
+                AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm(user.formIcon);
+                if (!alertConfirm.Confirmation(Vars.UserPasswordChange, 300, 100)) return;
+            }
+
+            string ugroup;
+            if (user.Admin)
+                ugroup = groupGroupBox.Controls["comboBox"].Text;
+            else
+                ugroup = groupGroupBox.Controls["textBox"].Text;
+
+            if (userData[Vars.UserName] == userGroupBox.Controls["textBox"].Text &&
+                userData[Vars.UserLastName] == userGroupBox.Controls["textBox2"].Text &&
+                passwordGroupBox.Controls["textBox"].Text == "" &&
+                userData[Vars.UserEMail] == eMailGroupBox.Controls["textBox"].Text &&
+                userData[Vars.UserPhone] == phoneGroupBox.Controls["maskedTextBox"].Text &&
+                userData[Vars.UserGroup] == ugroup) return;
 
             Dictionary<string, string> userNewData = new Dictionary<string, string>()
             {
@@ -73,28 +94,14 @@ namespace WorkWithUser.UserForms
                 { Vars.UserLastName, userGroupBox.Controls["textBox2"].Text },
                 { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text },
                 { Vars.UserEMail, eMailGroupBox.Controls["textBox"].Text },
-                { Vars.UserPhone, phoneGroupBox.Controls[Vars.UserPhone].Text }
+                { Vars.UserPhone, phoneGroupBox.Controls["maskedTextBox"].Text },
+                { Vars.UserGroup, ugroup }
             };
 
-            if (user.Admin)
-                userNewData.Add(Vars.UserGroup, groupGroupBox.Controls["comboBox"].Text);
-            else
-                userNewData.Add(Vars.UserGroup, groupGroupBox.Controls["textBox"].Text);
+            if (!UsersTableActions.Change(user, Convert.ToInt32(userData["Id"]), userNewData))
+                return;
 
-
-
-
-            if (!GroupComboBoxOK()) return;
-
-            if (PasswordTextBoxOK())
-            {
-                AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm(user.formIcon);
-                if (!alertConfirm.Confirmation(Vars.UserPasswordChange, 200, 100)) return;
-            }
-
-            if (button.Text == Vars.RegistrationButtonText ||
-                button.Text == Vars.Add) { AddUser(); }
-            else if (button.Text == Vars.Change) { ChangeUserData(); }
+            user.userForm.Close();
         }
 
         private void AddUser()

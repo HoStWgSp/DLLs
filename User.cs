@@ -47,7 +47,37 @@ namespace WorkWithUser
 
             UsersData = UsersTableActions.ExecuteReaderToDataTable(this,
                     $"select * from {Vars.TableName}");
+
+            UserAuthorization(true);
         }
+
+
+        /// <summary>
+        /// Отображает данные авторизованного пользователя
+        /// </summary>
+        public void UserPersonalData()
+        {
+            userForm = new UserForm(formIcon);
+            UserActions.UserData(this, Vars.Change, UserData);
+            userForm.ShowDialog();
+        }
+
+        /// <summary>
+        /// Показывает таблицу со списком валидных пользователей.
+        /// Открывает только админам.
+        /// </summary>
+        public void UserList()
+        {
+            if (!Admin) return;
+            userListForm = new UserListForm(formIcon);
+            UsersData = UsersTableActions.ExecuteReaderToDataTable(this,
+                    $"select * from {Vars.TableName}");
+            UserActions.UserList(this);
+            userListForm.ShowDialog();
+        }
+
+
+
 
         /// <summary>
         /// Проверка существование пользователя. Вернет true, если авторизован.
@@ -55,7 +85,7 @@ namespace WorkWithUser
         /// </summary>
         /// <param name="registration"></param>
         /// <returns></returns>
-        public bool UserAuthorization(bool registration = false)
+        internal bool UserAuthorization(bool registration = false)
         {
             userForm = new UserForm(formIcon);
             UserActions.Authorization(this, registration);
@@ -77,23 +107,15 @@ namespace WorkWithUser
             userForm.ShowDialog();
         }
 
+        /// <summary>
+        /// Отображает данные пользователя выбранного админом.
+        /// </summary>
+        /// <param name="userData"></param>
         internal void UserPersonalData(Dictionary<string, string> userData)
         {
             userForm = new UserForm(formIcon);
             UserActions.UserData(this, Vars.Change, userData);
             userForm.ShowDialog();
-        }
-
-        /// <summary>
-        /// Показывает таблицу со списком валидных пользователей
-        /// </summary>
-        public void UserList()
-        {
-            userListForm = new UserListForm(formIcon);
-            UsersData = UsersTableActions.ExecuteReaderToDataTable(this,
-                    $"select * from {Vars.TableName}");
-            UserActions.UserList(this);
-            userListForm.ShowDialog();
         }
     }
 }

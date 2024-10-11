@@ -38,7 +38,7 @@ namespace WorkWithUser
             if (userData == null)
                 user.userForm.mainPanel = new AddNewUser(user);
             else
-                user.userForm.mainPanel = new UserChangePanel(user, userData);
+                user.userForm.mainPanel = new UserDataPanel(user, userData);
             user.userForm.Controls.Add(user.userForm.mainPanel);
             user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
             user.userForm.Refresh();
