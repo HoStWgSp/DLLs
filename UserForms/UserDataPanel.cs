@@ -26,35 +26,40 @@ namespace WorkWithUser.UserForms
             PasswordGroupBox();
             EMailGroupBox();
             PhoneGroupBox();
+            if (user.Admin)
+                GroupGroupBox(true);
+            else
+                GroupGroupBox(false);
             ErrorLabel();
             ButtonBody(Vars.Change);
 
-            userGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
-            userGroupBox.Controls["textBox"].Text = userData[Vars.UserName].ToString();
-
-            userGroupBox.Controls["textBox2"].ForeColor = SystemColors.WindowText;
-            userGroupBox.Controls["textBox2"].Text = userData[Vars.UserLastName];
-
-            passwordGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
-            passwordGroupBox.Controls["textBox"].Text = "";
-
-            eMailGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
-            eMailGroupBox.Controls["textBox"].Text = userData[Vars.UserEMail];
-
-            phoneGroupBox.Controls["maskedTextBox"].ForeColor = SystemColors.WindowText;
-            phoneGroupBox.Controls["maskedTextBox"].Text = userData[Vars.UserPhone];
-
-            if (user.Admin)
+            if (userData.Count > 0)
             {
-                GroupGroupBox(true, true);
-                groupGroupBox.Controls["comboBox"].ForeColor = SystemColors.WindowText;
-                groupGroupBox.Controls["comboBox"].Text = userData[Vars.UserGroup];
-            }
-            else
-            {
-                GroupGroupBox(false);
-                groupGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
-                groupGroupBox.Controls["textBox"].Text = userData[Vars.UserGroup];
+                userGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
+                userGroupBox.Controls["textBox"].Text = userData[Vars.UserName].ToString();
+
+                userGroupBox.Controls["textBox2"].ForeColor = SystemColors.WindowText;
+                userGroupBox.Controls["textBox2"].Text = userData[Vars.UserLastName];
+
+                passwordGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
+                passwordGroupBox.Controls["textBox"].Text = "";
+
+                eMailGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
+                eMailGroupBox.Controls["textBox"].Text = userData[Vars.UserEMail];
+
+                phoneGroupBox.Controls["maskedTextBox"].ForeColor = SystemColors.WindowText;
+                phoneGroupBox.Controls["maskedTextBox"].Text = userData[Vars.UserPhone];
+
+                if (user.Admin)
+                {
+                    groupGroupBox.Controls["comboBox"].ForeColor = SystemColors.WindowText;
+                    groupGroupBox.Controls["comboBox"].Text = userData[Vars.UserGroup];
+                }
+                else
+                {
+                    groupGroupBox.Controls["textBox"].ForeColor = SystemColors.WindowText;
+                    groupGroupBox.Controls["textBox"].Text = userData[Vars.UserGroup];
+                }
             }
         }
 

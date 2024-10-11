@@ -55,6 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataGridViewActions.cs" />
+    <Compile Include="MyElements\MyGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MyElements\UserGroupBoxes.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,9 +80,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserForms\UserDataPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UserForms\UserDataGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\UserForm.cs">

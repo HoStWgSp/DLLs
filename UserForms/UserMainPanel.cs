@@ -2,6 +2,7 @@
 using System.Drawing;
 using System;
 using System.Net.Mail;
+using WorkWithUser.MyElements;
 
 namespace WorkWithUser.UserForms
 {
@@ -12,7 +13,7 @@ namespace WorkWithUser.UserForms
         internal Label loginLabel,
             errorLabel,
             registrationLabel;
-        public UserDataGroupBox userGroupBox,
+        internal UserGroupBoxes userGroupBox,
             passwordGroupBox,
             eMailGroupBox,
             phoneGroupBox,
@@ -41,26 +42,22 @@ namespace WorkWithUser.UserForms
         {
             if (!twoTextBox)
             {
-                userGroupBox = new UserDataGroupBox(
-                Vars.User + ":", 41, 45,
-                Properties.Resources.User, Vars.UserTextL, Vars.NameAndLastName);
+                userGroupBox = new UserGroupBoxes(Vars.User + ":", "userGroupBox", 41, 45,
+                 Properties.Resources.User, Vars.NameAndLastName, Vars.UserTextL);
             }
             else
-            {
-                userGroupBox = new UserDataGroupBox(
-                Vars.User + ":", 41, 45,
-                Properties.Resources.User, Vars.UserTextL, Vars.Name, true, Vars.LastName);
+            {userGroupBox = new UserGroupBoxes(Vars.User + ":", "userGroupBox", 41, 45,
+                Properties.Resources.User, Vars.Name, Vars.UserTextL, Vars.LastName);
                 userGroupBox.Controls["textBox2"].KeyDown += TextBox_KeyDown;
             }
-            (userGroupBox.Controls["textBox"] as TextBox).SelectionStart = 0;
             userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
             Controls.Add(userGroupBox);
         }
         internal void PasswordGroupBox(bool PasswordChar = false)
         {
-            passwordGroupBox = new UserDataGroupBox(
-                Vars.Password + ":", 41, 105,
-                Properties.Resources.Password, Vars.UserTextL, Vars.Password);
+            passwordGroupBox = new UserGroupBoxes(
+                Vars.Password + ":", "passwordGroupBox", 41, 105,
+                Properties.Resources.Password, Vars.Password, Vars.UserTextL);
             if (PasswordChar) 
                 (passwordGroupBox.Controls["textBox"] as TextBox).PasswordChar = '*';
 
@@ -69,17 +66,17 @@ namespace WorkWithUser.UserForms
         }
         internal void EMailGroupBox() 
         {
-            eMailGroupBox = new UserDataGroupBox(
-                Vars.EMail + ":", 41, 165,
-                Properties.Resources.EMail, Vars.UserEMailL, Vars.EMail);
+            eMailGroupBox = new UserGroupBoxes(
+                Vars.EMail + ":", "eMailGroupBox", 41, 165,
+                Properties.Resources.EMail, Vars.EMail, Vars.UserEMailL);
             eMailGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
             Controls.Add(eMailGroupBox);
         }
         internal void PhoneGroupBox()
         {
-            phoneGroupBox = new UserDataGroupBox(
-                Vars.Phone + ":", 41, 225,
-                Properties.Resources.Phone, "+0(000) 000-00-00");
+            phoneGroupBox = new UserGroupBoxes(
+                Vars.Phone + ":", "phoneGroupBox", 41, 225,
+                Properties.Resources.Phone);
             phoneGroupBox.Controls["maskedTextBox"].KeyDown += TextBox_KeyDown;
             Controls.Add(phoneGroupBox);
         }
@@ -87,16 +84,16 @@ namespace WorkWithUser.UserForms
         {
             if (comboBox)
             {
-                groupGroupBox = new UserDataGroupBox(
-                    Vars.Group + ":", 41, 285,
+                groupGroupBox = new UserGroupBoxes(
+                    Vars.Group + ":", "groupGroupBox", 41, 285,
                     Properties.Resources.Group, user.groupList);
                 groupGroupBox.Controls["comboBox"].KeyDown += TextBox_KeyDown;
             }
             else
             {
-                groupGroupBox = new UserDataGroupBox(
-                Vars.EMail + ":", 41, 285,
-                Properties.Resources.Group, Vars.UserEMailL);
+                groupGroupBox = new UserGroupBoxes(
+                Vars.EMail + ":", "groupGroupBox", 41, 285,
+                Properties.Resources.Group, null, Vars.UserEMailL);
                 (groupGroupBox.Controls["textBox"] as TextBox).ReadOnly = true;
             }
             Controls.Add(groupGroupBox);

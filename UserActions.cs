@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using WorkWithUser.MyElements;
 using WorkWithUser.UserForms;
 
 namespace WorkWithUser
@@ -24,7 +25,7 @@ namespace WorkWithUser
             user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
             user.userForm.Controls.Add(user.userForm.mainPanel);
             user.userForm.Refresh();
-            (user.userForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).Focus();
+            (user.userForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).SelectionStart = 0;
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace WorkWithUser
             user.userForm.Controls.Add(user.userForm.mainPanel);
             user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
             user.userForm.Refresh();
-            user.userForm.mainPanel.Controls["userGroupBox2"].Controls["textBox"].Focus();
+            (user.userForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).SelectionStart = 0;
         }
 
         /// <summary>
