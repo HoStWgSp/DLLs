@@ -16,20 +16,20 @@ namespace WorkWithUser.UserForms
         /// </summary>
         /// <param name="user"></param>
         /// <param name="registration"></param>
-        public UserLogInPanel(User user, bool registration) : base(user)
+        public UserLogInPanel(User user, bool registration):
+            base(user, Vars.Authorization, Vars.Enter)
         {
             //this.user = user;
             this.registration = registration;
 
-            Size = new Size(384, 241);
 
-            LoginLabel(Vars.Authorization);
-            UserGroupBox();
-            PasswordGroupBox(true);
-            ErrorLabel();
+            //LoginLabel(Vars.Authorization);
+            //UserGroupBox();
+            //PasswordGroupBox(true);
+            //ErrorLabel();
             errorLabel.Location = new Point(41, 155);
 
-            ButtonBody(Vars.Enter);
+            //ButtonBody(Vars.Enter);
             button.Location = new Point(92, 175);
 
             if (!registration) return;

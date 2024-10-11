@@ -19,6 +19,7 @@ namespace WorkWithUser
 
 
         public static string Add = "Добавить",
+            Administrator = "Является администратором",
             AddNewUser = "Добавление нового пользователя",
             Authorization = "Авторизация",
             Change = "Изменить",

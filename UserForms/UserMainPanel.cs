@@ -18,13 +18,48 @@ namespace WorkWithUser.UserForms
             eMailGroupBox,
             phoneGroupBox,
             groupGroupBox;
+        internal CheckBox adminCheckBox;
         internal Button button;
 
 
-        public UserMainPanel(User user)
+        public UserMainPanel(User user, string labelText, string buttonText)
         {
+            Size = new Size(384, 241);
             this.user = user;
+            LoginLabel(labelText);
+            UserGroupBox(false);
+            PasswordGroupBox(true);
+            ErrorLabel();
+            ButtonBody(buttonText);
         }
+        public UserMainPanel(User user, string labelText, string adminCheckBoxText, string buttonText)
+        {
+            Size = new Size(384, 405);
+            this.user = user;
+            LoginLabel(labelText);
+            UserGroupBox(true);
+            PasswordGroupBox(false);
+            EMailGroupBox();
+            PhoneGroupBox();
+            ErrorLabel();
+            ButtonBody(buttonText);
+
+            if (user.Admin)
+            {
+                GroupGroupBox(true);
+                AdminCheckBox(adminCheckBoxText);
+                adminCheckBox.Location = new Point(groupGroupBox.Location.X + groupGroupBox.Controls["label"].Width + 2,
+                    groupGroupBox.Location.Y + groupGroupBox.Height);
+
+                errorLabel.Location = new Point(errorLabel.Location.X, errorLabel.Location.Y + adminCheckBox.Height);
+                button.Location = new Point(button.Location.X, button.Location.Y + adminCheckBox.Height);
+                Height = Height + adminCheckBox.Height;
+            }
+            else GroupGroupBox(false);
+        }
+
+
+
         internal void LoginLabel(string labelText)
         {
             loginLabel = new Label()
@@ -38,7 +73,7 @@ namespace WorkWithUser.UserForms
             };
             Controls.Add(loginLabel);
         }
-        internal void UserGroupBox(bool twoTextBox = false)
+        internal void UserGroupBox(bool twoTextBox)
         {
             if (!twoTextBox)
             {
@@ -53,7 +88,7 @@ namespace WorkWithUser.UserForms
             userGroupBox.Controls["textBox"].KeyDown += TextBox_KeyDown;
             Controls.Add(userGroupBox);
         }
-        internal void PasswordGroupBox(bool PasswordChar = false)
+        internal void PasswordGroupBox(bool PasswordChar)
         {
             passwordGroupBox = new UserGroupBoxes(
                 Vars.Password + ":", "passwordGroupBox", 41, 105,
@@ -80,7 +115,7 @@ namespace WorkWithUser.UserForms
             phoneGroupBox.Controls["maskedTextBox"].KeyDown += TextBox_KeyDown;
             Controls.Add(phoneGroupBox);
         }
-        internal void GroupGroupBox(bool comboBox = true)
+        internal void GroupGroupBox(bool comboBox)
         {
             if (comboBox)
             {
@@ -98,7 +133,16 @@ namespace WorkWithUser.UserForms
             }
             Controls.Add(groupGroupBox);
         }
-        internal void AdminChecBox() { }
+        internal void AdminCheckBox(string checkBoxText)
+        {
+            adminCheckBox = new CheckBox()
+            {
+                Name = "checkBox",
+                Text = checkBoxText,
+                Width = groupGroupBox.Controls["comboBox"].Width
+            };
+            Controls.Add(adminCheckBox);
+        }
         internal void ErrorLabel()
         {
             errorLabel = new Label()
@@ -235,7 +279,7 @@ namespace WorkWithUser.UserForms
                 (Screen.PrimaryScreen.WorkingArea.Height - user.userForm.Height) / 2);
         }
 
-        internal virtual void Button_Click(object sender, System.EventArgs e) { }
+        internal virtual void Button_Click(object sender, EventArgs e) { }
 
         internal void TextBox_KeyDown(object sender, KeyEventArgs e)
         {

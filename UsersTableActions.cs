@@ -122,10 +122,19 @@ namespace WorkWithUser
                 $"UPDATE {Vars.TableName} SET " +
                 $"{Vars.UserName}=N'{userData[Vars.UserName]}'," +
                 $"{Vars.UserLastName}=N'{userData[Vars.UserLastName]}'," +
-                $"{Vars.UserPassword}=N'{userData[Vars.UserPassword]}'," +
+                //$"{Vars.UserPassword}=N'{userData[Vars.UserPassword]}'," +
                 $"{Vars.UserEMail}=N'{userData[Vars.UserEMail]}'," +
                 $"{Vars.UserPhone}=N'{userData[Vars.UserPhone]}'," +
-                $"{Vars.UserGroup}=N'{userData[Vars.UserGroup]}' " +
+                $"{Vars.UserGroup}=N'{userData[Vars.UserGroup]}'," +
+                $"{Vars.UserAdmin}='{userData[Vars.UserAdmin]}' " +
+                $"WHERE ID={rowId}");
+        }
+
+        internal static bool PasswordChange(User user, int rowId, string newPassword)
+        {
+            return RequestExecuteNonQuery(user.sqlConnection,
+                $"UPDATE {Vars.TableName} SET " +
+                $"{Vars.UserPassword}=N'{newPassword}'" +
                 $"WHERE ID={rowId}");
         }
 
@@ -144,7 +153,8 @@ namespace WorkWithUser
                 { Vars.UserEMail, "" },
                 { Vars.UserPhone, "" },
                 { Vars.UserGroup, "" } ,
-                { Vars.UserPassword, "" }
+                { Vars.UserPassword, "" },
+                { Vars.UserAdmin, "0" }
             };
 
             return Change(user, rowId, UserNull);

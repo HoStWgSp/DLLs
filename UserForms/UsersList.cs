@@ -161,6 +161,7 @@ namespace WorkWithUser.UserForms
                     userData.Add(Vars.UserEMail, row[Vars.UserEMail].ToString());
                     userData.Add(Vars.UserPhone, row[Vars.UserPhone].ToString());
                     userData.Add(Vars.UserGroup, row[Vars.UserGroup].ToString());
+                    userData.Add(Vars.UserAdmin, row[Vars.UserAdmin].ToString());
                 }
             }
             user.UserPersonalData(userData);

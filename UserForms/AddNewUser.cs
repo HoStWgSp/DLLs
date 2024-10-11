@@ -12,21 +12,13 @@ namespace WorkWithUser.UserForms
     {
         User user;
 
-        public AddNewUser(User user ) : base( user)
+        public AddNewUser(User user):
+            base(user, Vars.NewUser, Vars.Administrator, Vars.Add)
         {
             this.user = user;
             Size = new Size(384, 421);
 
             user.userForm.Text = Vars.NewUserData;
-
-            LoginLabel(Vars.NewUser);
-            UserGroupBox(true);
-            PasswordGroupBox();
-            EMailGroupBox();
-            PhoneGroupBox();
-            GroupGroupBox(true);
-            ErrorLabel();
-            ButtonBody(Vars.Add);
         }
 
         internal override void Button_Click(object sender, EventArgs e)
@@ -47,6 +39,14 @@ namespace WorkWithUser.UserForms
                 { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text},
                 { Vars.UserAdmin, "0"}
             };
+
+            if (user.Admin)
+            {
+                if (adminCheckBox.Checked)
+                    newUser.Add(Vars.UserAdmin, "1");
+                else
+                    newUser.Add(Vars.UserAdmin, "");
+            }
 
             if (!UsersTableActions.Add(user, newUser))
             {

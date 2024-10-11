@@ -29,7 +29,8 @@ namespace WorkWithUser.MyElements
                 AutoSize = false,
                 Size = new Size(32, 32),
                 Location = new Point(2, 15),
-                Image = labelImage
+                Image = labelImage,
+                Name = "label"
             };
             Controls.Add(label);
 

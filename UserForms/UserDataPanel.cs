@@ -15,23 +15,11 @@ namespace WorkWithUser.UserForms
         /// Панель для регистрации нового пользователя
         /// </summary>
         /// <param name="user"></param>
-        public UserDataPanel(User user, Dictionary<string, string> userData = null) : base(user)
+        public UserDataPanel(User user, Dictionary<string, string> userData = null):
+            base(user, Vars.UserData, Vars.Administrator, Vars.Change)
         {
             this.user = user;
             this.userData = userData;
-            Size = new Size(384, 421);
-
-            LoginLabel(Vars.UserData);
-            UserGroupBox(true);
-            PasswordGroupBox();
-            EMailGroupBox();
-            PhoneGroupBox();
-            if (user.Admin)
-                GroupGroupBox(true);
-            else
-                GroupGroupBox(false);
-            ErrorLabel();
-            ButtonBody(Vars.Change);
 
             if (userData.Count > 0)
             {
@@ -54,6 +42,8 @@ namespace WorkWithUser.UserForms
                 {
                     groupGroupBox.Controls["comboBox"].ForeColor = SystemColors.WindowText;
                     groupGroupBox.Controls["comboBox"].Text = userData[Vars.UserGroup];
+                    if (userData[Vars.UserAdmin].ToString() == "1")
+                        adminCheckBox.Checked = true;
                 }
                 else
                 {
@@ -81,43 +71,53 @@ namespace WorkWithUser.UserForms
             }
 
             string ugroup;
+            string admin;
             if (user.Admin)
-                ugroup = groupGroupBox.Controls["comboBox"].Text;
-            else
-                ugroup = groupGroupBox.Controls["textBox"].Text;
-
-            if (userData[Vars.UserName] == userGroupBox.Controls["textBox"].Text &&
-                userData[Vars.UserLastName] == userGroupBox.Controls["textBox2"].Text &&
-                passwordGroupBox.Controls["textBox"].Text == "" &&
-                userData[Vars.UserEMail] == eMailGroupBox.Controls["textBox"].Text &&
-                userData[Vars.UserPhone] == phoneGroupBox.Controls["maskedTextBox"].Text &&
-                userData[Vars.UserGroup] == ugroup) return;
-
-            Dictionary<string, string> userNewData = new Dictionary<string, string>()
             {
-                { Vars.UserName, userGroupBox.Controls["textBox"].Text },
-                { Vars.UserLastName, userGroupBox.Controls["textBox2"].Text },
-                { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text },
-                { Vars.UserEMail, eMailGroupBox.Controls["textBox"].Text },
-                { Vars.UserPhone, phoneGroupBox.Controls["maskedTextBox"].Text },
-                { Vars.UserGroup, ugroup }
-            };
+                ugroup = groupGroupBox.Controls["comboBox"].Text;
+                if (adminCheckBox.Checked)
+                    admin = "1";
+                else 
+                    admin = "0";
+            }
+            else
+            {
+                ugroup = groupGroupBox.Controls["textBox"].Text;
+                admin = userData[Vars.UserAdmin];
+            }
 
-            if (!UsersTableActions.Change(user, Convert.ToInt32(userData["Id"]), userNewData))
-                return;
+            bool changed = false;
 
-            user.userForm.Close();
-        }
+            if (userData[Vars.UserName] != userGroupBox.Controls["textBox"].Text ||
+                userData[Vars.UserLastName] != userGroupBox.Controls["textBox2"].Text ||
+                userData[Vars.UserEMail] != eMailGroupBox.Controls["textBox"].Text ||
+                userData[Vars.UserPhone] != phoneGroupBox.Controls["maskedTextBox"].Text ||
+                userData[Vars.UserGroup] != ugroup ||
+                admin != userData[Vars.UserAdmin])
+            {
+                Dictionary<string, string> userNewData = new Dictionary<string, string>()
+                {
+                    { Vars.UserName, userGroupBox.Controls["textBox"].Text },
+                    { Vars.UserLastName, userGroupBox.Controls["textBox2"].Text },
+                    { Vars.UserEMail, eMailGroupBox.Controls["textBox"].Text },
+                    { Vars.UserPhone, phoneGroupBox.Controls["maskedTextBox"].Text },
+                    { Vars.UserGroup, ugroup },
+                    { Vars.UserAdmin, admin }
+                };
 
-        private void AddUser()
-        {
-            
+                if (!UsersTableActions.Change(user, Convert.ToInt32(userData["Id"]), userNewData))
+                    return;
+                changed = true;
+            }
+            if (passwordGroupBox.Controls["textBox"].Text != "")
+            {
+                if (!UsersTableActions.PasswordChange(user, Convert.ToInt32(userData["Id"]), passwordGroupBox.Controls["textBox"].Text))
+                    return;
+                changed = true;
+            }
 
-            
-        }
-        private void ChangeUserData()
-        {
-
+            if (changed)
+                user.userForm.Close();
         }
     }
 }
