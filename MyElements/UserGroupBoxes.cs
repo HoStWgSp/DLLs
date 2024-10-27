@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace WorkWithUser.MyElements
+namespace UserData.MyElements
 {
     internal class UserGroupBoxes : MyGroupBox
     {

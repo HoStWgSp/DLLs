@@ -9,7 +9,7 @@ using System.Data.Common;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace WorkWithUser.UserForms
+namespace UserData.UserForms
 {
     internal class UsersList : DataGridView
     {

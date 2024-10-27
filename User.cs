@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using WorkWithUser.UserForms;
+using UserData.UserForms;
 using System.Windows.Forms;
 using System.Drawing;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
-namespace WorkWithUser
+namespace UserData
 {
     public class User
     {

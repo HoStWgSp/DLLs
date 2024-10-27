@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 
-namespace WorkWithUser
+namespace UserData
 {
     public class StripMenu : ContextMenuStrip
     {

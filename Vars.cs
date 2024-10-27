@@ -1,5 +1,5 @@
 ﻿
-namespace WorkWithUser
+namespace UserData
 {
     internal class Vars
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WorkWithUser.Properties {
+namespace UserData.Properties {
     using System;
     
     

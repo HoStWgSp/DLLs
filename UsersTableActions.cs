@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace WorkWithUser
+namespace UserData
 {
     internal class UsersTableActions
     {

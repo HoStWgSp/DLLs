@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Forms;
 
-namespace WorkWithUser
+namespace UserData
 {
     public class RequestToSQL
     {

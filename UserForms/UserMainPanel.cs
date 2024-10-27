@@ -2,9 +2,9 @@
 using System.Drawing;
 using System;
 using System.Net.Mail;
-using WorkWithUser.MyElements;
+using UserData.MyElements;
 
-namespace WorkWithUser.UserForms
+namespace UserData.UserForms
 {
     public class UserMainPanel : Panel
     {

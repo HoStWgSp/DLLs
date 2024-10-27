@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Data;
 
-namespace WorkWithUser.UserForms
+namespace UserData.UserForms
 {
     internal class UserLogInPanel : UserMainPanel
     {

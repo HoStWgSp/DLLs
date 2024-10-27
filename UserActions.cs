@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using WorkWithUser.MyElements;
-using WorkWithUser.UserForms;
+using UserData.MyElements;
+using UserData.UserForms;
 
-namespace WorkWithUser
+namespace UserData
 {
     internal class UserActions
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 
-namespace WorkWithUser.UserForms
+namespace UserData.UserForms
 {
     internal class UserListForm : Form
     {

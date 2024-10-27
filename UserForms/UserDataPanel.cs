@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Net.Mail;
 
-namespace WorkWithUser.UserForms
+namespace UserData.UserForms
 {
     internal class UserDataPanel : UserMainPanel
     {
@@ -66,8 +66,8 @@ namespace WorkWithUser.UserForms
 
             if (passwordGroupBox.Controls["textBox"].Text != "")
             {
-                AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm(user.formIcon);
-                if (!alertConfirm.Confirmation(Vars.UserPasswordChange, 300, 100)) return;
+                //AlertConfirm.AlertConfirm alertConfirm = new AlertConfirm.AlertConfirm(user.formIcon);
+                //if (!alertConfirm.Confirmation(Vars.UserPasswordChange, 300, 100)) return;
             }
 
             string ugroup;

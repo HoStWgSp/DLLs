@@ -7,8 +7,8 @@
     <ProjectGuid>{1101905F-4491-410C-9E19-84CEB8B5EF30}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WorkWithUser</RootNamespace>
-    <AssemblyName>WorkWithUser</AssemblyName>
+    <RootNamespace>UserData</RootNamespace>
+    <AssemblyName>UserData</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\WorkWithUser.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\UserData.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,16 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlertConfirm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AlertConfirm\bin\Debug\AlertConfirm.dll</HintPath>
-    </Reference>
-    <Reference Include="Fonts">
-      <HintPath>..\Fonts\bin\Debug\Fonts.dll</HintPath>
-    </Reference>
-    <Reference Include="Icons">
-      <HintPath>..\Icons\bin\Debug\Icons.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
