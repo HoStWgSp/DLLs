@@ -123,6 +123,12 @@ namespace DataBase.Connection.MySQL
                 $"Pwd={passwordTextBox.Text}";
 
             MySQLOpenConnection openConnection = new MySQLOpenConnection(dataBase);
+
+            if (dataBase.MySqlConnection == null)
+            {
+                MessageBox.Show("Невозможно подключиться к базе данных. Проверьте введеные данные.");
+                return;
+            }
             dataBase.Close();
         }
     }

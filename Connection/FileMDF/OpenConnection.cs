@@ -30,23 +30,13 @@ namespace DataBase.Connection.FileMDF
         /// После создания объекта доступны 2 переменных.
         /// Connection и ConnectionString.
         /// </summary>
-        public OpenConnection(string connectionString)
+        public OpenConnection(DataBase dataBase)
         {
-            SqlConnection = new SqlConnection(connectionString);
-            try { SqlConnection.Open(); ConnectionString = connectionString; Connection = true; }
+            SqlConnection = new SqlConnection(dataBase.ConStr);
+            try { SqlConnection.Open(); dataBase.SqlConnection = SqlConnection; }
             catch 
-            { 
-                //DataBase conStrCreate = new DataBase(); 
-                //if (conStrCreate.ConStr != "")
-                //{
-                //    Connection = true;
-                //    ConnectionString = conStrCreate.ConStr;
-                //    SqlConnection = conStrCreate.SqlConnection;
-                //}
-                //else
-                //{
-                //    Connection = false;
-                //}
+            {
+                
             }
         }
     }

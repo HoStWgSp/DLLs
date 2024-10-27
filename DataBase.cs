@@ -23,8 +23,9 @@ namespace DataBase
         public SqlConnection SqlConnection {  get; set; }
         public MySqlConnection MySqlConnection { get; set; }
         
-        public DataBase() 
+        public DataBase(Icon icon = null) 
         {
+            Icon = icon;
             Size = new Size(300, 200);
             MinimizeBox = false;
             MaximizeBox = false;
@@ -54,10 +55,11 @@ namespace DataBase
             ShowDialog();
         }
 
-        public DataBase(string connectionString)
+        public DataBase(string connectionString, Icon icon = null)
         {
+            Icon = icon;
             ConStr = connectionString;
-            Connection.FileMDF.OpenConnection openConnection = new Connection.FileMDF.OpenConnection(connectionString);
+            Connection.FileMDF.OpenConnection openConnection = new Connection.FileMDF.OpenConnection(this);
             if (SqlConnection != null) return;
 
             Connection.MySQL.MySQLOpenConnection mySQLOpenConnection = new Connection.MySQL.MySQLOpenConnection(this);
@@ -72,6 +74,30 @@ namespace DataBase
             mainPanel.Location = new Point(0, 30);
             string fdsfa = mainPanel.ConStr;
             Controls.Add(mainPanel);
+        }
+
+
+        /// <summary>
+        /// Проверяет наличие таблицы с определенным именем.
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public bool TableCheck(string tableName)
+        {
+            if (SqlConnection != null)
+                return DBTableCheck.TableCheck(SqlConnection, tableName);
+            else if (MySqlConnection!=null)
+                return DBTableCheck.TableCheck(MySqlConnection, tableName);
+            return false;
+
+        }
+        public bool RequestExecuteNonQuery(string requestString)
+        {
+            if (SqlConnection != null)
+                return RequestToSQL.RequestExecuteNonQuery(requestString, SqlConnection);
+            else if (MySqlConnection != null)
+                return RequestToSQL.RequestExecuteNonQuery(requestString, MySqlConnection);
+            return false;
         }
     }
 }

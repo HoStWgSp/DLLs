@@ -11,10 +11,10 @@ namespace DataBase.Connection.FileMDF
 {
     internal class MDFPanel : MainPanel
     {
-        DataBase conStrCreate;
-        public MDFPanel(DataBase conStrCreate)
+        DataBase dataBase;
+        public MDFPanel(DataBase dataBase)
         {
-            this.conStrCreate = conStrCreate;
+            this.dataBase = dataBase;
             button = new Button();
             button.Location = new Point(10, 10);
             button.Text = "Выберите файл";
@@ -29,18 +29,18 @@ namespace DataBase.Connection.FileMDF
 
             openFileDialog.Filter = "Files(*.mdf)|*.mdf|All files(*.*)|*.*";
             if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
-            string constr = $"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename={openFileDialog.FileName};Integrated Security=True";
+            dataBase.ConStr = $"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename={openFileDialog.FileName};Integrated Security=True";
 
 
-            OpenConnection openConnection = new OpenConnection(constr);
-            if (openConnection.Connection)
+            OpenConnection openConnection = new OpenConnection(dataBase);
+
+            if (dataBase.SqlConnection == null)
             {
-                conStrCreate.ConStr = constr;
-                conStrCreate.SqlConnection = openConnection.SqlConnection;
+                MessageBox.Show("Невозможно подключиться к базе данных. Проверьте правильно ли вы выбрали файл.");
+                return;
             }
-            else { MessageBox.Show("Убедитесь, что выбран правильный файл с базой данных."); return; }
 
-            conStrCreate.Close();
+            dataBase.Close();
         }
     }
 }

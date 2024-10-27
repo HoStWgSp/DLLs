@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace DataBase
 {
@@ -90,15 +91,29 @@ namespace DataBase
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static bool RequestExecuteNonQuery(SqlConnection sqlConnection, string queryString)
+        public static bool RequestExecuteNonQuery(string requestString, SqlConnection sqlConnection)
         {
-            SqlCommand sqlCommand = new SqlCommand(queryString, sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand(requestString, sqlConnection);
             try
             {
                 sqlCommand.ExecuteNonQuery();
                 return true;
             }
             catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+        }
+        public static bool RequestExecuteNonQuery(string requestString, MySqlConnection mySqlConnection)
+        {
+            MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
+            try
+            {
+                mySqlCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e) 
             {
                 MessageBox.Show(e.ToString());
                 return false;

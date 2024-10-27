@@ -20,13 +20,13 @@ namespace DataBase.Connection.MySQL
         /// После создания объекта доступны 2 переменных.
         /// Connection и ConnectionString.
         /// </summary>
-        public MySQLOpenConnection(DataBase conStrCreate)
+        public MySQLOpenConnection(DataBase dataBase)
         {
-            MySqlConnection = new MySqlConnection(conStrCreate.ConStr);
-            try { MySqlConnection.Open(); conStrCreate.MySqlConnection = MySqlConnection; }
+            MySqlConnection = new MySqlConnection(dataBase.ConStr);
+            try { MySqlConnection.Open(); dataBase.MySqlConnection = MySqlConnection; }
             catch 
             {
-                conStrCreate.ConStr = "";
+                
             }
         }
     }

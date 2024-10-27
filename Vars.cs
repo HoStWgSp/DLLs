@@ -16,6 +16,7 @@ namespace DataBase
             MySQL = "MySQL",
             Password ="Пароль",
             Server = "Сервер",
+            TableName = "Users",
             User = "Пользователь";
 
         
