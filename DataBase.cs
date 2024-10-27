@@ -2,28 +2,30 @@
 using System.Drawing;
 using System;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
-namespace WorkWithDB.ConnectionString
+namespace DataBase
 {
     /// <summary>
-    /// ConStrCreate - класс для создания строки подключения. Хранит в ConStr
+    /// ConStrCreate - класс для создания строки подключения. Созданную строку хранит в ConStr
     /// </summary>
-    public class ConStrCreate : Form
+    public class DataBase : Form
     {
-        private MainPanel mainPanel = new MainPanel();
+        private Connection.MainPanel mainPanel;// = new Connection.MainPanel();
         private ComboBox DBcomboBox;
 
-        private string[] DBList = new string[] { Vars.mdfFile, Vars.SQLDB };
+        private string[] DBList = new string[] { Vars.mdfFile, Vars.MySQL };
 
         /// <summary>
         /// Строка подключения к БД
         /// </summary>
         public string ConStr { get; set; } = "";
         public SqlConnection SqlConnection {  get; set; }
+        public MySqlConnection MySqlConnection { get; set; }
         
-        public ConStrCreate() 
+        public DataBase() 
         {
-            Size = new System.Drawing.Size(300, 200);
+            Size = new Size(300, 200);
             MinimizeBox = false;
             MaximizeBox = false;
 
@@ -43,7 +45,7 @@ namespace WorkWithDB.ConnectionString
             DBcomboBox.Items.AddRange(DBList);
             DBcomboBox.SelectedIndexChanged += DBcomboBox_SelectedIndexChanged;
 
-            mainPanel = new MDFPanel(this) { Location = new Point(0, 30) };
+            mainPanel = new Connection.FileMDF.MDFPanel(this) { Location = new Point(0, 30) };
 
             Controls.Add(DBLabel);
             Controls.Add(DBcomboBox);
@@ -51,11 +53,22 @@ namespace WorkWithDB.ConnectionString
 
             ShowDialog();
         }
+
+        public DataBase(string connectionString)
+        {
+            ConStr = connectionString;
+            Connection.FileMDF.OpenConnection openConnection = new Connection.FileMDF.OpenConnection(connectionString);
+            if (SqlConnection != null) return;
+
+            Connection.MySQL.MySQLOpenConnection mySQLOpenConnection = new Connection.MySQL.MySQLOpenConnection(this);
+            if (MySqlConnection != null) return;
+        }
+
         private void DBcomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Controls.Remove(mainPanel);
-            if (DBcomboBox.Text == Vars.mdfFile) { mainPanel = new MDFPanel(this);}
-            if (DBcomboBox.Text == Vars.SQLDB) { mainPanel = new SQLPanel(); }
+            if (DBcomboBox.Text == Vars.mdfFile) { mainPanel = new Connection.FileMDF.MDFPanel(this);}
+            if (DBcomboBox.Text == Vars.MySQL) { mainPanel = new Connection.MySQL.MySQLPanel(this); }
             mainPanel.Location = new Point(0, 30);
             string fdsfa = mainPanel.ConStr;
             Controls.Add(mainPanel);

@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WorkWithDB.ConnectionString;
 
-namespace WorkWithDB
+namespace DataBase.Connection.FileMDF
 {
     public class OpenConnection
     {
@@ -37,17 +36,17 @@ namespace WorkWithDB
             try { SqlConnection.Open(); ConnectionString = connectionString; Connection = true; }
             catch 
             { 
-                ConStrCreate conStrCreate = new ConStrCreate(); 
-                if (conStrCreate.ConStr != "")
-                {
-                    Connection = true;
-                    ConnectionString = conStrCreate.ConStr;
-                    SqlConnection = conStrCreate.SqlConnection;
-                }
-                else
-                {
-                    Connection = false;
-                }
+                //DataBase conStrCreate = new DataBase(); 
+                //if (conStrCreate.ConStr != "")
+                //{
+                //    Connection = true;
+                //    ConnectionString = conStrCreate.ConStr;
+                //    SqlConnection = conStrCreate.SqlConnection;
+                //}
+                //else
+                //{
+                //    Connection = false;
+                //}
             }
         }
     }

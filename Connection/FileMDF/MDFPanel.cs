@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WorkWithDB.ConnectionString
+namespace DataBase.Connection.FileMDF
 {
     internal class MDFPanel : MainPanel
     {
-        ConStrCreate conStrCreate;
-        public MDFPanel(ConStrCreate conStrCreate)
+        DataBase conStrCreate;
+        public MDFPanel(DataBase conStrCreate)
         {
             this.conStrCreate = conStrCreate;
             button = new Button();
@@ -30,6 +30,7 @@ namespace WorkWithDB.ConnectionString
             openFileDialog.Filter = "Files(*.mdf)|*.mdf|All files(*.*)|*.*";
             if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
             string constr = $"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename={openFileDialog.FileName};Integrated Security=True";
+
 
             OpenConnection openConnection = new OpenConnection(constr);
             if (openConnection.Connection)

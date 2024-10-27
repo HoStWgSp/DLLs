@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace WorkWithDB
+namespace DataBase
 {
     public class Fonts
     {

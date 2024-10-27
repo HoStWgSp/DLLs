@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WorkWithDB.ConnectionString
+namespace DataBase.Connection
 {
     internal class MainPanel : Panel
     {

@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace WorkWithDB
+namespace DataBase
 {
     public class DBTableCheck
     {

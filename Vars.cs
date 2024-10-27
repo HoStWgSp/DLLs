@@ -4,12 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkWithDB
+namespace DataBase
 {
     internal class Vars
     {
-        public static string mdfFile = "*.mdf",
-            SQLDB = "SQL",
-            DBLabelText = "База данных:";
+        public static string 
+            DataBaseName = "Имя БД",
+            DBLabelText = "База данных:",
+            GetConnect = "Подключиться",
+            mdfFile = "*.mdf",
+            MySQL = "MySQL",
+            Password ="Пароль",
+            Server = "Сервер",
+            User = "Пользователь";
+
+        
     }
 }
