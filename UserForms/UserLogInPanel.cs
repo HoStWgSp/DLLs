@@ -16,7 +16,7 @@ namespace UserData.UserForms
         /// </summary>
         /// <param name="user"></param>
         /// <param name="registration"></param>
-        public UserLogInPanel(User user, bool registration):
+        public UserLogInPanel(UserData user, bool registration):
             base(user, Vars.Authorization, Vars.Enter)
         {
             //this.user = user;

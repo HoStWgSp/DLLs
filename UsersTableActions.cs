@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataBase;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,21 +10,58 @@ namespace UserData
     internal class UsersTableActions
     {
         /// <summary>
-        /// Проверяет, существует ли таблица в базе данных. Возвращает true, если таблица существует.
+        /// Создает таблицу Users
         /// </summary>
-        internal static bool TableCheck(User user, string tableName)
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+        internal static bool NewTableCreation(DataBase.DataBase dataBase, User user)
         {
-            SqlCommand sqlCommand = new SqlCommand($"SELECT Id FROM {tableName}", user.sqlConnection);
-            try
-            {
-                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-                sqlDataReader.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return dataBase.RequestExecuteNonQuery($"CREATE TABLE [dbo].[{Vars.TableName}]" +
+                $"(" +
+                $"[Id] INT IDENTITY (1, 1) NOT NULL," +
+                $"[{Vars.UserNickName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserPassword}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserAdmin}] CHAR(1) NOT NULL," +
+                $"[{Vars.UserName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserMiddleName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NOT NULL," +
+                $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
+                $"[{Vars.UserAddress}] NVARCHAR({Vars.UserAddressL}) NOT NULL," +
+                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserTextL}) NOT NULL" +
+                $")");
+        }
+
+        /// <summary>
+        /// Добавляет пользователя в таблицу
+        /// </summary>
+        /// <param name="dataBase"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        internal static bool AddNewUser(DataBase.DataBase dataBase, User user)
+        {
+            return dataBase.RequestExecuteNonQuery($"INSERT INTO {Vars.TableName} " +
+                $"({Vars.UserNickName}, " +
+                $"{Vars.UserPassword}, " +
+                $"{Vars.UserAdmin}, " +
+                $"{Vars.UserName}, " +
+                $"{Vars.UserMiddleName}, " +
+                $"{Vars.UserLastName}, " +
+                $"{Vars.UserEMail}, " +
+                $"{Vars.UserPhone}, " +
+                $"{Vars.UserAddress}, " +
+                $"{Vars.UserGroup}" +
+                $") VALUES (" +
+                $"N'{user.UserNickName}', " +
+                $"N'{user.UserPassword}', " +
+                $"N'{user.UserAdmin}', " +
+                $"N'{user.UserName}', " +
+                $"N'{user.UserMiddleName}', " +
+                $"N'{user.UserLastName}', " +
+                $"N'{user.UserEmail}', " +
+                $"N'{user.UserPhoneNumber}', " +
+                $"N'{user.UserAddress}', " +
+                $"N'{user.UserGroup}')");
         }
 
         /// <summary>
@@ -32,9 +70,9 @@ namespace UserData
         /// <param name="table"></param>
         /// <param name="request"></param>
         /// <param name="connectinString"></param>
-        public static DataTable ExecuteReaderToDataTable(User user, string QueryString)
+        public static DataTable ExecuteReaderToDataTable(UserData user, string QueryString)
         {
-            SqlCommand sqlCommand = new SqlCommand(QueryString, user.sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand(QueryString, user.dataBase.SqlConnection);
 
             SqlDataReader dr = sqlCommand.ExecuteReader();
             DataTable dt = new DataTable();
@@ -42,37 +80,8 @@ namespace UserData
             return dt;
         }
 
-        /// <summary>
-        /// Создает таблицу Users
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        internal static bool Creation(User user)
-        {
-            if (!RequestExecuteNonQuery(user.sqlConnection,
-                $"CREATE TABLE [dbo].[" + Vars.TableName + "](" +
-                $"[Id] INT IDENTITY (1, 1) NOT NULL," +
-                $"[{Vars.UserName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserPassword}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NOT NULL," +
-                $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
-                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserAdmin}] CHAR(1) NOT NULL)")) return false;
-
-            Dictionary<string, string> adminUser = new Dictionary<string, string>()
-            {
-                { Vars.UserName, "admin" },
-                { Vars.UserLastName, "" },
-                { Vars.UserEMail, "" },
-                { Vars.UserPhone, "" },
-                { Vars.UserGroup, "" },
-                { Vars.UserPassword, "admin" },
-                { Vars.UserAdmin, "1"}
-            };
-
-            return Add(user, adminUser);
-        }
+        
+        
 
         /// <summary>
         /// Добавляет пользователя в таблицу пользователей.
@@ -80,7 +89,7 @@ namespace UserData
         /// <param name="sqlConnection"></param>
         /// <param name="userData"></param>
         /// <returns></returns>
-        internal static bool Add(User user, Dictionary<string, string> userData)
+        internal static bool Add(UserData user, Dictionary<string, string> userData)
         {
             foreach (DataRow dataRow in user.UsersData.Rows)
             {
@@ -90,7 +99,7 @@ namespace UserData
                     return Change(user, Convert.ToInt32(dataRow["Id"]), userData);
                 }
             }
-            return RequestExecuteNonQuery(user.sqlConnection,
+            return RequestExecuteNonQuery(user.dataBase.SqlConnection,
                 $"INSERT INTO {Vars.TableName} (" +
                 $"{Vars.UserName}, " +
                 $"{Vars.UserLastName}, " +
@@ -116,9 +125,9 @@ namespace UserData
         /// <param name="sqlConnection"></param>
         /// <param name="rowId"></param>
         /// <returns></returns>
-        internal static bool Change(User user, int rowId, Dictionary<string, string> userData)
+        internal static bool Change(UserData user, int rowId, Dictionary<string, string> userData)
         {
-            return RequestExecuteNonQuery(user.sqlConnection,
+            return RequestExecuteNonQuery(user.dataBase.SqlConnection,
                 $"UPDATE {Vars.TableName} SET " +
                 $"{Vars.UserName}=N'{userData[Vars.UserName]}'," +
                 $"{Vars.UserLastName}=N'{userData[Vars.UserLastName]}'," +
@@ -130,9 +139,9 @@ namespace UserData
                 $"WHERE ID={rowId}");
         }
 
-        internal static bool PasswordChange(User user, int rowId, string newPassword)
+        internal static bool PasswordChange(UserData user, int rowId, string newPassword)
         {
-            return RequestExecuteNonQuery(user.sqlConnection,
+            return RequestExecuteNonQuery(user.dataBase.SqlConnection,
                 $"UPDATE {Vars.TableName} SET " +
                 $"{Vars.UserPassword}=N'{newPassword}'" +
                 $"WHERE ID={rowId}");
@@ -144,7 +153,7 @@ namespace UserData
         /// <param name="sqlConnection"></param>
         /// <param name="rowId"></param>
         /// <returns></returns>
-        internal static bool RemoveTableRow(User user, int rowId)
+        internal static bool RemoveTableRow(UserData user, int rowId)
         {
             Dictionary<string, string> UserNull = new Dictionary<string, string>()
             {

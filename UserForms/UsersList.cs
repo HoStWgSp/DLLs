@@ -13,13 +13,13 @@ namespace UserData.UserForms
 {
     internal class UsersList : DataGridView
     {
-        User user;
+        UserData user;
 
         DataGridViewTextBoxColumn id_column, name_column,
             lastname_column, email_column, phone_column, group_column;
         StripMenu stripMenu;
         int rowId;
-        public UsersList(User user)
+        public UsersList(UserData user)
         {
             this.user = user;
 

@@ -8,7 +8,7 @@ namespace UserData.UserForms
 {
     public class UserMainPanel : Panel
     {
-        internal User user;
+        internal UserData user;
 
         internal Label loginLabel,
             errorLabel,
@@ -22,7 +22,7 @@ namespace UserData.UserForms
         internal Button button;
 
 
-        public UserMainPanel(User user, string labelText, string buttonText)
+        public UserMainPanel(UserData user, string labelText, string buttonText)
         {
             Size = new Size(384, 241);
             this.user = user;
@@ -32,7 +32,7 @@ namespace UserData.UserForms
             ErrorLabel();
             ButtonBody(buttonText);
         }
-        public UserMainPanel(User user, string labelText, string adminCheckBoxText, string buttonText)
+        public UserMainPanel(UserData user, string labelText, string adminCheckBoxText, string buttonText)
         {
             Size = new Size(384, 405);
             this.user = user;

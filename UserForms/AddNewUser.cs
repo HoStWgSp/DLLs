@@ -10,9 +10,9 @@ namespace UserData.UserForms
 {
     internal class AddNewUser : UserMainPanel
     {
-        User user;
+        UserData user;
 
-        public AddNewUser(User user):
+        public AddNewUser(UserData user):
             base(user, Vars.NewUser, Vars.Administrator, Vars.Add)
         {
             this.user = user;

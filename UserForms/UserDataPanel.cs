@@ -8,14 +8,14 @@ namespace UserData.UserForms
 {
     internal class UserDataPanel : UserMainPanel
     {
-        User user;
+        UserData user;
         Dictionary<string, string> userData;
 
         /// <summary>
         /// Панель для регистрации нового пользователя
         /// </summary>
         /// <param name="user"></param>
-        public UserDataPanel(User user, Dictionary<string, string> userData = null):
+        public UserDataPanel(UserData user, Dictionary<string, string> userData = null):
             base(user, Vars.UserData, Vars.Administrator, Vars.Change)
         {
             this.user = user;

@@ -17,7 +17,7 @@ namespace UserData
         /// <param name="sqlConnection"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public static void Authorization(User user, bool registration = false)
+        public static void Authorization(UserData user, bool registration = false)
         {
             user.userForm.Text = Vars.Authorization + " " + Vars.User2;
             user.userForm.Controls.Clear();
@@ -33,7 +33,7 @@ namespace UserData
         /// </summary>
         /// <param name="user"></param>
         /// <param name="images"></param>
-        public static void UserData(User user, string action, Dictionary<string, string> userData = null)
+        public static void UserData(UserData user, string action, Dictionary<string, string> userData = null)
         {
             user.userForm.Controls.Clear();
             if (userData == null)
@@ -50,7 +50,7 @@ namespace UserData
         /// Позволяет работать со списком пользователей
         /// </summary>
         /// <param name="user"></param>
-        public static void UserList(User user)
+        public static void UserList(UserData user)
         {
             user.userListForm.Text = Vars.UserList;
             user.userListForm.usersList = new UsersList(user);

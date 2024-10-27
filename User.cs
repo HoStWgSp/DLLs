@@ -1,120 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using UserData.UserForms;
-using System.Windows.Forms;
-using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace UserData
 {
     public class User
     {
-        internal SqlConnection sqlConnection;
-        internal UserForm userForm;
-        internal UserListForm userListForm;
-        internal Icon formIcon;
-        public DataTable UsersData {  get; internal set; }
-        internal string[] groupList;
-        public Dictionary<string, string> NewUserData { get; internal set; }
-        public Dictionary<string, string> UserData { get; internal set; }
+        public int UserId { get; set; }
+        public string UserNickName { get; set; }
+        public string UserPassword { get; set; }
+        public string UserAdmin {  get; set; }
+        public string UserName { get; set; }
+        public string UserMiddleName {  get; set; }
+        public string UserLastName {  get; set; }
+        public string UserEmail { get; set; }
+        public string UserPhoneNumber { get; set; }
+        public string UserAddress {  get; set; }
+        public string UserGroup {  get; set; }
 
-        public bool TableExsist { get; private set; } = true;
-        internal bool Admin { get; set; } = false;
-
-        /// <summary>
-        /// Создает объект Пользователь.
-        /// Проверяет существует ли таблица пользователей.
-        /// Если не существует, то предлагает создать.
-        /// На выходе переменная TableExsist.
-        /// </summary>
-        /// <param name="sqlConnection"></param>
-        public User(SqlConnection sqlConnection, Icon formIcon, List<string> groupList)
-        {
-            this.sqlConnection = sqlConnection;
-            this.formIcon = formIcon;
-            this.groupList = groupList.ToArray();
-            UserData = new Dictionary<string, string>();
-            NewUserData = new Dictionary<string, string>();
-
-            // Проверяет существование таблицы пользователей
-            if (!UsersTableActions.TableCheck(this, Vars.TableName))
-            {
-                // Создание таблицы с пользователями
-                if (!UsersTableActions.Creation(this)) { MessageBox.Show("Не удалось создать таблицу с пользователями."); { TableExsist = false; return; } }
-                else { MessageBox.Show("Таблица Users создана!"); }
-            }
-
-            UsersData = UsersTableActions.ExecuteReaderToDataTable(this,
-                    $"select * from {Vars.TableName}");
-
-            UserAuthorization(true);
-        }
-
-
-        /// <summary>
-        /// Отображает данные авторизованного пользователя
-        /// </summary>
-        public void UserPersonalData()
-        {
-            userForm = new UserForm(formIcon);
-            UserActions.UserData(this, Vars.Change, UserData);
-            userForm.ShowDialog();
-        }
-
-        /// <summary>
-        /// Показывает таблицу со списком валидных пользователей.
-        /// Открывает только админам.
-        /// </summary>
-        public void UserList()
-        {
-            if (!Admin) return;
-            userListForm = new UserListForm(formIcon);
-            UsersData = UsersTableActions.ExecuteReaderToDataTable(this,
-                    $"select * from {Vars.TableName}");
-            UserActions.UserList(this);
-            userListForm.ShowDialog();
-        }
-
-
-
-
-        /// <summary>
-        /// Проверка существование пользователя. Вернет true, если авторизован.
-        /// Если пользователь авторизован, его данные будут храниться в User.UserData
-        /// </summary>
-        /// <param name="registration"></param>
-        /// <returns></returns>
-        internal bool UserAuthorization(bool registration = false)
-        {
-            userForm = new UserForm(formIcon);
-            UserActions.Authorization(this, registration);
-            userForm.ShowDialog();
-            UserData = new Dictionary<string, string>(NewUserData);
-            if (UserData.Count == 0) return false;
-            if (UserData[Vars.UserAdmin] == "1") Admin = true;
-            return true;
-        }
-
-        /// <summary>
-        /// Добавление нового пользователя.
-        /// </summary>
-        /// <returns></returns>
-        internal void NewUser()
-        {
-            userForm = new UserForm(formIcon);
-            UserActions.UserData(this, Vars.Add);
-            userForm.ShowDialog();
-        }
-
-        /// <summary>
-        /// Отображает данные пользователя выбранного админом.
-        /// </summary>
-        /// <param name="userData"></param>
-        internal void UserPersonalData(Dictionary<string, string> userData)
-        {
-            userForm = new UserForm(formIcon);
-            UserActions.UserData(this, Vars.Change, userData);
-            userForm.ShowDialog();
-        }
     }
 }
