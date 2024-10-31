@@ -112,6 +112,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DBTableCheck.cs" />
+    <Compile Include="Interfaces\IDataProcess.cs" />
+    <Compile Include="Interfaces\IDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestToSQL.cs" />
     <Compile Include="Vars.cs" />

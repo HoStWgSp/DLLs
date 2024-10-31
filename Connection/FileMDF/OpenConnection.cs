@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataBase.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -8,23 +9,18 @@ using System.Windows.Forms;
 
 namespace DataBase.Connection.FileMDF
 {
-    public class OpenConnection
+    public class OpenConnection : IDataProvider
     {
         /// <summary>
         /// True - соединение открыто. False - Закрыто.
         /// </summary>
-        public bool Connection {  get; private set; }
-
-        /// <summary>
-        /// Хранит строку подключения к Базе Данных.
-        /// </summary>
-        public string ConnectionString { get; private set; }
+        bool connection { get; set; } = false;
+        bool IDataProvider.Connection { get { return connection; } set { } }
 
         /// <summary>
         /// Объект подключения к Базе Данных.
         /// </summary>
         public SqlConnection SqlConnection {  get; private set; }
-
         /// <summary>
         /// Создает объект соединения с Базой Данных.
         /// После создания объекта доступны 2 переменных.
@@ -33,11 +29,21 @@ namespace DataBase.Connection.FileMDF
         public OpenConnection(DataBase dataBase)
         {
             SqlConnection = new SqlConnection(dataBase.ConStr);
-            try { SqlConnection.Open(); dataBase.SqlConnection = SqlConnection; }
+            try { SqlConnection.Open(); connection = true; }
             catch 
             {
                 
             }
+        }
+
+        public bool TableCheck(string tableName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RequestToDB(string requestString)
+        {
+            throw new NotImplementedException();
         }
     }
 }

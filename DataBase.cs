@@ -3,6 +3,7 @@ using System.Drawing;
 using System;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using DataBase.Interfaces;
 
 namespace DataBase
 {
@@ -23,8 +24,11 @@ namespace DataBase
         public SqlConnection SqlConnection {  get; set; }
         public MySqlConnection MySqlConnection { get; set; }
         
-        public DataBase(Icon icon = null) 
+        public IDataProvider dataProvider { get; set; }
+
+        public DataBase(Icon icon = null)
         {
+            
             Icon = icon;
             Size = new Size(300, 200);
             MinimizeBox = false;
@@ -59,11 +63,11 @@ namespace DataBase
         {
             Icon = icon;
             ConStr = connectionString;
-            Connection.FileMDF.OpenConnection openConnection = new Connection.FileMDF.OpenConnection(this);
-            if (SqlConnection != null) return;
+            dataProvider = new Connection.FileMDF.OpenConnection(this);
+            if (dataProvider.Connection) return;
 
-            Connection.MySQL.MySQLOpenConnection mySQLOpenConnection = new Connection.MySQL.MySQLOpenConnection(this);
-            if (MySqlConnection != null) return;
+            dataProvider = new Connection.MySQL.MySQLOpenConnection(this);
+            if (dataProvider.Connection) return;
         }
 
         private void DBcomboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -84,20 +88,13 @@ namespace DataBase
         /// <returns></returns>
         public bool TableCheck(string tableName)
         {
-            if (SqlConnection != null)
-                return DBTableCheck.TableCheck(SqlConnection, tableName);
-            else if (MySqlConnection!=null)
-                return DBTableCheck.TableCheck(MySqlConnection, tableName);
-            return false;
-
+            return dataProvider.TableCheck(tableName);
         }
         public bool RequestExecuteNonQuery(string requestString)
         {
-            if (SqlConnection != null)
-                return RequestToSQL.RequestExecuteNonQuery(requestString, SqlConnection);
-            else if (MySqlConnection != null)
-                return RequestToSQL.RequestExecuteNonQuery(requestString, MySqlConnection);
-            return false;
+            return dataProvider.RequestToDB(requestString);
         }
+
+        
     }
 }

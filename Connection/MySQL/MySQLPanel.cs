@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataBase.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -11,7 +12,6 @@ namespace DataBase.Connection.MySQL
     internal class MySQLPanel : MainPanel
     {
         DataBase dataBase;
-
 
         Label serverLabel,
             dataBaseLabel,
@@ -122,7 +122,7 @@ namespace DataBase.Connection.MySQL
             dataBase.ConStr = $"Server={serverTextBox.Text}; Database={dataBaseTextBox.Text}; Uid={uidTextBox.Text}; " +
                 $"Pwd={passwordTextBox.Text}";
 
-            MySQLOpenConnection openConnection = new MySQLOpenConnection(dataBase);
+            dataBase.dataProvider = new MySQLOpenConnection(dataBase);
 
             if (dataBase.MySqlConnection == null)
             {
