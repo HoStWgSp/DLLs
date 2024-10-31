@@ -16,20 +16,19 @@ namespace UserData
         /// <returns></returns>
         internal static bool NewTableCreation(DataBase.DataBase dataBase, User user)
         {
-            return dataBase.RequestExecuteNonQuery($"CREATE TABLE [dbo].[{Vars.TableName}]" +
-                $"(" +
-                $"[Id] INT IDENTITY (1, 1) NOT NULL," +
-                $"[{Vars.UserNickName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserPassword}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserAdmin}] CHAR(1) NOT NULL," +
-                $"[{Vars.UserName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserMiddleName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserLastName}] NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                $"[{Vars.UserEMail}] NVARCHAR({Vars.UserEMailL}) NOT NULL," +
-                $"[{Vars.UserPhone}] NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
-                $"[{Vars.UserAddress}] NVARCHAR({Vars.UserAddressL}) NOT NULL," +
-                $"[{Vars.UserGroup}] NVARCHAR({Vars.UserTextL}) NOT NULL" +
-                $")");
+            return dataBase.RequestExecuteNonQuery($"CREATE TABLE mytest.{Vars.TableName} " +
+                $"(Id INT AUTO_INCREMENT NOT NULL ," +
+                $"{Vars.UserNickName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"{Vars.UserPassword} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"{Vars.UserAdmin} CHAR(1) NOT NULL," +
+                $"{Vars.UserName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"{Vars.UserMiddleName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"{Vars.UserLastName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"{Vars.UserEMail} NVARCHAR({Vars.UserEMailL}) NOT NULL," +
+                $"{Vars.UserPhone} NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
+                $"{Vars.UserAddress} NVARCHAR({Vars.UserAddressL}) NOT NULL," +
+                $"{Vars.UserGroup} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                $"primary key (id))");
         }
 
         /// <summary>

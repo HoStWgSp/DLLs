@@ -55,18 +55,18 @@ namespace UserData
                 {
                     MessageBox.Show("Таблица Users создана!");
 
-                    попробовать пустые строки
+                    //попробовать пустые строки
 
-                    User.UserNickName = "a";
+                    User.UserNickName = " ";
                     User.UserPassword = "admin";
                     User.UserAdmin = "1";
                     User.UserName = "admin";
-                    User.UserMiddleName = "a";
-                    User.UserLastName = "a";
-                    User.UserEmail = "a";
-                    User.UserPhoneNumber = "a";
-                    User.UserAddress = "a";
-                    User.UserGroup = "a";
+                    User.UserMiddleName = " ";
+                    User.UserLastName = " ";
+                    User.UserEmail = " ";
+                    User.UserPhoneNumber = " ";
+                    User.UserAddress = " ";
+                    User.UserGroup = " ";
 
                     if (!UsersTableActions.AddNewUser(dataBase, User))
                     {
