@@ -4,32 +4,33 @@ using System;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using DataBase.Interfaces;
+using System.Data;
 
 namespace DataBase
 {
     /// <summary>
     /// ConStrCreate - класс для создания строки подключения. Созданную строку хранит в ConStr
     /// </summary>
-    public class DataBase : Form
+    public class DB : Form
     {
         private Connection.MainPanel mainPanel;// = new Connection.MainPanel();
         private ComboBox DBcomboBox;
 
         private string[] DBList = new string[] { Vars.mdfFile, Vars.MySQL };
 
-        /// <summary>
-        /// Строка подключения к БД
-        /// </summary>
-        public string ConStr { get; set; } = "";
-        public SqlConnection SqlConnection {  get; set; }
-        public MySqlConnection MySqlConnection { get; set; }
         
-        public IDataProvider dataProvider { get; set; }
+        public IDataProvider DataProvider { get; set; }
 
-        public DataBase(Icon icon = null)
+        public DB(Icon icon = null, string connectionString = "")
         {
-            
             Icon = icon;
+            if (connectionString == "")
+                DBStartForm();
+            else
+                ConnectionsCheck(connectionString);
+        }
+        private void DBStartForm()
+        {
             Size = new Size(300, 200);
             MinimizeBox = false;
             MaximizeBox = false;
@@ -58,43 +59,54 @@ namespace DataBase
 
             ShowDialog();
         }
-
-        public DataBase(string connectionString, Icon icon = null)
+        private void ConnectionsCheck(string connectionString)
         {
-            Icon = icon;
-            ConStr = connectionString;
-            dataProvider = new Connection.FileMDF.OpenConnection(this);
-            if (dataProvider.Connection) return;
+            //DataProvider = new Connection.FileMDF.SQLOpenConnection(connectionString);
+            //if (DataProvider.Connection) return;
 
-            dataProvider = new Connection.MySQL.MySQLOpenConnection(this);
-            if (dataProvider.Connection) return;
+            DataProvider = new Connection.MySQL.MySQLOpenConnection(connectionString);
+            if (DataProvider.Connection) return;
         }
-
         private void DBcomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Controls.Remove(mainPanel);
             if (DBcomboBox.Text == Vars.mdfFile) { mainPanel = new Connection.FileMDF.MDFPanel(this);}
             if (DBcomboBox.Text == Vars.MySQL) { mainPanel = new Connection.MySQL.MySQLPanel(this); }
             mainPanel.Location = new Point(0, 30);
-            string fdsfa = mainPanel.ConStr;
+            //string fdsfa = mainPanel.ConStr;
             Controls.Add(mainPanel);
         }
 
 
+
+
+
         /// <summary>
-        /// Проверяет наличие таблицы с определенным именем.
+        /// Проверяет наличие таблицы
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public bool TableCheck(string tableName)
-        {
-            return dataProvider.TableCheck(tableName);
-        }
-        public bool RequestExecuteNonQuery(string requestString)
-        {
-            return dataProvider.RequestToDB(requestString);
-        }
+        public bool TableCheck(string tableName) { return DataProvider.TableCheck(tableName); }
 
-        
+        /// <summary>
+        /// Создает новую таблицу
+        /// </summary>
+        /// <param name="creationString"></param>
+        /// <returns></returns>
+        public bool NewTableCreation(string creationString) { return DataProvider.NewTableCreation(creationString); }
+
+        /// <summary>
+        /// Добавляет новую строку в таблицу
+        /// </summary>
+        /// <param name="requestString"></param>
+        /// <returns></returns>
+        public bool AddTableRow(string requestString) { return DataProvider.AddTableRow(requestString); }
+                
+        /// <summary>
+        /// Читает таблицу из БД и записывает в DataTable
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public DataTable ReadDataTable(string tableName) { return DataProvider.ReadDataTable(tableName); }
     }
 }

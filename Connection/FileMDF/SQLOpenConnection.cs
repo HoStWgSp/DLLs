@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataBase.Interfaces;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -6,40 +8,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DataBase.Connection;
-using DataBase.Interfaces;
-using MySql.Data.MySqlClient;
 
-namespace DataBase.Connection.MySQL
-
+namespace DataBase.Connection.FileMDF
 {
-    public class MySQLOpenConnection : IDataProvider
+    public class SQLOpenConnection : IDataProvider
     {
-        MySqlConnection mySqlConnection;
-
-        bool connection;
+        /// <summary>
+        /// True - соединение открыто. False - Закрыто.
+        /// </summary>
+        bool connection { get; set; } = false;
         bool IDataProvider.Connection { get { return connection; } set { } }
-        string IDataProvider.DataBase { get { return mySqlConnection.Database; } }
 
+        string IDataProvider.DataBase { get { return sqlConnection.Database; } }
+
+        /// <summary>
+        /// Объект подключения к Базе Данных.
+        /// </summary>
+        private SqlConnection sqlConnection;
         /// <summary>
         /// Создает объект соединения с Базой Данных.
         /// После создания объекта доступны 2 переменных.
         /// Connection и ConnectionString.
         /// </summary>
-        public MySQLOpenConnection(string connectionString)
+        public SQLOpenConnection(string connectionString)
         {
-            mySqlConnection = new MySqlConnection(connectionString);
-            try { mySqlConnection.Open(); connection = true; }
-            catch { connection = false; }
+            sqlConnection = new SqlConnection(connectionString);
+            try { sqlConnection.Open(); connection = true; }
+            catch 
+            {
+                
+            }
         }
 
         public bool TableCheck(string tableName)
         {
-            MySqlCommand mySqlCommand = new MySqlCommand($"SELECT Id FROM {tableName}", mySqlConnection);
+            SqlCommand sqlCommand = new SqlCommand($"SELECT Id FROM {tableName}", sqlConnection);
             try
             {
-                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
-                mySqlDataReader.Close();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                sqlDataReader.Close();
                 return true;
             }
             catch
@@ -48,11 +55,12 @@ namespace DataBase.Connection.MySQL
             }
         }
 
+
         public bool NewTableCreation(string creationString) { return ExecuteNonQueryAction(creationString); }
         public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         private bool ExecuteNonQueryAction(string requestString)
         {
-            MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
+            SqlCommand mySqlCommand = new SqlCommand(requestString, sqlConnection);
             try
             {
                 mySqlCommand.ExecuteNonQuery();
@@ -69,18 +77,23 @@ namespace DataBase.Connection.MySQL
 
 
 
+
+
         public DataTable ReadDataTable(string tableName)
         {
-            MySqlCommand mySqlCommand = new MySqlCommand($"select * from {tableName}", mySqlConnection);
-            return ReadFromTable(mySqlCommand);
+            SqlCommand sqlCommand = new SqlCommand($"select * from {tableName}", sqlConnection);
+
+            return ReadFromTable(sqlCommand);
         }
-        private DataTable ReadFromTable(MySqlCommand mySqlCommand)
+
+        private DataTable ReadFromTable(SqlCommand sqlCommand)
         {
-            MySqlDataReader dr = mySqlCommand.ExecuteReader();
+            SqlDataReader dr = sqlCommand.ExecuteReader();
             DataTable dt = new DataTable();
             dt.Load(dr);
             return dt;
         }
 
+        
     }
 }

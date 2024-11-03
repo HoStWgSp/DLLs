@@ -11,7 +11,7 @@ namespace DataBase.Connection.MySQL
 {
     internal class MySQLPanel : MainPanel
     {
-        DataBase dataBase;
+        DB dataBase;
 
         Label serverLabel,
             dataBaseLabel,
@@ -27,7 +27,7 @@ namespace DataBase.Connection.MySQL
             passwordTextBox;
         int textBoxWidth = 160;
 
-        public MySQLPanel(DataBase dataBase)
+        public MySQLPanel(DB dataBase)
         {
             this.dataBase = dataBase;
             //BackColor = Color.Green;
@@ -119,12 +119,12 @@ namespace DataBase.Connection.MySQL
 
         private void Button_Click(object sender, EventArgs e)
         {
-            dataBase.ConStr = $"Server={serverTextBox.Text}; Database={dataBaseTextBox.Text}; Uid={uidTextBox.Text}; " +
+            string connectionString = $"Server={serverTextBox.Text}; Database={dataBaseTextBox.Text}; Uid={uidTextBox.Text}; " +
                 $"Pwd={passwordTextBox.Text}";
 
-            dataBase.dataProvider = new MySQLOpenConnection(dataBase);
+            dataBase.DataProvider = new MySQLOpenConnection(connectionString);
 
-            if (dataBase.MySqlConnection == null)
+            if (!dataBase.DataProvider.Connection)
             {
                 MessageBox.Show("Невозможно подключиться к базе данных. Проверьте введеные данные.");
                 return;

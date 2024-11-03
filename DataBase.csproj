@@ -98,8 +98,8 @@
   <ItemGroup>
     <Compile Include="Connection\MySQL\MySQLOpenConnection.cs" />
     <Compile Include="Fonts.cs" />
-    <Compile Include="Connection\FileMDF\OpenConnection.cs" />
-    <Compile Include="DataBase.cs">
+    <Compile Include="Connection\FileMDF\SQLOpenConnection.cs" />
+    <Compile Include="DB.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Connection\MainPanel.cs">
