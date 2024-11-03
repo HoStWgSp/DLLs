@@ -8,9 +8,8 @@ namespace UserData
 {
     public class User
     {
-        public int UserId { get; set; }
-        public string UserNickName { get; set; }
-        public string UserPassword { get; set; }
+        public int Id { get; set; }
+        public string UserPassword { internal get; set; }
         public string UserAdmin {  get; set; }
         public string UserName { get; set; }
         public string UserMiddleName {  get; set; }
@@ -19,6 +18,5 @@ namespace UserData
         public string UserPhoneNumber { get; set; }
         public string UserAddress {  get; set; }
         public string UserGroup {  get; set; }
-
     }
 }

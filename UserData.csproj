@@ -123,8 +123,27 @@
     <Compile Include="UserForms\AddNewUser.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\UserLogInPanel.cs">
+    <Compile Include="UserForms\AddNewUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\Checks.cs" />
+    <Compile Include="UserForms\Elements\GroupBox2TextBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\GroupBoxComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\GroupBoxMaskedTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\GroupBoxTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\UserDataFormTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PasswordConfirmationForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserForms\UserListForm.cs">
       <SubType>Form</SubType>
@@ -132,7 +151,7 @@
     <Compile Include="UserForms\UserDataPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\UserForm.cs">
+    <Compile Include="UserForms\UserLogInForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -183,6 +202,9 @@
       <Project>{8d0161ae-1e25-4c4b-a891-63b2f3910908}</Project>
       <Name>DataBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Address.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

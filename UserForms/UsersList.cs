@@ -117,7 +117,7 @@ namespace UserData.UserForms
 
         private void Add_Click(object sender, EventArgs e)
         {
-            user.NewUser();
+            //user.NewUser();
             DataSource = null;
             DataSource = ReadValidUsers();
         }
@@ -127,7 +127,7 @@ namespace UserData.UserForms
         }
         private void Delete_Click(object sender, EventArgs e)
         {
-            UsersTableActions.RemoveTableRow(user, rowId);
+            //UsersTableActions.RemoveTableRow(user, rowId);
             DataSource = null;
             DataSource = ReadValidUsers();
         }
@@ -164,7 +164,7 @@ namespace UserData.UserForms
                     userData.Add(Vars.UserAdmin, row[Vars.UserAdmin].ToString());
                 }
             }
-            user.UserPersonalData(userData);
+            //user.UserPersonalData(userData);
             DataSource = null;
             DataSource = ReadValidUsers();
         }
@@ -177,8 +177,8 @@ namespace UserData.UserForms
         }
         internal DataTable ReadValidUsers()
         {
-            user.UsersData = UsersTableActions.ExecuteReaderToDataTable(user,
-                    $"select * from {Vars.TableName}");
+            //user.UsersData = UsersTableActions.ExecuteReaderToDataTable(user,
+                    //$"select * from {Vars.TableName}");
             DataTable table = user.UsersData.Clone();
             foreach (DataRow dataRow in user.UsersData.Rows)
             {

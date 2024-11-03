@@ -15,8 +15,8 @@ namespace UserData.UserForms
         /// Панель для регистрации нового пользователя
         /// </summary>
         /// <param name="user"></param>
-        public UserDataPanel(UserData user, Dictionary<string, string> userData = null):
-            base(user, Vars.UserData, Vars.Administrator, Vars.Change)
+        public UserDataPanel(UserData user, Dictionary<string, string> userData = null)
+            //base(user, Vars.UserData, Vars.Administrator, Vars.Change)
         {
             this.user = user;
             this.userData = userData;
@@ -105,19 +105,19 @@ namespace UserData.UserForms
                     { Vars.UserAdmin, admin }
                 };
 
-                if (!UsersTableActions.Change(user, Convert.ToInt32(userData["Id"]), userNewData))
+                //if (!UsersTableActions.Change(user, Convert.ToInt32(userData["Id"]), userNewData))
                     return;
                 changed = true;
             }
             if (passwordGroupBox.Controls["textBox"].Text != "")
             {
-                if (!UsersTableActions.PasswordChange(user, Convert.ToInt32(userData["Id"]), passwordGroupBox.Controls["textBox"].Text))
+                //if (!UsersTableActions.PasswordChange(user, Convert.ToInt32(userData["Id"]), passwordGroupBox.Controls["textBox"].Text))
                     return;
                 changed = true;
             }
 
-            if (changed)
-                user.userForm.Close();
+            if (changed) { }
+                //user.userForm.Close();
         }
     }
 }

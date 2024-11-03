@@ -12,13 +12,13 @@ namespace UserData.UserForms
     {
         UserData user;
 
-        public AddNewUser(UserData user):
-            base(user, Vars.NewUser, Vars.Administrator, Vars.Add)
+        public AddNewUser(UserData user)
+            //base(user, Vars.NewUser, Vars.Administrator, Vars.Add)
         {
             this.user = user;
             Size = new Size(384, 421);
 
-            user.userForm.Text = Vars.NewUserData;
+            //user.userForm.Text = Vars.NewUserData;
         }
 
         internal override void Button_Click(object sender, EventArgs e)
@@ -48,17 +48,17 @@ namespace UserData.UserForms
                     newUser.Add(Vars.UserAdmin, "");
             }
 
-            if (!UsersTableActions.Add(user, newUser))
-            {
-                errorLabel.Text = Vars.UserNorRegistred;
-                return;
-            }
+            //if (!UsersTableActions.Add(user, newUser))
+            //{
+           //     errorLabel.Text = Vars.UserNorRegistred;
+           //     return;
+            //}
 
             newUser.Remove(Vars.UserPassword);
 
             user.NewUserData = new Dictionary<string, string>(newUser);
 
-            user.userForm.Close();
+            //user.userForm.Close();
         }
     }
 }

@@ -5,6 +5,12 @@ namespace UserData.MyElements
 {
     internal class UserGroupBoxes : MyGroupBox
     {
+
+
+
+
+
+
         public UserGroupBoxes(string groupBoxText, string groupBoxName, int X, int Y, Image labelImage,
             string textBoxWatermarkText, int textBoxMaxLength, string textBox2WatermarkText = "")
             : 

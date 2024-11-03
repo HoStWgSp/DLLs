@@ -8,7 +8,7 @@ namespace UserData.UserForms
 {
     public class UserMainPanel : Panel
     {
-        internal UserData user;
+        internal UserData userData;
 
         internal Label loginLabel,
             errorLabel,
@@ -22,41 +22,41 @@ namespace UserData.UserForms
         internal Button button;
 
 
-        public UserMainPanel(UserData user, string labelText, string buttonText)
-        {
-            Size = new Size(384, 241);
-            this.user = user;
-            LoginLabel(labelText);
-            UserGroupBox(false);
-            PasswordGroupBox(true);
-            ErrorLabel();
-            ButtonBody(buttonText);
-        }
-        public UserMainPanel(UserData user, string labelText, string adminCheckBoxText, string buttonText)
-        {
-            Size = new Size(384, 405);
-            this.user = user;
-            LoginLabel(labelText);
-            UserGroupBox(true);
-            PasswordGroupBox(false);
-            EMailGroupBox();
-            PhoneGroupBox();
-            ErrorLabel();
-            ButtonBody(buttonText);
+        //public UserMainPanel(UserData user, string labelText, string buttonText)
+        //{
+        //    Size = new Size(384, 241);
+        //    this.user = user;
+        //    LoginLabel(labelText);
+        //    UserGroupBox(false);
+        //    PasswordGroupBox(true);
+        //    ErrorLabel();
+        //    ButtonBody(buttonText);
+        //}
+        //public UserMainPanel(UserData user, string labelText, string adminCheckBoxText, string buttonText)
+        //{
+        //    Size = new Size(384, 405);
+        //    this.user = user;
+        //    LoginLabel(labelText);
+        //    UserGroupBox(true);
+        //    PasswordGroupBox(false);
+        //    EMailGroupBox();
+        //    PhoneGroupBox();
+        //    ErrorLabel();
+        //    ButtonBody(buttonText);
 
-            if (user.Admin)
-            {
-                GroupGroupBox(true);
-                AdminCheckBox(adminCheckBoxText);
-                adminCheckBox.Location = new Point(groupGroupBox.Location.X + groupGroupBox.Controls["label"].Width + 2,
-                    groupGroupBox.Location.Y + groupGroupBox.Height);
+        //    if (user.Admin)
+        //    {
+        //        GroupGroupBox(true);
+        //        AdminCheckBox(adminCheckBoxText);
+        //        adminCheckBox.Location = new Point(groupGroupBox.Location.X + groupGroupBox.Controls["label"].Width + 2,
+        //            groupGroupBox.Location.Y + groupGroupBox.Height);
 
-                errorLabel.Location = new Point(errorLabel.Location.X, errorLabel.Location.Y + adminCheckBox.Height);
-                button.Location = new Point(button.Location.X, button.Location.Y + adminCheckBox.Height);
-                Height = Height + adminCheckBox.Height;
-            }
-            else GroupGroupBox(false);
-        }
+        //        errorLabel.Location = new Point(errorLabel.Location.X, errorLabel.Location.Y + adminCheckBox.Height);
+        //        button.Location = new Point(button.Location.X, button.Location.Y + adminCheckBox.Height);
+        //        Height = Height + adminCheckBox.Height;
+        //    }
+        //    else GroupGroupBox(false);
+        //}
 
 
 
@@ -78,10 +78,11 @@ namespace UserData.UserForms
             if (!twoTextBox)
             {
                 userGroupBox = new UserGroupBoxes(Vars.User + ":", "userGroupBox", 41, 45,
-                 Properties.Resources.User, Vars.NameAndLastName, Vars.UserTextL);
+                Properties.Resources.User, Vars.NameAndLastName, Vars.UserTextL);
             }
             else
-            {userGroupBox = new UserGroupBoxes(Vars.User + ":", "userGroupBox", 41, 45,
+            {
+                userGroupBox = new UserGroupBoxes(Vars.User + ":", "userGroupBox", 41, 45,
                 Properties.Resources.User, Vars.Name, Vars.UserTextL, Vars.LastName);
                 userGroupBox.Controls["textBox2"].KeyDown += TextBox_KeyDown;
             }
@@ -121,7 +122,7 @@ namespace UserData.UserForms
             {
                 groupGroupBox = new UserGroupBoxes(
                     Vars.Group + ":", "groupGroupBox", 41, 285,
-                    Properties.Resources.Group, user.groupList);
+                    Properties.Resources.Group, userData.groupsList);
                 groupGroupBox.Controls["comboBox"].KeyDown += TextBox_KeyDown;
             }
             else
@@ -273,10 +274,10 @@ namespace UserData.UserForms
         }
         internal void RegistrationLabel_Click(object sender, System.EventArgs e)
         {
-            UserActions.UserData(user, Vars.Registration);
-            user.userForm.Location = new Point(
-                (Screen.PrimaryScreen.WorkingArea.Width - user.userForm.Width) / 2,
-                (Screen.PrimaryScreen.WorkingArea.Height - user.userForm.Height) / 2);
+            //userData.userActions.UserData(userData, Vars.Registration);
+            //userData.userForm.Location = new Point(
+            //    (Screen.PrimaryScreen.WorkingArea.Width - userData.userForm.Width) / 2,
+            //    (Screen.PrimaryScreen.WorkingArea.Height - userData.userForm.Height) / 2);
         }
 
         internal virtual void Button_Click(object sender, EventArgs e) { }
