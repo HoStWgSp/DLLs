@@ -50,6 +50,7 @@ namespace DataBase.Connection.MySQL
 
         public bool NewTableCreation(string creationString) { return ExecuteNonQueryAction(creationString); }
         public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
+        public bool ChangeTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         private bool ExecuteNonQueryAction(string requestString)
         {
             MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
@@ -60,7 +61,6 @@ namespace DataBase.Connection.MySQL
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
                 return false;
             }
         }
@@ -82,5 +82,6 @@ namespace DataBase.Connection.MySQL
             return dt;
         }
 
+        
     }
 }

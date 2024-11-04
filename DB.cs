@@ -61,8 +61,8 @@ namespace DataBase
         }
         private void ConnectionsCheck(string connectionString)
         {
-            //DataProvider = new Connection.FileMDF.SQLOpenConnection(connectionString);
-            //if (DataProvider.Connection) return;
+            DataProvider = new Connection.FileMDF.SQLOpenConnection(connectionString);
+            if (DataProvider.Connection) return;
 
             DataProvider = new Connection.MySQL.MySQLOpenConnection(connectionString);
             if (DataProvider.Connection) return;
@@ -108,5 +108,12 @@ namespace DataBase
         /// <param name="tableName"></param>
         /// <returns></returns>
         public DataTable ReadDataTable(string tableName) { return DataProvider.ReadDataTable(tableName); }
+
+        /// <summary>
+        /// Заменяет данные в строке
+        /// </summary>
+        /// <param name="requestString"></param>
+        /// <returns></returns>
+        public bool ChangeTableRow(string requestString) { return DataProvider.ChangeTableRow(requestString); }
     }
 }

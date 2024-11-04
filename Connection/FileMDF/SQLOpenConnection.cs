@@ -58,6 +58,7 @@ namespace DataBase.Connection.FileMDF
 
         public bool NewTableCreation(string creationString) { return ExecuteNonQueryAction(creationString); }
         public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
+        public bool ChangeTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         private bool ExecuteNonQueryAction(string requestString)
         {
             SqlCommand mySqlCommand = new SqlCommand(requestString, sqlConnection);
@@ -68,7 +69,6 @@ namespace DataBase.Connection.FileMDF
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
                 return false;
             }
         }

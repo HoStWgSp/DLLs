@@ -44,5 +44,12 @@ namespace DataBase.Interfaces
         /// <param name="tableName"></param>
         /// <returns></returns>
         DataTable ReadDataTable(string tableName);
+
+        /// <summary>
+        /// Заменяет данные в строке
+        /// </summary>
+        /// <param name="requestString"></param>
+        /// <returns></returns>
+        bool ChangeTableRow(string requestString);
     }
 }
