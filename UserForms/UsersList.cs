@@ -150,7 +150,7 @@ namespace UserData.UserForms
             rowId = DataGridViewActions.DataTableRowId(this, e.RowIndex);
 
             Dictionary<string, string> userData = new Dictionary<string, string>();
-            foreach (DataRow row in user.UsersData.Rows)
+            foreach (DataRow row in user.UsersDataTable.Rows)
             {
                 if (Convert.ToInt32(row["Id"]) == rowId)
                 {
@@ -179,8 +179,8 @@ namespace UserData.UserForms
         {
             //user.UsersData = UsersTableActions.ExecuteReaderToDataTable(user,
                     //$"select * from {Vars.TableName}");
-            DataTable table = user.UsersData.Clone();
-            foreach (DataRow dataRow in user.UsersData.Rows)
+            DataTable table = user.UsersDataTable.Clone();
+            foreach (DataRow dataRow in user.UsersDataTable.Rows)
             {
                 if (dataRow[Vars.UserName].ToString() != null && dataRow[Vars.UserName].ToString() != "")
                 {

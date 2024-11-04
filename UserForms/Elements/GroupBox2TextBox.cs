@@ -11,15 +11,15 @@ namespace UserData.UserForms.Elements
     internal class GroupBox2TextBox : GroupBox
     {
         private Label label;
-        public TextBox textBox, textBox2;
-        private string watermarkText, watermark2Text;
-        private bool textBoxWatermarkTextKeyPressed = false;
+        public TextBox textBox1, textBox2;
+        private string watermark1Text, watermark2Text;
+        private bool textBox1WatermarkTextKeyPressed = false;
         private bool textBox2WatermarkTextKeyReleased = false;
 
         public GroupBox2TextBox(string groupBoxText, Image image, int X, int Y,
-            string textBoxWatermarkText, string textBox2WatermarkText, int textBoxMaxLength)
+            string textBox1WatermarkText, string textBox2WatermarkText, int textBoxMaxLength)
         {
-            watermarkText = textBoxWatermarkText;
+            watermark1Text = textBox1WatermarkText;
             watermark2Text = textBox2WatermarkText;
 
             ClientSize = new Size(303, 50);
@@ -37,19 +37,19 @@ namespace UserData.UserForms.Elements
             };
             Controls.Add(label);
 
-            textBox = new TextBox()
+            textBox1 = new TextBox()
             {
                 Name = "textBox",
                 Font = new Font("Calibri", 15, FontStyle.Regular),
-                Text = textBoxWatermarkText,
+                Text = textBox1WatermarkText,
                 MaxLength = textBoxMaxLength,
                 Width = 133,
                 Location = new Point(34, 15),
                 ForeColor = SystemColors.GrayText
             };
-            Controls.Add(textBox);
-            textBox.KeyPress += TextBox_KeyPress;
-            textBox.LostFocus += TextBox_LostFocus;
+            Controls.Add(textBox1);
+            textBox1.KeyPress += TextBox_KeyPress;
+            textBox1.LostFocus += TextBox_LostFocus;
 
             textBox2 = new TextBox()
             {
@@ -67,11 +67,11 @@ namespace UserData.UserForms.Elements
         }
         internal void TextBox_LostFocus(object sender, EventArgs e)
         {
-            if (textBox.Text == "")
+            if (textBox1.Text == "")
             {
-                textBox.ForeColor = SystemColors.GrayText;
-                textBox.Text = watermarkText;
-                textBoxWatermarkTextKeyPressed = false;
+                textBox1.ForeColor = SystemColors.GrayText;
+                textBox1.Text = watermark1Text;
+                textBox1WatermarkTextKeyPressed = false;
             }
         }
         internal void TextBox2_LostFocus(object sender, EventArgs e)
@@ -85,17 +85,17 @@ namespace UserData.UserForms.Elements
         }
         internal void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            textBox.ForeColor = SystemColors.WindowText;
-            if (textBox.Text == watermarkText && !textBoxWatermarkTextKeyPressed)
+            textBox1.ForeColor = SystemColors.WindowText;
+            if (textBox1.Text == watermark1Text && !textBox1WatermarkTextKeyPressed)
             {
-                textBox.Text = "";
-                textBoxWatermarkTextKeyPressed = true;
+                textBox1.Text = "";
+                textBox1WatermarkTextKeyPressed = true;
             }
-            if (e.KeyChar.ToString() == "\b" && textBox.Text.Length == 1)
+            if (e.KeyChar.ToString() == "\b" && textBox1.Text.Length == 1)
             {
-                textBox.ForeColor = SystemColors.GrayText;
-                textBox.Text = watermarkText;
-                textBoxWatermarkTextKeyPressed = false;
+                textBox1.ForeColor = SystemColors.GrayText;
+                textBox1.Text = watermark1Text;
+                textBox1WatermarkTextKeyPressed = false;
             }
         }
         internal void TextBox2_KeyPress(object sender, KeyPressEventArgs e)

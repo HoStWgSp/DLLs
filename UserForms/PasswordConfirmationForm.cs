@@ -82,7 +82,8 @@ namespace UserData.UserForms
 
             ClientSize = new Size(panel.Width, panel.Height);
 
-            password1.textBox.SelectionStart = 0;
+            ActiveControl = password2.textBox;
+            password2.textBox.SelectionStart = 0;
 
             ShowDialog();
         }

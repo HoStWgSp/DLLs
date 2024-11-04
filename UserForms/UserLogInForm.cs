@@ -119,7 +119,7 @@ namespace UserData.UserForms
         public DataRow Aauthorization()
         {
             // Проверка существования пользователя            
-            foreach (DataRow row in UD.UsersData.Rows)
+            foreach (DataRow row in UD.UsersDataTable.Rows)
             {
                 if (row[Vars.UserName].ToString() == nameGroupBox.textBox.Text ||
                     (row[Vars.UserName].ToString() + " " + row[Vars.UserLastName].ToString()) == nameGroupBox.textBox.Text ||

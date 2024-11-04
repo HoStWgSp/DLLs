@@ -13,21 +13,25 @@ namespace UserData.UserForms.Elements
     internal class UserDataFormTemplate : Form
     {
         string[] groupsList {  get; set; }
+        Icon formIcon;
+        internal bool Admin {  get; private set; }
 
-        private Panel panel;
+        internal Panel panel;
 
         internal Label loginLabel,
             errorLabel;
         internal GroupBox2TextBox nameGroupBox;
         internal GroupBoxTextBox lastNameGroupBox, passwordGroupBox, eMailGroupBox, addressGroupBox;
         internal GroupBoxMaskedTextBox phoneNumberGroupBox;
-        internal GroupBoxComboBox groupsGroupBox;
+        public GroupBoxComboBox groupsGroupBox;
         internal CheckBox adminCheckBox;
         internal Button button;
 
-        public UserDataFormTemplate (Icon formIcon, string[] groupsList, string labelText, string buttonText, bool addAdmin)
+        public UserDataFormTemplate (Icon formIcon, string[] groupsList, string labelText, string buttonText, bool admin)
         {
+            this.formIcon = formIcon;
             this.groupsList = groupsList;
+            Admin = admin;
             Icon = formIcon;
             StartPosition = FormStartPosition.CenterParent;
             AutoSize = false;
@@ -63,7 +67,6 @@ namespace UserData.UserForms.Elements
 
             groupsGroupBox = new GroupBoxComboBox(Vars.Group, Properties.Resources.Group, 41, 405,
                 groupsList);
-            groupsGroupBox.comboBox.Enabled = false;
 
             adminCheckBox = new CheckBox()
             {
@@ -96,7 +99,7 @@ namespace UserData.UserForms.Elements
             panel = new Panel();
             panel.Size = new Size(384, 485);
 
-            if (addAdmin)
+            if (admin)
             {
                 panel.Controls.Add(groupsGroupBox);
                 panel.Controls.Add(adminCheckBox);
@@ -106,8 +109,6 @@ namespace UserData.UserForms.Elements
                 errorLabel.Location = new Point(41, 479);
                 button.Location = new Point(92, 499);
                 panel.Height = 569;
-
-                groupsGroupBox.comboBox.Enabled = true;
             }
 
             panel.Controls.Add(loginLabel);
@@ -124,7 +125,7 @@ namespace UserData.UserForms.Elements
 
             ClientSize = new Size(panel.Width, panel.Height);
 
-            nameGroupBox.textBox.KeyDown += TextBox_KeyDown;
+            nameGroupBox.textBox1.KeyDown += TextBox_KeyDown;
             nameGroupBox.textBox2.KeyDown += TextBox_KeyDown;
             lastNameGroupBox.textBox.KeyDown += TextBox_KeyDown;
             passwordGroupBox.textBox.KeyDown += TextBox_KeyDown;
@@ -133,7 +134,8 @@ namespace UserData.UserForms.Elements
             addressGroupBox.textBox.KeyDown += TextBox_KeyDown;
             groupsGroupBox.comboBox.KeyDown += TextBox_KeyDown;
 
-            nameGroupBox.textBox.SelectionStart = 0;
+            ActiveControl = nameGroupBox.textBox1;
+            nameGroupBox.textBox1.SelectionStart = 0;
         }
         internal void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -145,13 +147,14 @@ namespace UserData.UserForms.Elements
         }
         internal bool TextBoxesEmptyOrWaterMarked()
         {
-            if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox, errorLabel, Vars.Name, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return true;
+            if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox1, errorLabel, Vars.Name, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return true;
             if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox2, errorLabel, Vars.MiddleName, Vars.TextBoxEmpty + " " + Vars.MiddleName + "!")) return true;
             if (Checks.TextBoxEmptyOrWaterMarked(lastNameGroupBox.textBox,errorLabel, Vars.LastName, Vars.TextBoxEmpty + " " + Vars.LastName + "!")) return true;
             if (PhoneMaskedTextBoxOrNotCompleted()) return true;
             if (EMailTextBoxEmptyOrWaterMarked()) return true;
             if (Checks.TextBoxEmptyOrWaterMarked(addressGroupBox.textBox, errorLabel, Vars.Address, Vars.TextBoxEmpty + " " + Vars.Address + "!")) return true;
-            if (GroupComboBoxNotSelected()) return true;
+            if (Admin)
+                if (GroupComboBoxNotSelected()) return true;
             errorLabel.Text = "";
             return false;
         }

@@ -1,51 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using UserData.MyElements;
 using UserData.UserForms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace UserData
 {
     internal class UserActions
     {
-        internal UserData UD { get; set; }
-
-        public UserActions (UserData userData)
+        UserData UserData { get; set; }
+        public UserActions(UserData userData)
         {
-            UD = userData;
+            UserData = userData;
         }
 
-
-        /// <summary>
-        /// Добавляет нового пользователя и возвращает его данные.
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="images"></param>
-        internal void UserData(UserData user, string action, Dictionary<string, string> userData = null)
+        public User UserFromTable(int userId)
         {
-            //user.userForm.Controls.Clear();
-            //if (userData == null)
-            //    user.userForm.mainPanel = new AddNewUser(user);
-            //else
-            //    user.userForm.mainPanel = new UserDataPanel(user, userData);
-            //user.userForm.Controls.Add(user.userForm.mainPanel);
-            //user.userForm.ClientSize = new Size(user.userForm.mainPanel.Width, user.userForm.mainPanel.Height);
-            //user.userForm.Refresh();
-            //(user.userForm.mainPanel.Controls["userGroupBox"].Controls["textBox"] as TextBox).SelectionStart = 0;
-        }
-
-        /// <summary>
-        /// Позволяет работать со списком пользователей
-        /// </summary>
-        /// <param name="user"></param>
-        internal void UserList(UserData user)
-        {
-            user.userListForm.Text = Vars.UserList;
-            user.userListForm.usersList = new UsersList(user);
-            user.userListForm.Controls.Add(user.userListForm.usersList);
-            //user.userListForm.Refresh();
+            foreach (DataRow row in UserData.UsersDataTable.Rows)
+            {
+                if (Convert.ToInt32(row[0]) == userId)
+                {
+                    return new User()
+                    {
+                        Id = Convert.ToInt32(row[nameof(User.Id)]),
+                        UserAdmin = row[nameof(User.UserAdmin)].ToString(),
+                        UserName = row[nameof(User.UserName)].ToString(),
+                        UserMiddleName = row[nameof(User.UserMiddleName)].ToString(),
+                        UserLastName = row[nameof(User.UserLastName)].ToString(),
+                        UserEmail = row[nameof(User.UserEmail)].ToString(),
+                        UserPhoneNumber = row[nameof(User.UserPhoneNumber)].ToString(),
+                        UserAddress = row[nameof(User.UserAddress)].ToString(),
+                        UserGroup = row[nameof(User.UserGroup)].ToString()
+                    };
+                }
+            }
+            return null;
         }
     }
 }

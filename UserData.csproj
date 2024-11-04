@@ -100,16 +100,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataGridViewActions.cs" />
-    <Compile Include="DataProcessor.cs" />
-    <Compile Include="Interfaces\IDataProcessor.cs" />
-    <Compile Include="Interfaces\IDataProvider.cs" />
     <Compile Include="MyElements\MyGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MyElements\UserGroupBoxes.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MySQLProvider\MySQLProvider.cs" />
+    <Compile Include="PasswordHash.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -143,6 +140,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserForms\PasswordConfirmationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\UserDataForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserForms\UserListForm.cs">

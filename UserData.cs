@@ -7,6 +7,7 @@ using System.Drawing;
 using MySql.Data.MySqlClient;
 using DataBase;
 using UserData.UserForms.Elements;
+using System;
 
 namespace UserData
 {
@@ -14,11 +15,11 @@ namespace UserData
     {
         public DB DataBase;
 
-        public DataTable UsersData { get; internal set; }
+        public DataTable UsersDataTable { get; internal set; }
         public User User { get; set; } = new User();
 
-        internal UsersTableActions usersTableActions;
-        internal UserActions userActions;
+        internal UsersTableActions UsersTableActions { get; private set; }
+        internal UserActions UserActions { get; private set; }
 
         internal UserListForm userListForm;
 
@@ -44,14 +45,14 @@ namespace UserData
         public UserData(string connectionString)
         {
             DataBase = new DB(formIcon, connectionString);
-            usersTableActions = new UsersTableActions(DataBase);
-            userActions = new UserActions(this);
+            UsersTableActions = new UsersTableActions(DataBase);
+            UserActions = new UserActions(this);
         }
         public UserData(DB dataBase)
         {
             DataBase = dataBase;
-            usersTableActions = new UsersTableActions(DataBase);
-            userActions = new UserActions(this);
+            UsersTableActions = new UsersTableActions(DataBase);
+            UserActions = new UserActions(this);
 
             //UsersccData = new Dictionary<string, string>();
             //NewUserData = new Dictionary<string, string>();
@@ -65,13 +66,13 @@ namespace UserData
         /// Проверяет существование таблицы
         /// </summary>
         /// <returns></returns>
-        public bool UsersTableAvailability() { return usersTableActions.UsersTableAvailabilityCheck(); }
+        public bool UsersTableAvailability() { return UsersTableActions.UsersTableAvailabilityCheck(); }
 
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
         /// <returns></returns>
-        public bool CreateNewUsersTable() { return usersTableActions.NewTableCreation(); }
+        public bool CreateNewUsersTable() { return UsersTableActions.NewTableCreation(); }
 
 
 
@@ -83,7 +84,7 @@ namespace UserData
         /// <returns></returns>
         public bool UserAuthorization()
         {
-            UsersData = usersTableActions.ReadUsersDataTable();
+            UsersDataTable = UsersTableActions.ReadUsersDataTable();
             UserLogInForm userLogInForm = new UserLogInForm(this);
             return userLogInForm.Authorized;
         }
@@ -94,9 +95,17 @@ namespace UserData
         /// <returns></returns>
         public bool AddNewUser(bool admin = false)
         {
-            UsersData = usersTableActions.ReadUsersDataTable();
-            AddNewUserForm newUserForm = new AddNewUserForm(this, Vars.NewUser, Vars.Add, admin);
-            return true;
+            UsersDataTable = UsersTableActions.ReadUsersDataTable();
+            AddNewUserForm newUserForm = new AddNewUserForm(this, admin);
+            return newUserForm.UserAdded;
+        }
+
+        public bool Userinfo(int userId, bool admin = false)
+        {
+            UsersDataTable = UsersTableActions.ReadUsersDataTable();
+            User user = UserActions.UserFromTable(userId);
+            UserDataForm userDataForm = new UserDataForm(this, user, admin);
+            return userDataForm.UserDataChanged;
         }
 
 

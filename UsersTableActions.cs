@@ -104,7 +104,51 @@ namespace UserData
                 $")");
         }
 
+        /// <summary>
+        /// Читает таблицу Users в DataTable
+        /// </summary>
+        /// <returns></returns>
         internal DataTable ReadUsersDataTable() { return DataBase.ReadDataTable(Vars.TableName); }
+
+        /// <summary>
+        /// Заменяет данные в строке
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="rowId"></param>
+        /// <param name="userData"></param>
+        /// <returns></returns>
+        internal bool ChangeUserData(User user)
+        {
+            return DataBase.ChangeTableRow($"UPDATE {Vars.TableName} SET " +
+                $"{nameof(user.UserPassword)}=N'{user.UserPassword}'," +
+                $"{nameof(user.UserAdmin)}=N'{user.UserAdmin}'," +
+                $"{nameof(user.UserName)}=N'{user.UserName}'," +
+                $"{nameof(user.UserMiddleName)}=N'{user.UserMiddleName}'," +
+                $"{nameof(user.UserLastName)}=N'{user.UserLastName}'," +
+                $"{nameof(user.UserEmail)}=N'{user.UserEmail}'," +
+                $"{nameof(user.UserPhoneNumber)}=N'{user.UserPhoneNumber}'," +
+                $"{nameof(user.UserAddress)}=N'{user.UserAddress}'," +
+                $"{nameof(user.UserGroup)}='{user.UserGroup}' " +
+                $"WHERE ID={user.Id}");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         ///// <summary>
@@ -162,25 +206,7 @@ namespace UserData
         //        );
         //}
 
-        ///// <summary>
-        ///// Заменяет данные в строке
-        ///// </summary>
-        ///// <param name="sqlConnection"></param>
-        ///// <param name="rowId"></param>
-        ///// <returns></returns>
-        //internal static bool Change(UserData user, int rowId, Dictionary<string, string> userData)
-        //{
-        //    return RequestExecuteNonQuery(user.dataBase.SqlConnection,
-        //        $"UPDATE {Vars.TableName} SET " +
-        //        $"{Vars.UserName}=N'{userData[Vars.UserName]}'," +
-        //        $"{Vars.UserLastName}=N'{userData[Vars.UserLastName]}'," +
-        //        //$"{Vars.UserPassword}=N'{userData[Vars.UserPassword]}'," +
-        //        $"{Vars.UserEMail}=N'{userData[Vars.UserEMail]}'," +
-        //        $"{Vars.UserPhone}=N'{userData[Vars.UserPhone]}'," +
-        //        $"{Vars.UserGroup}=N'{userData[Vars.UserGroup]}'," +
-        //        $"{Vars.UserAdmin}='{userData[Vars.UserAdmin]}' " +
-        //        $"WHERE ID={rowId}");
-        //}
+
 
         //internal static bool PasswordChange(UserData user, int rowId, string newPassword)
         //{

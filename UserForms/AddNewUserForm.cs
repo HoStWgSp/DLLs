@@ -11,12 +11,11 @@ namespace UserData.UserForms
     internal class AddNewUserForm : UserDataFormTemplate
     {
         private UserData UserData { get; set; }
-
-        private bool passwordChanged = false, passwordConfirmed = false;
+        public bool UserAdded { get; private set; } = false;
         private string password;
 
-        public AddNewUserForm(UserData userData, string labelText, string buttonText, bool addAdmin = false):
-            base(userData.formIcon, userData.groupsList, labelText, buttonText, addAdmin)
+        public AddNewUserForm(UserData userData, bool addAdmin = false):
+            base(userData.formIcon, userData.groupsList, Vars.NewUser, Vars.Add, addAdmin)
         {
             UserData = userData;
             ShowDialog();
@@ -46,7 +45,8 @@ namespace UserData.UserForms
 
             User newUser = new User()
             {
-                UserName = nameGroupBox.textBox.Text,
+                UserPassword = PasswordHash.HashCode(passwordGroupBox.textBox.Text),
+                UserName = nameGroupBox.textBox1.Text,
                 UserMiddleName = nameGroupBox.textBox2.Text,
                 UserLastName = lastNameGroupBox.textBox.Text,
                 UserAddress = addressGroupBox.textBox.Text,
@@ -55,11 +55,12 @@ namespace UserData.UserForms
                 UserPhoneNumber = phoneNumberGroupBox.maskedTextBox.Text
             };
 
-            newUser.UserPassword = passwordGroupBox.textBox.Text;
             if (adminCheckBox.Checked) newUser.UserAdmin = "1";
             else newUser.UserAdmin = "0";
 
-            if (!UserData.usersTableActions.AddNewUser(newUser)) return;
+            if (!UserData.UsersTableActions.AddNewUser(newUser)) return;
+
+            UserAdded = true;
 
             Close();
         }
