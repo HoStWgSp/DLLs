@@ -65,6 +65,13 @@ namespace UserData.UserForms.Elements
                 groupsList);
             groupsGroupBox.comboBox.Enabled = false;
 
+            adminCheckBox = new CheckBox()
+            {
+                Name = "checkBox",
+                Text = Vars.Administrator,
+                Width = groupsGroupBox.comboBox.Width
+            };
+
             errorLabel = new Label()
             {
                 AutoSize = false,
@@ -73,7 +80,7 @@ namespace UserData.UserForms.Elements
                 Font = new Font("Calibri", 8, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 ForeColor = Color.Red,
-                Location = new Point(41, 455)
+                Location = new Point(41, 395)
             };
 
             button = new Button()
@@ -82,30 +89,23 @@ namespace UserData.UserForms.Elements
                 Size = new Size(200, 40),
                 Text = buttonText,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Location = new Point(92, 475)
+                Location = new Point(92, 415)
             };
             button.Click += Button_Click;
 
             panel = new Panel();
-            panel.Size = new Size(384, 545);
+            panel.Size = new Size(384, 485);
 
             if (addAdmin)
             {
-                adminCheckBox = new CheckBox()
-                {
-                    Name = "checkBox",
-                    Text = Vars.Administrator,
-                    Width = groupsGroupBox.comboBox.Width
-                };
-                Controls.Add(adminCheckBox);
+                panel.Controls.Add(groupsGroupBox);
+                panel.Controls.Add(adminCheckBox);
 
+                adminCheckBox.Location = new Point(75, 455);
 
-                adminCheckBox.Location = new Point(groupsGroupBox.Location.X + groupsGroupBox.Controls["label"].Width + 2,
-                    groupsGroupBox.Location.Y + groupsGroupBox.Height);
-
-                errorLabel.Location = new Point(errorLabel.Location.X, errorLabel.Location.Y + adminCheckBox.Height);
-                button.Location = new Point(button.Location.X, button.Location.Y + adminCheckBox.Height);
-                panel.Height = panel.Height + adminCheckBox.Height;
+                errorLabel.Location = new Point(41, 479);
+                button.Location = new Point(92, 499);
+                panel.Height = 569;
 
                 groupsGroupBox.comboBox.Enabled = true;
             }
@@ -117,7 +117,6 @@ namespace UserData.UserForms.Elements
             panel.Controls.Add(phoneNumberGroupBox);
             panel.Controls.Add(eMailGroupBox);
             panel.Controls.Add(addressGroupBox);
-            panel.Controls.Add(groupsGroupBox);
             panel.Controls.Add(errorLabel);
             panel.Controls.Add(button);
 
@@ -144,34 +143,34 @@ namespace UserData.UserForms.Elements
                 button.PerformClick();
             }
         }
-        internal bool TextBoxesNotEmptyOrWaterMarked()
+        internal bool TextBoxesEmptyOrWaterMarked()
         {
-            if (!Checks.TextBoxNotEmptyOrWaterMarked(nameGroupBox.textBox, errorLabel, Vars.Name, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return false;
-            if (!Checks.TextBoxNotEmptyOrWaterMarked(nameGroupBox.textBox2, errorLabel, Vars.MiddleName, Vars.TextBoxEmpty + " " + Vars.MiddleName + "!")) return false;
-            if (!Checks.TextBoxNotEmptyOrWaterMarked(lastNameGroupBox.textBox,errorLabel, Vars.LastName, Vars.TextBoxEmpty + " " + Vars.LastName + "!")) return false;
-            if (!PhoneMaskedTextBoxOK()) return false;
-            if (!EMailTextBoxOK()) return false;
-            if (!Checks.TextBoxNotEmptyOrWaterMarked(addressGroupBox.textBox, errorLabel, Vars.Address, Vars.TextBoxEmpty + " " + Vars.Address + "!")) return false;
-            if (!GroupComboBoxOK()) return false;
+            if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox, errorLabel, Vars.Name, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return true;
+            if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox2, errorLabel, Vars.MiddleName, Vars.TextBoxEmpty + " " + Vars.MiddleName + "!")) return true;
+            if (Checks.TextBoxEmptyOrWaterMarked(lastNameGroupBox.textBox,errorLabel, Vars.LastName, Vars.TextBoxEmpty + " " + Vars.LastName + "!")) return true;
+            if (PhoneMaskedTextBoxOrNotCompleted()) return true;
+            if (EMailTextBoxEmptyOrWaterMarked()) return true;
+            if (Checks.TextBoxEmptyOrWaterMarked(addressGroupBox.textBox, errorLabel, Vars.Address, Vars.TextBoxEmpty + " " + Vars.Address + "!")) return true;
+            if (GroupComboBoxNotSelected()) return true;
             errorLabel.Text = "";
-            return true;
-        }
-        private bool PhoneMaskedTextBoxOK()
-        {
-            if (phoneNumberGroupBox.maskedTextBox.MaskCompleted &&
-                phoneNumberGroupBox.maskedTextBox.Text != "+ (   )    -  -") return true;
-            phoneNumberGroupBox.maskedTextBox.ForeColor = Color.Red;
-            errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Phone + "!";
             return false;
         }
-        private bool EMailTextBoxOK()
+        private bool PhoneMaskedTextBoxOrNotCompleted()
+        {
+            if (phoneNumberGroupBox.maskedTextBox.MaskCompleted &&
+                phoneNumberGroupBox.maskedTextBox.Text != "+ (   )    -  -") return false;
+            phoneNumberGroupBox.maskedTextBox.ForeColor = Color.Red;
+            errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Phone + "!";
+            return true;
+        }
+        private bool EMailTextBoxEmptyOrWaterMarked()
         {
             if (eMailGroupBox.textBox.Text == Vars.EMail ||
                 eMailGroupBox.textBox.Text == "")
             {
                 eMailGroupBox.textBox.ForeColor = Color.Red;
                 errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.EMail + "!";
-                return false;
+                return true;
             }
             else
             {
@@ -183,17 +182,18 @@ namespace UserData.UserForms.Elements
                 {
                     eMailGroupBox.textBox.ForeColor = Color.Red;
                     errorLabel.Text = Vars.EmailIncorrect + "!";
-                    return false;
+                    return true;
                 }
             }
-            return true;
-        }
-        private bool GroupComboBoxOK()
-        {
-            if (groupsGroupBox.comboBox.Text != "" &&
-                groupsGroupBox.comboBox.Text != null) return true;
-            errorLabel.Text = Vars.GroupNotChoosen;
             return false;
+        }
+        private bool GroupComboBoxNotSelected()
+        {
+            if (!groupsGroupBox.comboBox.Enabled) return false;
+            if (groupsGroupBox.comboBox.Text != "" &&
+                groupsGroupBox.comboBox.Text != null) return false;
+            errorLabel.Text = Vars.GroupNotChoosen;
+            return true;
         }
         internal virtual void Button_Click(object sender, EventArgs e) { }
     

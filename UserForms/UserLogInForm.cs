@@ -88,8 +88,8 @@ namespace UserData.UserForms
         }
         internal void Button_Click(object sender, EventArgs e)
         {
-            if (!Checks.TextBoxNotEmptyOrWaterMarked(nameGroupBox.textBox, errorLabel, Vars.NameAndLastName, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return;
-            if (!Checks.TextBoxNotEmptyOrWaterMarked(passwordGroupBox.textBox, errorLabel, Vars.Password, Vars.TextBoxEmpty + " " + Vars.Password + "!")) return;
+            if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox, errorLabel, Vars.NameAndLastName, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return;
+            if (Checks.TextBoxEmptyOrWaterMarked(passwordGroupBox.textBox, errorLabel, Vars.Password, Vars.TextBoxEmpty + " " + Vars.Password + "!")) return;
 
             DataRow userDataRow = Aauthorization();
 

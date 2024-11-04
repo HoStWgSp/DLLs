@@ -81,7 +81,7 @@ namespace UserData
         /// </summary>
         /// <param name="registration"></param>
         /// <returns></returns>
-        public bool UserAuthorization(bool registration = false)
+        public bool UserAuthorization()
         {
             UsersData = usersTableActions.ReadUsersDataTable();
             UserLogInForm userLogInForm = new UserLogInForm(this);
@@ -92,10 +92,10 @@ namespace UserData
         /// Добавление нового пользователя.
         /// </summary>
         /// <returns></returns>
-        public bool AddNewUser()
+        public bool AddNewUser(bool admin = false)
         {
             UsersData = usersTableActions.ReadUsersDataTable();
-            AddNewUserForm newUserForm = new AddNewUserForm(this, Vars.NewUser, Vars.Add, true);
+            AddNewUserForm newUserForm = new AddNewUserForm(this, Vars.NewUser, Vars.Add, admin);
             return true;
         }
 
