@@ -17,6 +17,8 @@ namespace DataBase
             Password ="Пароль",
             Server = "Сервер",
             TableName = "Users",
+            FileChoise = "Выберите файл",
+            MDFConnectionFailed = "Невозможно подключиться к базе данных. Проверьте правильно ли вы выбрали файл.",
             User = "Пользователь";
 
         

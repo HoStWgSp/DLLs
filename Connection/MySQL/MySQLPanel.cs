@@ -124,7 +124,7 @@ namespace DataBase.Connection.MySQL
 
             dataBase.DataProvider = new MySQLOpenConnection(connectionString);
 
-            if (!dataBase.DataProvider.Connection)
+            if (!dataBase.DataProvider.DataBaseConnection)
             {
                 MessageBox.Show("Невозможно подключиться к базе данных. Проверьте введеные данные.");
                 return;

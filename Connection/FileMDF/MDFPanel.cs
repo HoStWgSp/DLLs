@@ -11,13 +11,13 @@ namespace DataBase.Connection.FileMDF
 {
     internal class MDFPanel : MainPanel
     {
-        DB dataBase;
+        private DB DataBase;
         public MDFPanel(DB dataBase)
         {
-            this.dataBase = dataBase;
+            DataBase = dataBase;
             button = new Button();
             button.Location = new Point(10, 10);
-            button.Text = "Выберите файл";
+            button.Text = Vars.FileChoise;
             Controls.Add(button);
 
             button.Click += Button_Click;
@@ -32,15 +32,11 @@ namespace DataBase.Connection.FileMDF
             string connectionString = $"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename={openFileDialog.FileName};Integrated Security=True";
 
 
-            dataBase.DataProvider = new SQLOpenConnection(connectionString);
+            DataBase.DataProvider = new SQLOpenConnection(connectionString);
 
-            if (!dataBase.DataProvider.Connection)
-            {
-                MessageBox.Show("Невозможно подключиться к базе данных. Проверьте правильно ли вы выбрали файл.");
-                return;
-            }
+            if (!DataBase.DataProvider.DataBaseConnection)  { MessageBox.Show(Vars.MDFConnectionFailed); return; }
 
-            dataBase.Close();
+            DataBase.Close();
         }
     }
 }

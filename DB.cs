@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using DataBase.Interfaces;
 using System.Data;
+using System.Collections.Generic;
 
 namespace DataBase
 {
@@ -13,13 +14,32 @@ namespace DataBase
     /// </summary>
     public class DB : Form
     {
-        private Connection.MainPanel mainPanel;// = new Connection.MainPanel();
-        private ComboBox DBcomboBox;
+        /// <summary>
+        /// Если true то подсоединение к базе данных успешно
+        /// </summary>
+        public bool DataBaseConnected 
+        { 
+            get
+            {
+                try { return DataProvider.DataBaseConnection; }
+                catch { return false; }
+            } 
+        }
 
-        private string[] DBList = new string[] { Vars.mdfFile, Vars.MySQL };
+        /// <summary>
+        /// Строка для подключения к базе данных
+        /// </summary>
+        public string DataBaseConnectionString { get { return DataProvider.DataBaseConnectionString; } }
 
-        
-        public IDataProvider DataProvider { get; set; }
+        public List<string> TablesNames { get { return DataProvider.GetTablesNamesFromDataBase(); } }
+
+
+
+        internal Connection.MainPanel mainPanel;
+        internal ComboBox DBcomboBox;
+        internal string[] DBList = new string[] { Vars.mdfFile, Vars.MySQL };
+
+        internal IDataProvider DataProvider { get; set; }
 
         public DB(Icon icon = null, string connectionString = "")
         {
@@ -62,10 +82,13 @@ namespace DataBase
         private void ConnectionsCheck(string connectionString)
         {
             DataProvider = new Connection.FileMDF.SQLOpenConnection(connectionString);
-            if (DataProvider.Connection) return;
+            if (DataProvider.DataBaseConnection) return;
 
             DataProvider = new Connection.MySQL.MySQLOpenConnection(connectionString);
-            if (DataProvider.Connection) return;
+            if (DataProvider.DataBaseConnection) return;
+
+            MessageBox.Show("Не удалось подключиться к базе данных. Настройте подключение заново.");
+            DBStartForm();
         }
         private void DBcomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -73,7 +96,6 @@ namespace DataBase
             if (DBcomboBox.Text == Vars.mdfFile) { mainPanel = new Connection.FileMDF.MDFPanel(this);}
             if (DBcomboBox.Text == Vars.MySQL) { mainPanel = new Connection.MySQL.MySQLPanel(this); }
             mainPanel.Location = new Point(0, 30);
-            //string fdsfa = mainPanel.ConStr;
             Controls.Add(mainPanel);
         }
 

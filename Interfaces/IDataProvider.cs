@@ -13,9 +13,18 @@ namespace DataBase.Interfaces
         /// <summary>
         /// true - открыто соединение.
         /// </summary>
-        bool Connection { get; set; }
+        bool DataBaseConnection { get; }
 
-        string DataBase { get; }
+        /// <summary>
+        /// Содержит строку подключения к базе данных
+        /// </summary>
+        string DataBaseConnectionString { get; }
+
+        /// <summary>
+        /// Создает список имен всех таблиц в базе данных.
+        /// </summary>
+        /// <returns></returns>
+        List<string> GetTablesNamesFromDataBase();
 
         /// <summary>
         /// Проверяет наличие таблицы

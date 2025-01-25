@@ -17,9 +17,8 @@ namespace DataBase.Connection.MySQL
     {
         MySqlConnection mySqlConnection;
 
-        bool connection;
-        bool IDataProvider.Connection { get { return connection; } set { } }
-        string IDataProvider.DataBase { get { return mySqlConnection.Database; } }
+        public bool DataBaseConnection { get; }
+        public string DataBaseConnectionString { get; }
 
         /// <summary>
         /// Создает объект соединения с Базой Данных.
@@ -28,9 +27,18 @@ namespace DataBase.Connection.MySQL
         /// </summary>
         public MySQLOpenConnection(string connectionString)
         {
-            mySqlConnection = new MySqlConnection(connectionString);
-            try { mySqlConnection.Open(); connection = true; }
-            catch { connection = false; }
+            try
+            {
+                mySqlConnection = new MySqlConnection(connectionString);
+                try { mySqlConnection.Open(); DataBaseConnection = true; DataBaseConnectionString = connectionString; }
+                catch { DataBaseConnection = false; }
+            }
+            catch { DataBaseConnection = false; }
+        }
+
+        public List<string> GetTablesNamesFromDataBase()
+        {
+            return null;
         }
 
         public bool TableCheck(string tableName)

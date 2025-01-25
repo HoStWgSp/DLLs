@@ -13,17 +13,9 @@ namespace DataBase.Connection.FileMDF
 {
     public class SQLOpenConnection : IDataProvider
     {
-        /// <summary>
-        /// True - соединение открыто. False - Закрыто.
-        /// </summary>
-        bool connection { get; set; } = false;
-        bool IDataProvider.Connection { get { return connection; } set { } }
+        public bool DataBaseConnection { get; }
+        public string DataBaseConnectionString { get; }
 
-        string IDataProvider.DataBase { get { return sqlConnection.Database; } }
-
-        /// <summary>
-        /// Объект подключения к Базе Данных.
-        /// </summary>
         private SqlConnection sqlConnection;
         /// <summary>
         /// Создает объект соединения с Базой Данных.
@@ -32,13 +24,18 @@ namespace DataBase.Connection.FileMDF
         /// </summary>
         public SQLOpenConnection(string connectionString)
         {
-            sqlConnection = new SqlConnection(connectionString);
-            try { sqlConnection.Open(); connection = true; }
-            catch 
+            try
             {
-                
+                sqlConnection = new SqlConnection(connectionString);
+                try { sqlConnection.Open(); DataBaseConnection = true; DataBaseConnectionString = connectionString; }
+                catch { DataBaseConnection = false; }
             }
+            catch { DataBaseConnection = false; }
         }
+
+        public List<string> GetTablesNamesFromDataBase()
+        => (from DataRow row in sqlConnection.GetSchema("Tables").Rows.Cast<DataRow>()
+            select row["TABLE_NAME"].ToString()).ToList();
 
         public bool TableCheck(string tableName)
         {
