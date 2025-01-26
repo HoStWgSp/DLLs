@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace AlertAndConfirm
 {
-    internal class AlertConfirmForm : Form
+    public class AlertConfirmForm : Form
     {
         private TextBox textBox;
         private Button button1;
@@ -16,15 +16,16 @@ namespace AlertAndConfirm
 
         public bool Confirm {  get; private set; }
 
-        public AlertConfirmForm()
+        public AlertConfirmForm(Icon icon = null)
         {
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "AlertForm";
-            ShowIcon = false;
+            //Name = "AlertForm";
+            //ShowIcon = false;
+            Icon = icon;
             StartPosition = FormStartPosition.CenterParent;
             Text = Vars.Alert;
 
