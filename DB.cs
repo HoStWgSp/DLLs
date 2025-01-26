@@ -14,24 +14,6 @@ namespace DataBase
     /// </summary>
     public class DB : Form
     {
-        /// <summary>
-        /// Если true то подсоединение к базе данных успешно
-        /// </summary>
-        public bool DataBaseConnected 
-        { 
-            get
-            {
-                try { return DataProvider.DataBaseConnection; }
-                catch { return false; }
-            } 
-        }
-
-        /// <summary>
-        /// Строка для подключения к базе данных
-        /// </summary>
-        public string DataBaseConnectionString { get { return DataProvider.DataBaseConnectionString; } }
-
-        public List<string> TablesNames { get { return DataProvider.GetTablesNamesFromDataBase(); } }
 
 
 
@@ -44,7 +26,7 @@ namespace DataBase
         public DB(Icon icon = null, string connectionString = "")
         {
             Icon = icon;
-            if (connectionString == "")
+            if (connectionString == "" || connectionString == null)
                 DBStartForm();
             else
                 ConnectionsCheck(connectionString);
@@ -101,7 +83,43 @@ namespace DataBase
 
 
 
+        /// <summary>
+        /// Если true то подсоединение к базе данных успешно
+        /// </summary>
+        public bool DataBaseConnected
+        {
+            get
+            {
+                try { return DataProvider.DataBaseConnection; }
+                catch { return false; }
+            }
+        }
 
+        /// <summary>
+        /// Строка для подключения к базе данных
+        /// </summary>
+        public string DataBaseConnectionString { get { return DataProvider.DataBaseConnectionString; } }
+
+        /// <summary>
+        /// Создает список имен всех таблиц в базе данных по алфавиту
+        /// </summary>
+        public List<string> TablesNames
+        {
+            get
+            {
+                List<string> list = DataProvider.GetTablesNamesFromDataBase();
+                list.Sort();
+                return list;
+            }
+        }
+
+        /// <summary>
+        /// Получает таблицу из базы данных и возвращает ее в DataTable
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public DataTable GetFullTableFromDataBase(string tableName) { return DataProvider.GetFullTableFromDataBase(tableName); }
+        
 
         /// <summary>
         /// Проверяет наличие таблицы
@@ -137,5 +155,12 @@ namespace DataBase
         /// <param name="requestString"></param>
         /// <returns></returns>
         public bool ChangeTableRow(string requestString) { return DataProvider.ChangeTableRow(requestString); }
+
+        /// <summary>
+        /// Удаляет таблицу из базы данных
+        /// </summary>
+        /// <param name="requestString"></param>
+        /// <returns></returns>
+        public bool DropDataBaseTable(string requestString) { return DataProvider.DropDataBaseTable(requestString); }
     }
 }

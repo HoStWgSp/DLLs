@@ -27,6 +27,13 @@ namespace DataBase.Interfaces
         List<string> GetTablesNamesFromDataBase();
 
         /// <summary>
+        /// Получает таблицу из базы данных по имени и возвращает ее в DataTable
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        DataTable GetFullTableFromDataBase(string tableName);
+
+        /// <summary>
         /// Проверяет наличие таблицы
         /// </summary>
         /// <param name="tableName"></param>
@@ -60,5 +67,12 @@ namespace DataBase.Interfaces
         /// <param name="requestString"></param>
         /// <returns></returns>
         bool ChangeTableRow(string requestString);
+
+        /// <summary>
+        /// Удаляет таблицу из базы данных
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        bool DropDataBaseTable(string tableName);
     }
 }

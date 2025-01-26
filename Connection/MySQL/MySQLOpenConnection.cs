@@ -40,6 +40,10 @@ namespace DataBase.Connection.MySQL
         {
             return null;
         }
+        public DataTable GetFullTableFromDataBase(string tableName)
+        {
+            return new DataTable();
+        }
 
         public bool TableCheck(string tableName)
         {
@@ -59,6 +63,7 @@ namespace DataBase.Connection.MySQL
         public bool NewTableCreation(string creationString) { return ExecuteNonQueryAction(creationString); }
         public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         public bool ChangeTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
+        public bool DropDataBaseTable(string requestString) { return ExecuteNonQueryAction(requestString); }
         private bool ExecuteNonQueryAction(string requestString)
         {
             MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);

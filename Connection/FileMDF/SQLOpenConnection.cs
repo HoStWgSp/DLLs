@@ -37,6 +37,16 @@ namespace DataBase.Connection.FileMDF
         => (from DataRow row in sqlConnection.GetSchema("Tables").Rows.Cast<DataRow>()
             select row["TABLE_NAME"].ToString()).ToList();
 
+        public DataTable GetFullTableFromDataBase(string tableName)
+        {
+            SqlCommand sqlCommand = new SqlCommand($"select * from {tableName}", sqlConnection);
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+            DataTable dataTable = new DataTable();
+            sqlDataAdapter.Fill(dataTable);
+
+            return dataTable;
+        }
+
         public bool TableCheck(string tableName)
         {
             SqlCommand sqlCommand = new SqlCommand($"SELECT Id FROM {tableName}", sqlConnection);
@@ -56,12 +66,13 @@ namespace DataBase.Connection.FileMDF
         public bool NewTableCreation(string creationString) { return ExecuteNonQueryAction(creationString); }
         public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         public bool ChangeTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
+        public bool DropDataBaseTable(string requestString) { return ExecuteNonQueryAction(requestString); }
         private bool ExecuteNonQueryAction(string requestString)
         {
             SqlCommand mySqlCommand = new SqlCommand(requestString, sqlConnection);
             try
             {
-                mySqlCommand.ExecuteNonQuery();
+                int t = mySqlCommand.ExecuteNonQuery();
                 return true;
             }
             catch (Exception e)
