@@ -161,6 +161,6 @@ namespace DataBase
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        public bool DropDataBaseTable(string requestString) { return DataProvider.DropDataBaseTable(requestString); }
+        public bool DropDataBaseTable(string tableName) { return DataProvider.DropDataBaseTable($"DROP TABLE {tableName}"); }
     }
 }
