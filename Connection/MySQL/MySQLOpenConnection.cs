@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DataBase.Connection;
 using DataBase.Interfaces;
+using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace DataBase.Connection.MySQL
@@ -64,6 +65,12 @@ namespace DataBase.Connection.MySQL
         public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         public bool ChangeTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         public bool DropDataBaseTable(string requestString) { return ExecuteNonQueryAction(requestString); }
+        public int BaseTableRowCount(string tableName)
+        {
+            MySqlCommand mySqlCommand = new MySqlCommand($"select count(*) from {tableName}", mySqlConnection);
+            try { return (int)mySqlCommand.ExecuteScalar(); }
+            catch { return 0; }
+        }
         private bool ExecuteNonQueryAction(string requestString)
         {
             MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);

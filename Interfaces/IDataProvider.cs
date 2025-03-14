@@ -74,5 +74,12 @@ namespace DataBase.Interfaces
         /// <param name="tableName"></param>
         /// <returns></returns>
         bool DropDataBaseTable(string tableName);
+
+        /// <summary>
+        /// Возвращает количество строк в таблице
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        int BaseTableRowCount(string tableName);
     }
 }

@@ -66,12 +66,18 @@ namespace DataBase.Connection.FileMDF
         public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         public bool ChangeTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
         public bool DropDataBaseTable(string requestString) { return ExecuteNonQueryAction(requestString); }
+        public int BaseTableRowCount(string tableName)
+        {
+            SqlCommand mySqlCommand = new SqlCommand($"select count(*) from {tableName}", sqlConnection);
+            try { return (int)mySqlCommand.ExecuteScalar(); }
+            catch { return 0; }
+        }
         private bool ExecuteNonQueryAction(string requestString)
         {
             SqlCommand mySqlCommand = new SqlCommand(requestString, sqlConnection);
             try
             {
-                int t = mySqlCommand.ExecuteNonQuery();
+                mySqlCommand.ExecuteNonQuery();
                 return true;
             }
             catch (Exception e)
@@ -100,7 +106,5 @@ namespace DataBase.Connection.FileMDF
             dt.Load(dr);
             return dt;
         }
-
-        
     }
 }
