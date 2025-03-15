@@ -71,6 +71,15 @@ namespace DataBase.Connection.MySQL
             try { return (int)mySqlCommand.ExecuteScalar(); }
             catch { return 0; }
         }
+        public int FindRowInTable(string requestString)
+        {
+            //int rowId;
+            //MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
+            //try { rowId = (int)mySqlCommand.ExecuteScalar(); }
+            //catch { rowId = 0; }
+            //return rowId;
+            return 0;
+        }
         private bool ExecuteNonQueryAction(string requestString)
         {
             MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);

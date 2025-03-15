@@ -81,5 +81,12 @@ namespace DataBase.Interfaces
         /// <param name="tableName"></param>
         /// <returns></returns>
         int BaseTableRowCount(string tableName);
+
+        /// <summary>
+        /// Возвращает номер строки которая первая совпадает с поиском
+        /// </summary>
+        /// <param name="requestString"></param>
+        /// <returns></returns>
+        int FindRowInTable(string requestString);
     }
 }

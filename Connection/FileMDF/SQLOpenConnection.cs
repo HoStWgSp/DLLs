@@ -68,9 +68,19 @@ namespace DataBase.Connection.FileMDF
         public bool DropDataBaseTable(string requestString) { return ExecuteNonQueryAction(requestString); }
         public int BaseTableRowCount(string tableName)
         {
-            SqlCommand mySqlCommand = new SqlCommand($"select count(*) from {tableName}", sqlConnection);
-            try { return (int)mySqlCommand.ExecuteScalar(); }
+            SqlCommand SqlCommand = new SqlCommand($"select count(*) from {tableName}", sqlConnection);
+            try { return (int)SqlCommand.ExecuteScalar(); }
             catch { return 0; }
+        }
+        public int FindRowInTable(string requestString)
+        {
+            int rowId = 0;
+            SqlCommand sqlCommand = new SqlCommand(requestString, sqlConnection);
+
+            try { rowId = Convert.ToInt32(sqlCommand.ExecuteScalar()); }
+            catch { }
+
+            return rowId;
         }
         private bool ExecuteNonQueryAction(string requestString)
         {

@@ -163,9 +163,16 @@ namespace DataBase
         /// <returns></returns>
         public bool DropDataBaseTable(string tableName) { return DataProvider.DropDataBaseTable($"DROP TABLE {tableName}"); }
 
-        public int BaseTableRowCount(string tableName)
-        {
-            return DataProvider.BaseTableRowCount(tableName);
-        }
+        /// <summary>
+        /// Считает сколько строк в таблице
+        /// </summary>
+        public int BaseTableRowCount(string tableName) { return DataProvider.BaseTableRowCount(tableName); }
+
+        /// <summary>
+        /// Возвращает номер строки которая первая совпадает с поиском
+        /// </summary>
+        /// <param name="requestString"></param>
+        /// <returns></returns>
+        public int FindRowInTable(string requestString) { return DataProvider.FindRowInTable(requestString); }
     }
 }
