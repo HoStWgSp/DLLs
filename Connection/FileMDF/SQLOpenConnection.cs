@@ -72,7 +72,7 @@ namespace DataBase.Connection.FileMDF
             try { return (int)SqlCommand.ExecuteScalar(); }
             catch { return 0; }
         }
-        public int FindRowInTable(string requestString)
+        public int FindRowIdInTable(string requestString)
         {
             int rowId = 0;
             SqlCommand sqlCommand = new SqlCommand(requestString, sqlConnection);
@@ -82,6 +82,19 @@ namespace DataBase.Connection.FileMDF
 
             return rowId;
         }
+        public string GetStringById(string tableName, int rowid, string columnName)
+        {
+            SqlCommand sqlCommand = new SqlCommand($"SELECT * FROM {tableName} WHERE Id='{rowid}'", sqlConnection);
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                return reader[columnName].ToString();
+            }
+            return "";
+        }
+
+
         private bool ExecuteNonQueryAction(string requestString)
         {
             SqlCommand mySqlCommand = new SqlCommand(requestString, sqlConnection);
@@ -102,7 +115,7 @@ namespace DataBase.Connection.FileMDF
 
 
 
-        public DataTable ReadDataTable(string tableName)
+        public DataTable GetDataTable(string tableName)
         {
             SqlCommand sqlCommand = new SqlCommand($"select * from {tableName}", sqlConnection);
 

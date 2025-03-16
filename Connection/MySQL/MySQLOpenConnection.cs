@@ -71,7 +71,7 @@ namespace DataBase.Connection.MySQL
             try { return (int)mySqlCommand.ExecuteScalar(); }
             catch { return 0; }
         }
-        public int FindRowInTable(string requestString)
+        public int FindRowIdInTable(string requestString)
         {
             //int rowId;
             //MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
@@ -80,6 +80,12 @@ namespace DataBase.Connection.MySQL
             //return rowId;
             return 0;
         }
+        public string GetStringById(string tableName, int rowid, string columnName)
+        {
+            return "";
+        }
+
+
         private bool ExecuteNonQueryAction(string requestString)
         {
             MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
@@ -98,7 +104,7 @@ namespace DataBase.Connection.MySQL
 
 
 
-        public DataTable ReadDataTable(string tableName)
+        public DataTable GetDataTable(string tableName)
         {
             MySqlCommand mySqlCommand = new MySqlCommand($"select * from {tableName}", mySqlConnection);
             return ReadFromTable(mySqlCommand);

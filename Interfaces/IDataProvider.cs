@@ -59,7 +59,7 @@ namespace DataBase.Interfaces
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        DataTable ReadDataTable(string tableName);
+        DataTable GetDataTable(string tableName);
 
         /// <summary>
         /// Заменяет данные в строке
@@ -87,6 +87,15 @@ namespace DataBase.Interfaces
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        int FindRowInTable(string requestString);
+        int FindRowIdInTable(string requestString);
+
+        /// <summary>
+        /// Возвращает данные столбца строки по номеру строки
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="rowid"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        string GetStringById(string tableName, int rowid, string columnName);
     }
 }

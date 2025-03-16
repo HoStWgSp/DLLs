@@ -147,7 +147,7 @@ namespace DataBase
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public DataTable ReadDataTable(string tableName) { return DataProvider.ReadDataTable(tableName); }
+        public DataTable GetDataTable(string tableName) { return DataProvider.GetDataTable(tableName); }
 
         /// <summary>
         /// Заменяет данные в строке
@@ -173,6 +173,11 @@ namespace DataBase
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        public int FindRowInTable(string requestString) { return DataProvider.FindRowInTable(requestString); }
+        public int FindRowIdInTable(string requestString) { return DataProvider.FindRowIdInTable(requestString); }
+
+        public string GetStringFromTable(string tableName, int rowId, string columnName)
+        {
+            return DataProvider.GetStringById(tableName, rowId, columnName);
+        }
     }
 }
