@@ -126,21 +126,21 @@ namespace DataBase
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public bool TableCheck(string tableName) { return DataProvider.TableCheck(tableName); }
+        public bool TableCheck(string tableName) { return DataProvider.ExecuteReader(tableName); }
 
         /// <summary>
         /// Создает новую таблицу
         /// </summary>
         /// <param name="creationString"></param>
         /// <returns></returns>
-        public bool NewTableCreation(string creationString) { return DataProvider.NewTableCreation(creationString); }
+        public bool NewTableCreation(string creationString) { return DataProvider.ExecuteNonQuery(creationString); }
 
         /// <summary>
         /// Добавляет новую строку в таблицу
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        public bool AddTableRow(string requestString) { return DataProvider.AddTableRow(requestString); }
+        public bool AddTableRow(string requestString) { return DataProvider.ExecuteNonQuery(requestString); }
                 
         /// <summary>
         /// Читает таблицу из БД и записывает в DataTable
@@ -154,14 +154,14 @@ namespace DataBase
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        public bool ChangeTableRow(string requestString) { return DataProvider.ChangeTableRow(requestString); }
+        public bool ChangeTableRow(string requestString) { return DataProvider.ExecuteNonQuery(requestString); }
 
         /// <summary>
         /// Удаляет таблицу из базы данных
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        public bool DropDataBaseTable(string tableName) { return DataProvider.DropDataBaseTable($"DROP TABLE {tableName}"); }
+        public bool DropDataBaseTable(string tableName) { return DataProvider.ExecuteNonQuery($"DROP TABLE {tableName}"); }
 
         /// <summary>
         /// Считает сколько строк в таблице
@@ -175,6 +175,13 @@ namespace DataBase
         /// <returns></returns>
         public int FindRowIdInTable(string requestString) { return DataProvider.FindRowIdInTable(requestString); }
 
+        /// <summary>
+        /// Возвращает данные столбца строки по номеру строки
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="rowId"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
         public string GetStringFromTable(string tableName, int rowId, string columnName)
         {
             return DataProvider.GetStringById(tableName, rowId, columnName);

@@ -33,26 +33,9 @@ namespace DataBase.Interfaces
         /// <returns></returns>
         DataTable GetFullTableFromDataBase(string tableName);
 
-        /// <summary>
-        /// Проверяет наличие таблицы
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        bool TableCheck(string tableName);
+        bool ExecuteReader(string tableName);
 
-        /// <summary>
-        /// Создает новую таблицу
-        /// </summary>
-        /// <param name="creationString"></param>
-        /// <returns></returns>
-        bool NewTableCreation(string creationString);
-
-        /// <summary>
-        /// Добавляет новую строку в таблицу
-        /// </summary>
-        /// <param name="requestString"></param>
-        /// <returns></returns>
-        bool AddTableRow(string requestString);
+        bool ExecuteNonQuery(string creationString);
         
         /// <summary>
         /// Читает таблицу из БД и записывает в DataTable
@@ -60,20 +43,6 @@ namespace DataBase.Interfaces
         /// <param name="tableName"></param>
         /// <returns></returns>
         DataTable GetDataTable(string tableName);
-
-        /// <summary>
-        /// Заменяет данные в строке
-        /// </summary>
-        /// <param name="requestString"></param>
-        /// <returns></returns>
-        bool ChangeTableRow(string requestString);
-
-        /// <summary>
-        /// Удаляет таблицу из базы данных
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        bool DropDataBaseTable(string tableName);
 
         /// <summary>
         /// Возвращает количество строк в таблице

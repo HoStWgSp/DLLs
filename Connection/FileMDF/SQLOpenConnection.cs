@@ -46,7 +46,7 @@ namespace DataBase.Connection.FileMDF
             return dataTable;
         }
 
-        public bool TableCheck(string tableName)
+        public bool ExecuteReader(string tableName)
         {
             SqlCommand sqlCommand = new SqlCommand($"SELECT Id FROM {tableName}", sqlConnection);
             try
@@ -61,11 +61,20 @@ namespace DataBase.Connection.FileMDF
             }
         }
 
+        public bool ExecuteNonQuery(string requestString) 
+        {
+            SqlCommand mySqlCommand = new SqlCommand(requestString, sqlConnection);
+            try
+            {
+                mySqlCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
-        public bool NewTableCreation(string creationString) { return ExecuteNonQueryAction(creationString); }
-        public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
-        public bool ChangeTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
-        public bool DropDataBaseTable(string requestString) { return ExecuteNonQueryAction(requestString); }
         public int BaseTableRowCount(string tableName)
         {
             SqlCommand SqlCommand = new SqlCommand($"select count(*) from {tableName}", sqlConnection);
@@ -92,21 +101,6 @@ namespace DataBase.Connection.FileMDF
                 return reader[columnName].ToString();
             }
             return "";
-        }
-
-
-        private bool ExecuteNonQueryAction(string requestString)
-        {
-            SqlCommand mySqlCommand = new SqlCommand(requestString, sqlConnection);
-            try
-            {
-                mySqlCommand.ExecuteNonQuery();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
         }
 
 

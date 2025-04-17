@@ -46,7 +46,7 @@ namespace DataBase.Connection.MySQL
             return new DataTable();
         }
 
-        public bool TableCheck(string tableName)
+        public bool ExecuteReader(string tableName)
         {
             MySqlCommand mySqlCommand = new MySqlCommand($"SELECT Id FROM {tableName}", mySqlConnection);
             try
@@ -61,10 +61,20 @@ namespace DataBase.Connection.MySQL
             }
         }
 
-        public bool NewTableCreation(string creationString) { return ExecuteNonQueryAction(creationString); }
-        public bool AddTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
-        public bool ChangeTableRow(string requestString) { return ExecuteNonQueryAction(requestString); }
-        public bool DropDataBaseTable(string requestString) { return ExecuteNonQueryAction(requestString); }
+        public bool ExecuteNonQuery(string requestString) 
+        {
+            MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
+            try
+            {
+                mySqlCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public int BaseTableRowCount(string tableName)
         {
             MySqlCommand mySqlCommand = new MySqlCommand($"select count(*) from {tableName}", mySqlConnection);
@@ -83,21 +93,6 @@ namespace DataBase.Connection.MySQL
         public string GetStringById(string tableName, int rowid, string columnName)
         {
             return "";
-        }
-
-
-        private bool ExecuteNonQueryAction(string requestString)
-        {
-            MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
-            try
-            {
-                mySqlCommand.ExecuteNonQuery();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
         }
 
 
