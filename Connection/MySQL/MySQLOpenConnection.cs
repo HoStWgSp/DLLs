@@ -99,9 +99,9 @@ namespace DataBase.Connection.MySQL
 
 
 
-        public DataTable GetDataTable(string tableName)
+        public DataTable GetDataFromTable(string requestString)
         {
-            MySqlCommand mySqlCommand = new MySqlCommand($"select * from {tableName}", mySqlConnection);
+            MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
             return ReadFromTable(mySqlCommand);
         }
         private DataTable ReadFromTable(MySqlCommand mySqlCommand)

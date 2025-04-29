@@ -42,7 +42,7 @@ namespace DataBase.Interfaces
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        DataTable GetDataTable(string tableName);
+        DataTable GetDataFromTable(string requestString);
 
         /// <summary>
         /// Возвращает количество строк в таблице

@@ -142,12 +142,14 @@ namespace DataBase
         /// <returns></returns>
         public bool AddTableRow(string requestString) { return DataProvider.ExecuteNonQuery(requestString); }
                 
+        public DataTable GetDataFromTable(string requestString) { return DataProvider.GetDataFromTable(requestString); }
+
         /// <summary>
         /// Читает таблицу из БД и записывает в DataTable
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public DataTable GetDataTable(string tableName) { return DataProvider.GetDataTable(tableName); }
+        public DataTable GetDataTable(string tableName) { return DataProvider.GetDataFromTable($"select * from {tableName}"); }
 
         /// <summary>
         /// Заменяет данные в строке

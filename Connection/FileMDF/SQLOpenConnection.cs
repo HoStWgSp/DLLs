@@ -109,9 +109,9 @@ namespace DataBase.Connection.FileMDF
 
 
 
-        public DataTable GetDataTable(string tableName)
+        public DataTable GetDataFromTable(string requestString)
         {
-            SqlCommand sqlCommand = new SqlCommand($"select * from {tableName}", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand(requestString, sqlConnection);
 
             return ReadFromTable(sqlCommand);
         }
