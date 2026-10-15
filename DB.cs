@@ -10,27 +10,43 @@ using System.Collections.Generic;
 namespace DataBase
 {
     /// <summary>
-    /// ConStrCreate - класс для создания строки подключения. Созданную строку хранит в ConStr
+    /// Подключается к БД.
     /// </summary>
     public class DB : Form
     {
-
-
-
-        internal Connection.MainPanel mainPanel;
-        internal ComboBox DBcomboBox;
+        // Список доступных версий Баз данных
         internal string[] DBList = new string[] { Vars.mdfFile, Vars.MySQL };
-
+        
+        // Создаем объект подключения к БД
         internal IDataProvider DataProvider { get; set; }
 
+        // Подключаемся к базе данных
         public DB(Icon icon = null, string connectionString = "")
         {
+            // Выставляем иконку для окна
             Icon = icon;
+
+            // Если строка подключения отсутствует
             if (connectionString == "" || connectionString == null)
+                // Запускаем форму выбора файла БД или подключения к БД
                 DBStartForm();
+
+            // Если строка есть
             else
+                // Проверяем подключение
                 ConnectionsCheck(connectionString);
         }
+
+        //-------------------------------------------------------------
+        // Создаем объект панели
+        internal Connection.MainPanel mainPanel;
+
+        // Создаем ComboBox
+        internal ComboBox DBcomboBox;
+
+        /// <summary>
+        /// Форма для выбора типа БД
+        /// </summary>
         private void DBStartForm()
         {
             Size = new Size(300, 200);
@@ -53,6 +69,7 @@ namespace DataBase
             DBcomboBox.Items.AddRange(DBList);
             DBcomboBox.SelectedIndexChanged += DBcomboBox_SelectedIndexChanged;
 
+            // Загружает панель для выбора файла .mdf
             mainPanel = new Connection.FileMDF.MDFPanel(this) { Location = new Point(0, 30) };
 
             Controls.Add(DBLabel);
@@ -61,6 +78,17 @@ namespace DataBase
 
             ShowDialog();
         }
+        private void DBcomboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Controls.Remove(mainPanel);
+            if (DBcomboBox.Text == Vars.mdfFile) { mainPanel = new Connection.FileMDF.MDFPanel(this);}
+            if (DBcomboBox.Text == Vars.MySQL) { mainPanel = new Connection.MySQL.MySQLPanel(this); }
+            mainPanel.Location = new Point(0, 30);
+            Controls.Add(mainPanel);
+        }
+
+        //-------------------------------------------------------------
+
         private void ConnectionsCheck(string connectionString)
         {
             DataProvider = new Connection.FileMDF.SQLOpenConnection(connectionString);
@@ -72,16 +100,6 @@ namespace DataBase
             MessageBox.Show("Не удалось подключиться к базе данных. Настройте подключение заново.");
             DBStartForm();
         }
-        private void DBcomboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Controls.Remove(mainPanel);
-            if (DBcomboBox.Text == Vars.mdfFile) { mainPanel = new Connection.FileMDF.MDFPanel(this);}
-            if (DBcomboBox.Text == Vars.MySQL) { mainPanel = new Connection.MySQL.MySQLPanel(this); }
-            mainPanel.Location = new Point(0, 30);
-            Controls.Add(mainPanel);
-        }
-
-
 
         /// <summary>
         /// Если true то подсоединение к базе данных успешно
