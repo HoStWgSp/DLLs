@@ -21,7 +21,7 @@ namespace DataBase
         internal IDataProvider DataProvider { get; set; }
 
         // Подключаемся к базе данных
-        public DB(Icon icon = null, string connectionString = "")
+        public DB(string connectionString = "", Icon icon = null)
         {
             // Выставляем иконку для окна
             Icon = icon;
