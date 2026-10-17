@@ -11,8 +11,10 @@ namespace AlertAndConfirm
     public class AlertConfirmForm : Form
     {
         private TextBox textBox;
-        private Button button1;
-        private Button button2;
+        private Button button1, button2;
+
+        public string Button1Text { private get; set; } = Vars.ConfirmWrite;
+        public string Button2Text { private get; set; } = Vars.Cancel;
 
         public bool Confirm {  get; private set; }
 
@@ -66,13 +68,13 @@ namespace AlertAndConfirm
 
             button1 = new Button()
             {
-                Text =  Vars.ConfirmWrite,
+                Text =  Button1Text,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left,
                 Size = new Size(120, 30)
             };
             button2 = new Button()
             {
-                Text = Vars.Cancel,
+                Text = Button2Text,
                 Anchor = AnchorStyles.Top | AnchorStyles.Right,
                 Size = new Size(120, 30)
             };
