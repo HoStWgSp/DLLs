@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DataBase.Connection.MySQL
@@ -18,14 +15,14 @@ namespace DataBase.Connection.MySQL
             uidLabel,
             passworfLabel;
 
-        int labelWidth = 110;
-        int labelHeingt = 19;
+        int labelWidth = 110,
+            labelHeingt = 19,
+            textBoxWidth = 160;
 
         TextBox serverTextBox,
             dataBaseTextBox,
             uidTextBox,
             passwordTextBox;
-        int textBoxWidth = 160;
 
         public MySQLPanel(DB dataBase)
         {
@@ -106,7 +103,6 @@ namespace DataBase.Connection.MySQL
             };
             Controls.Add(passwordTextBox);
 
-
             button=new Button()
             {
                 Size = new Size(100, 30),
@@ -114,6 +110,7 @@ namespace DataBase.Connection.MySQL
             };
             button.Location = new Point((Width - button.Width)/2, passworfLabel.Location.Y + labelHeingt + 10);
             Controls.Add(button);
+
             button.Click += Button_Click;
         }
 
@@ -126,7 +123,7 @@ namespace DataBase.Connection.MySQL
 
             if (!dataBase.DataProvider.DataBaseConnection)
             {
-                MessageBox.Show("Невозможно подключиться к базе данных. Проверьте введеные данные.");
+                MessageBox.Show(Vars.MySQLOpenConnectionFailed);
                 return;
             }
             dataBase.Close();

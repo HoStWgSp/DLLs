@@ -25,17 +25,23 @@ namespace DataBase.Connection.FileMDF
 
         private void Button_Click(object sender, EventArgs e)
         {
+            // Открываем диалоговое окно выбора расположения файла
             OpenFileDialog openFileDialog = new OpenFileDialog();
-
+            // Фильтр для отображения файлов на выбор
             openFileDialog.Filter = "Files(*.mdf)|*.mdf|All files(*.*)|*.*";
+            // Если закрываем окно принудительно, то выходим и возвращаемся к окну выбора БД
             if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
-            string connectionString = $"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename={openFileDialog.FileName};Integrated Security=True";
 
+            // Подключаемся к БД в файле
+            DataBase.DataProvider = new SQLOpenConnection(
+                $"Data Source=(LocalDB)\\MSSQLLocalDB;" +
+                $"AttachDbFilename={openFileDialog.FileName};" +
+                $"Integrated Security=True"
+                );
 
-            DataBase.DataProvider = new SQLOpenConnection(connectionString);
-
+            // Если подключение не состоялос, выводим сообщение
             if (!DataBase.DataProvider.DataBaseConnection)  { MessageBox.Show(Vars.MDFConnectionFailed); return; }
-
+            // Закрываем окно выбора файла с БД
             DataBase.Close();
         }
     }

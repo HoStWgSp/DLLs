@@ -16,6 +16,7 @@ namespace DataBase.Connection.FileMDF
         public string DataBaseConnectionString { get; }
 
         private SqlConnection sqlConnection;
+
         /// <summary>
         /// Создает объект соединения с Базой Данных.
         /// После создания объекта доступны 2 переменных.

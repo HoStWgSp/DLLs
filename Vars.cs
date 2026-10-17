@@ -10,6 +10,7 @@ namespace DataBase
     {
         public static string 
             DataBaseName = "Имя БД",
+            DBConnectionFailed = "Не удалось подключиться к базе данных. Настройте подключение заново.",
             DBLabelText = "База данных:",
             GetConnect = "Подключиться",
             mdfFile = "*.mdf",
@@ -19,6 +20,7 @@ namespace DataBase
             TableName = "Users",
             FileChoise = "Выберите файл",
             MDFConnectionFailed = "Невозможно подключиться к базе данных. Проверьте правильно ли вы выбрали файл.",
+            MySQLOpenConnectionFailed = "Невозможно подключиться к базе данных. Проверьте введеные данные.",
             User = "Пользователь";
 
         

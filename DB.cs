@@ -89,6 +89,9 @@ namespace DataBase
 
         //-------------------------------------------------------------
 
+        /// <summary>
+        /// Проверяет подключения к БД. Если нет подключения ни к одной БД, выводит сообщение
+        /// </summary>
         private void ConnectionsCheck(string connectionString)
         {
             DataProvider = new Connection.FileMDF.SQLOpenConnection(connectionString);
@@ -97,21 +100,16 @@ namespace DataBase
             DataProvider = new Connection.MySQL.MySQLOpenConnection(connectionString);
             if (DataProvider.DataBaseConnection) return;
 
-            MessageBox.Show("Не удалось подключиться к базе данных. Настройте подключение заново.");
+            MessageBox.Show(Vars.DBConnectionFailed);
             DBStartForm();
         }
+
+        //-------------------------------------------------------------
 
         /// <summary>
         /// Если true то подсоединение к базе данных успешно
         /// </summary>
-        public bool DataBaseConnected
-        {
-            get
-            {
-                try { return DataProvider.DataBaseConnection; }
-                catch { return false; }
-            }
-        }
+        public bool DataBaseConnected { get { try { return DataProvider.DataBaseConnection; } catch { return false; } } }
 
         /// <summary>
         /// Строка для подключения к базе данных
@@ -121,21 +119,11 @@ namespace DataBase
         /// <summary>
         /// Создает список имен всех таблиц в базе данных по алфавиту
         /// </summary>
-        public List<string> TablesNames
-        {
-            get
-            {
-                List<string> list = DataProvider.GetTablesNamesFromDataBase();
-                list.Sort();
-                return list;
-            }
-        }
+        public List<string> TablesNames { get { List<string> list = DataProvider.GetTablesNamesFromDataBase(); list.Sort(); return list; } }
 
         /// <summary>
         /// Получает таблицу из базы данных и возвращает ее в DataTable
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
         public DataTable GetFullTableFromDataBase(string tableName) { return DataProvider.GetFullTableFromDataBase(tableName); }
         
 
