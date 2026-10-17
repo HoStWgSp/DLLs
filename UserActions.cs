@@ -18,24 +18,24 @@ namespace UserData
 
         public User UserFromTable(int userId)
         {
-            foreach (DataRow row in UserData.UsersDataTable.Rows)
-            {
-                if (Convert.ToInt32(row[0]) == userId)
-                {
-                    return new User()
-                    {
-                        Id = Convert.ToInt32(row[nameof(User.Id)]),
-                        UserAdmin = row[nameof(User.UserAdmin)].ToString(),
-                        UserName = row[nameof(User.UserName)].ToString(),
-                        UserMiddleName = row[nameof(User.UserMiddleName)].ToString(),
-                        UserLastName = row[nameof(User.UserLastName)].ToString(),
-                        UserEmail = row[nameof(User.UserEmail)].ToString(),
-                        UserPhoneNumber = row[nameof(User.UserPhoneNumber)].ToString(),
-                        UserAddress = row[nameof(User.UserAddress)].ToString(),
-                        UserGroup = row[nameof(User.UserGroup)].ToString()
-                    };
-                }
-            }
+            //foreach (DataRow row in UserData.UsersDataTable.Rows)
+            //{
+            //    if (Convert.ToInt32(row[0]) == userId)
+            //    {
+            //        return new User()
+            //        {
+            //            Id = Convert.ToInt32(row[nameof(User.Id)]),
+            //            UserAdmin = row[nameof(User.UserAdmin)].ToString(),
+            //            UserName = row[nameof(User.UserName)].ToString(),
+            //            UserMiddleName = row[nameof(User.UserMiddleName)].ToString(),
+            //            UserLastName = row[nameof(User.UserLastName)].ToString(),
+            //            UserEmail = row[nameof(User.UserEmail)].ToString(),
+            //            UserPhoneNumber = row[nameof(User.UserPhoneNumber)].ToString(),
+            //            UserAddress = row[nameof(User.UserAddress)].ToString(),
+            //            UserGroup = row[nameof(User.UserGroup)].ToString()
+            //        };
+            //    }
+            //}
             return null;
         }
     }

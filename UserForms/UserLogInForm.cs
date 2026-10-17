@@ -91,22 +91,22 @@ namespace UserData.UserForms
             if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox, errorLabel, Vars.NameAndLastName, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return;
             if (Checks.TextBoxEmptyOrWaterMarked(passwordGroupBox.textBox, errorLabel, Vars.Password, Vars.TextBoxEmpty + " " + Vars.Password + "!")) return;
 
-            DataRow userDataRow = Aauthorization();
+            //DataRow userDataRow = Aauthorization();
 
-            if (userDataRow == null) return;
+            //if (userDataRow == null) return;
 
-            UD.User.Id = Convert.ToInt32(userDataRow[nameof(UD.User.Id)]);
-            UD.User.UserPassword = userDataRow[nameof(UD.User.UserPassword)].ToString();
-            UD.User.UserAdmin = userDataRow[nameof(UD.User.UserAdmin)].ToString();
-            UD.User.UserName = userDataRow[nameof(UD.User.UserName)].ToString();
-            UD.User.UserMiddleName = userDataRow[nameof(UD.User.UserMiddleName)].ToString();
-            UD.User.UserLastName = userDataRow[nameof(UD.User.UserLastName)].ToString();
-            UD.User.UserEmail = userDataRow[nameof(UD.User.UserEmail)].ToString();
-            UD.User.UserPhoneNumber = userDataRow[nameof(UD.User.UserPhoneNumber)].ToString();
-            UD.User.UserAddress = userDataRow[nameof(UD.User.UserAddress)].ToString();
-            UD.User.UserGroup = userDataRow[nameof(UD.User.UserGroup)].ToString();
+            //UD.User.Id = Convert.ToInt32(userDataRow[nameof(UD.User.Id)]);
+            //UD.User.UserPassword = userDataRow[nameof(UD.User.UserPassword)].ToString();
+            //UD.User.UserAdmin = userDataRow[nameof(UD.User.UserAdmin)].ToString();
+            //UD.User.UserName = userDataRow[nameof(UD.User.UserName)].ToString();
+            //UD.User.UserMiddleName = userDataRow[nameof(UD.User.UserMiddleName)].ToString();
+            //UD.User.UserLastName = userDataRow[nameof(UD.User.UserLastName)].ToString();
+            //UD.User.UserEmail = userDataRow[nameof(UD.User.UserEmail)].ToString();
+            //UD.User.UserPhoneNumber = userDataRow[nameof(UD.User.UserPhoneNumber)].ToString();
+            //UD.User.UserAddress = userDataRow[nameof(UD.User.UserAddress)].ToString();
+            //UD.User.UserGroup = userDataRow[nameof(UD.User.UserGroup)].ToString();
 
-            Authorized = true;
+            //Authorized = true;
             Close();
         }
 
@@ -116,28 +116,28 @@ namespace UserData.UserForms
         /// <param name="sqlConnection"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public DataRow Aauthorization()
-        {
-            // Проверка существования пользователя            
-            foreach (DataRow row in UD.UsersDataTable.Rows)
-            {
-                if (row[Vars.UserName].ToString() == nameGroupBox.textBox.Text ||
-                    (row[Vars.UserName].ToString() + " " + row[Vars.UserLastName].ToString()) == nameGroupBox.textBox.Text ||
-                    row[Vars.UserLastName].ToString() == nameGroupBox.textBox.Text)
-                {
-                    if (row[Vars.UserPassword].ToString() == passwordGroupBox.textBox.Text)
-                        return row;
-                    else
-                    {
-                        passwordGroupBox.textBox.ForeColor = Color.Red;
-                        errorLabel.Text = Vars.PasswordError;
-                        return null;
-                    }
-                }
-            }
-            nameGroupBox.textBox.ForeColor = Color.Red;
-            errorLabel.Text = Vars.LoginNameError;
-            return null;
-        }
+        //public DataRow Aauthorization()
+        //{
+        //    // Проверка существования пользователя            
+        //    foreach (DataRow row in UD.UsersDataTable.Rows)
+        //    {
+        //        if (row[Vars.UserName].ToString() == nameGroupBox.textBox.Text ||
+        //            (row[Vars.UserName].ToString() + " " + row[Vars.UserLastName].ToString()) == nameGroupBox.textBox.Text ||
+        //            row[Vars.UserLastName].ToString() == nameGroupBox.textBox.Text)
+        //        {
+        //            if (row[Vars.UserPassword].ToString() == passwordGroupBox.textBox.Text)
+        //                return row;
+        //            else
+        //            {
+        //                passwordGroupBox.textBox.ForeColor = Color.Red;
+        //                errorLabel.Text = Vars.PasswordError;
+        //                return null;
+        //            }
+        //        }
+        //    }
+        //    nameGroupBox.textBox.ForeColor = Color.Red;
+        //    errorLabel.Text = Vars.LoginNameError;
+        //    return null;
+        //}
     }
 }

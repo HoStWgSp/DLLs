@@ -4,16 +4,16 @@ namespace UserData
     internal class Vars
     {
         public static string TableName = "Users",
-            UserNickName = "UserNickName",
-            UserName = "UserName",
-            UserMiddleName = "UserMiddleName",
-            UserLastName = "UserLastName",
-            UserPassword = "UserPassword",
-            UserEMail = "UserEMail",
-            UserPhone = "UserPhone",
-            UserGroup = "UserGroup",
-            UserAdmin = "UserAdmin",
-            UserAddress= "UserAddress";
+            UserNickName = "1",
+            UserName = "2",
+            UserMiddleName = "3",
+            UserLastName = "4",
+            UserPassword = "5",
+            UserEMail = "6",
+            UserPhone = "7",
+            UserGroup = "8",
+            UserAdmin = "9",
+            UserAddress= "10";
 
 
         public static int UserTextL = 30,

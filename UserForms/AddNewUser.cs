@@ -40,13 +40,13 @@ namespace UserData.UserForms
                 { Vars.UserAdmin, "0"}
             };
 
-            if (user.Admin)
-            {
-                if (adminCheckBox.Checked)
-                    newUser.Add(Vars.UserAdmin, "1");
-                else
-                    newUser.Add(Vars.UserAdmin, "");
-            }
+            //if (user.Admin)
+            //{
+            //    if (adminCheckBox.Checked)
+            //        newUser.Add(Vars.UserAdmin, "1");
+            //    else
+            //        newUser.Add(Vars.UserAdmin, "");
+            //}
 
             //if (!UsersTableActions.Add(user, newUser))
             //{
@@ -56,7 +56,7 @@ namespace UserData.UserForms
 
             newUser.Remove(Vars.UserPassword);
 
-            user.NewUserData = new Dictionary<string, string>(newUser);
+            //user.NewUserData = new Dictionary<string, string>(newUser);
 
             //user.userForm.Close();
         }

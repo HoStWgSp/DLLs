@@ -12,64 +12,56 @@ namespace UserData
 {
     internal class UsersTableActions
     {
-        DB DataBase { get; set; }
-
-        public UsersTableActions(DB dataBase)
-        {
-            DataBase = dataBase;
-        }
-
-        /// <summary>
-        /// Проверяет существование таблицы
-        /// </summary>
-        /// <returns></returns>
-        internal bool UsersTableAvailabilityCheck() { return DataBase.TableCheck(Vars.TableName); }
+        
 
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
         /// <param name="connectionString"></param>
         /// <returns></returns>
-        internal bool NewTableCreation()
+        internal static bool NewTableCreation(DB db)
         {
             User user = new User();
 
-            if (!DataBase.NewTableCreation($"CREATE TABLE {DataBase.DataProvider.DataBase}.{Vars.TableName} " +
-                $"(Id INT AUTO_INCREMENT NOT NULL,{GetUsersColumns()}"))
-            {
-                if (!DataBase.NewTableCreation($"CREATE TABLE dbo.{Vars.TableName} " +
+            //if (!db.NewTableCreation($"CREATE TABLE {Vars.TableName} " +
+                //$"(Id INT AUTO_INCREMENT NOT NULL,{GetUsersColumns()}"))
+            //{
+                if (!db.NewTableCreation($"CREATE TABLE dbo.{Vars.TableName} " +
                 $"(Id INT IDENTITY(1,1) NOT NULL,{GetUsersColumns()}"))
                 { MessageBox.Show("Не удалось создать таблицу с пользователями."); return false; }
-            }
+                else return true;
+            //}
+            //else return true;
 
-            user.UserPassword = "admin";
-            user.UserAdmin = "1";
-            user.UserName = "admin";
-            user.UserMiddleName = " ";
-            user.UserLastName = " ";
-            user.UserEmail = " ";
-            user.UserPhoneNumber = " ";
-            user.UserAddress = " ";
-            user.UserGroup = " ";
 
-            if (!AddNewUser(user))
-                { MessageBox.Show("Таблица Users создана! Добавить администратора не удалось!"); return true; }
+                //user.UserPassword = "admin";
+                //user.UserAdmin = "1";
+                //user.UserName = "admin";
+                //user.UserMiddleName = " ";
+                //user.UserLastName = " ";
+                //user.UserEmail = " ";
+                //user.UserPhoneNumber = " ";
+                //user.UserAddress = " ";
+                //user.UserGroup = " ";
 
-            MessageBox.Show("Таблица Users создана! Добавлена учетная запись администратора. Login - admin. Password - admin."); return true;
+                //if (!AddNewUser(db, user))
+                //    { MessageBox.Show("Таблица Users создана! Добавить администратора не удалось!"); return true; }
 
-            string GetUsersColumns()
-            {
-                return  $"{nameof(user.UserPassword)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"{nameof(user.UserAdmin)} CHAR(1) NOT NULL," +
-                        $"{nameof(user.UserName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"{nameof(user.UserMiddleName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"{nameof(user.UserLastName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"{nameof(user.UserEmail)} NVARCHAR({Vars.UserEMailL}) NOT NULL," +
-                        $"{nameof(user.UserPhoneNumber)} NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
-                        $"{nameof(user.UserAddress)} NVARCHAR({Vars.UserAddressL}) NOT NULL," +
-                        $"{nameof(user.UserGroup)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"primary key (id))";
-            }
+                //MessageBox.Show("Таблица Users создана! Добавлена учетная запись администратора. Login - admin. Password - admin."); return true;
+
+                string GetUsersColumns()
+                {
+                    return $"{nameof(user.UserPassword)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"{nameof(user.UserAdmin)} CHAR(1) NOT NULL," +
+                            $"{nameof(user.UserName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"{nameof(user.UserMiddleName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"{nameof(user.UserLastName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"{nameof(user.UserEmail)} NVARCHAR({Vars.UserEMailL}) NOT NULL," +
+                            $"{nameof(user.UserPhoneNumber)} NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
+                            $"{nameof(user.UserAddress)} NVARCHAR({Vars.UserAddressL}) NOT NULL," +
+                            $"{nameof(user.UserGroup)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"primary key (id))";
+                }
         }
 
         /// <summary>
@@ -78,9 +70,9 @@ namespace UserData
         /// <param name="dataBase"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        internal bool AddNewUser(User user)
+        internal static bool AddNewUser(DB db, User user)
         {
-            return DataBase.AddTableRow($"INSERT INTO {Vars.TableName} " +
+            return db.AddTableRow($"INSERT INTO {Vars.TableName} " +
                 $"(" +
                 $"{nameof(user.UserPassword)}, " +
                 $"{nameof(user.UserAdmin)}, " +
@@ -108,7 +100,7 @@ namespace UserData
         /// Читает таблицу Users в DataTable
         /// </summary>
         /// <returns></returns>
-        internal DataTable ReadUsersDataTable() { return DataBase.ReadDataTable(Vars.TableName); }
+        //internal DataTable ReadUsersDataTable() { return DataBase.ReadDataTable(Vars.TableName); }
 
         /// <summary>
         /// Заменяет данные в строке
@@ -117,9 +109,9 @@ namespace UserData
         /// <param name="rowId"></param>
         /// <param name="userData"></param>
         /// <returns></returns>
-        internal bool ChangeUserData(User user)
+        internal static bool ChangeUserData(DB db, User user)
         {
-            return DataBase.ChangeTableRow($"UPDATE {Vars.TableName} SET " +
+            return db.ChangeTableRow($"UPDATE {Vars.TableName} SET " +
                 $"{nameof(user.UserPassword)}=N'{user.UserPassword}'," +
                 $"{nameof(user.UserAdmin)}=N'{user.UserAdmin}'," +
                 $"{nameof(user.UserName)}=N'{user.UserName}'," +

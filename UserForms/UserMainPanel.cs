@@ -120,10 +120,10 @@ namespace UserData.UserForms
         {
             if (comboBox)
             {
-                groupGroupBox = new UserGroupBoxes(
-                    Vars.Group + ":", "groupGroupBox", 41, 285,
-                    Properties.Resources.Group, userData.groupsList);
-                groupGroupBox.Controls["comboBox"].KeyDown += TextBox_KeyDown;
+               // groupGroupBox = new UserGroupBoxes(
+                    //Vars.Group + ":", "groupGroupBox", 41, 285,
+                    //Properties.Resources.Group, userData.groupsList);
+                //groupGroupBox.Controls["comboBox"].KeyDown += TextBox_KeyDown;
             }
             else
             {

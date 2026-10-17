@@ -4,7 +4,6 @@ using System.Data;
 using UserData.UserForms;
 using System.Windows.Forms;
 using System.Drawing;
-using MySql.Data.MySqlClient;
 using DataBase;
 using UserData.UserForms.Elements;
 using System;
@@ -13,46 +12,58 @@ namespace UserData
 {
     public class UserData
     {
-        public DB DataBase;
+        // Объект ДБ
+        private static DB dataBase;
+        // Объект User
+        public User User { get; private set; } = new User();
 
-        public DataTable UsersDataTable { get; internal set; }
-        public User User { get; set; } = new User();
+        internal bool UsersTableAvailability {  get; private set; }
 
-        internal UsersTableActions UsersTableActions { get; private set; }
-        internal UserActions UserActions { get; private set; }
+        //public DataTable UsersDataTable { get; internal set; }
 
-        internal UserListForm userListForm;
+        //internal UserActions UserActions { get; private set; }
+
+        //internal UserListForm userListForm;
 
         internal Icon formIcon;
         public Icon FormIcon { set { formIcon = value; } }
 
-        internal string[] groupsList;
-        public List<string> GroupsList { set { groupsList = value.ToArray(); } }
+        //internal string[] groupsList;
+        //public List<string> GroupsList { set { groupsList = value.ToArray(); } }
 
-        public Dictionary<string, string> NewUserData { get; internal set; }
-        public Dictionary<string, string> UsersccData { get; internal set; }
+        //public Dictionary<string, string> NewUserData { get; internal set; }
+        //public Dictionary<string, string> UsersccData { get; internal set; }
 
         public bool TableExsist { get; private set; } = true;
-        internal bool Admin { get; set; } = false;
+        //internal bool Admin { get; set; } = false;
 
+
+        // ------------------------------------------------------------------
         /// <summary>
         /// Создает объект Пользователь.
         /// Проверяет существует ли таблица пользователей.
         /// Если не существует, то предлагает создать.
         /// На выходе переменная TableExsist.
         /// </summary>
-        /// <param name="sqlConnection"></param>
-        public UserData(string connectionString)
+        public UserData(DB db)
         {
-            DataBase = new DB(formIcon, connectionString);
-            UsersTableActions = new UsersTableActions(DataBase);
-            UserActions = new UserActions(this);
-        }
-        public UserData(DB dataBase)
-        {
-            DataBase = dataBase;
-            UsersTableActions = new UsersTableActions(DataBase);
-            UserActions = new UserActions(this);
+            // копирует объект БД
+            dataBase = db;
+            // Проверяет существование таблицы
+            if (!dataBase.TableCheck(Vars.TableName))
+            {
+                // Если нет, то создаем
+                if (!UsersTableActions.NewTableCreation(db))
+                    MessageBox.Show(Vars.TableNotCreated);
+                else
+                {
+                    AlertAndConfirm.AlertConfirmForm alertAndConfirm = new AlertAndConfirm.AlertConfirmForm();
+                    alertAndConfirm.Button1Text = "Создать";
+                    alertAndConfirm.Confirmation("dsfa", 300, 200);
+                }
+            }
+
+            //UserActions = new UserActions(this);
 
             //UsersccData = new Dictionary<string, string>();
             //NewUserData = new Dictionary<string, string>();
@@ -62,17 +73,12 @@ namespace UserData
 
             //UserAuthorization(true);
         }
-        /// <summary>
-        /// Проверяет существование таблицы
-        /// </summary>
-        /// <returns></returns>
-        public bool UsersTableAvailability() { return UsersTableActions.UsersTableAvailabilityCheck(); }
 
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
         /// <returns></returns>
-        public bool CreateNewUsersTable() { return UsersTableActions.NewTableCreation(); }
+        //public bool CreateNewUsersTable() { return UsersTableActions.NewTableCreation(); }
 
 
 
@@ -84,7 +90,7 @@ namespace UserData
         /// <returns></returns>
         public bool UserAuthorization()
         {
-            UsersDataTable = UsersTableActions.ReadUsersDataTable();
+            //UsersDataTable = UsersTableActions.ReadUsersDataTable();
             UserLogInForm userLogInForm = new UserLogInForm(this);
             return userLogInForm.Authorized;
         }
@@ -93,20 +99,20 @@ namespace UserData
         /// Добавление нового пользователя.
         /// </summary>
         /// <returns></returns>
-        public bool AddNewUser(bool admin = false)
-        {
-            UsersDataTable = UsersTableActions.ReadUsersDataTable();
-            AddNewUserForm newUserForm = new AddNewUserForm(this, admin);
-            return newUserForm.UserAdded;
-        }
+        //public bool AddNewUser(bool admin = false)
+        //{
+            //UsersDataTable = UsersTableActions.ReadUsersDataTable();
+            //AddNewUserForm newUserForm = new AddNewUserForm(this, admin);
+            //return newUserForm.UserAdded;
+        //}
 
-        public bool Userinfo(int userId, bool admin = false)
-        {
-            UsersDataTable = UsersTableActions.ReadUsersDataTable();
-            User user = UserActions.UserFromTable(userId);
-            UserDataForm userDataForm = new UserDataForm(this, user, admin);
-            return userDataForm.UserDataChanged;
-        }
+        //public bool Userinfo(int userId, bool admin = false)
+        //{
+            //UsersDataTable = UsersTableActions.ReadUsersDataTable();
+            //User user = UserActions.UserFromTable(userId);
+            //UserDataForm userDataForm = new UserDataForm(this, user, admin);
+            //return userDataForm.UserDataChanged;
+        //}
 
 
 

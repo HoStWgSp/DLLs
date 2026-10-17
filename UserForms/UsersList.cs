@@ -25,7 +25,7 @@ namespace UserData.UserForms
 
             //Dock = DockStyle.Fill;
             Name = "dataGridView";
-            DataSource = ReadValidUsers();
+            //DataSource = ReadValidUsers();
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             ReadOnly = true;
             RowHeadersVisible = false;
@@ -34,7 +34,7 @@ namespace UserData.UserForms
             
             ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
 
-            user.userListForm.ClientSize = new Size(Width, Height + 40);
+            //user.userListForm.ClientSize = new Size(Width, Height + 40);
 
             id_column = new DataGridViewTextBoxColumn()
             {
@@ -119,7 +119,7 @@ namespace UserData.UserForms
         {
             //user.NewUser();
             DataSource = null;
-            DataSource = ReadValidUsers();
+            //DataSource = ReadValidUsers();
         }
         private void Change_Click(object sender, EventArgs e)
         {
@@ -129,7 +129,7 @@ namespace UserData.UserForms
         {
             //UsersTableActions.RemoveTableRow(user, rowId);
             DataSource = null;
-            DataSource = ReadValidUsers();
+            //DataSource = ReadValidUsers();
         }
 
 
@@ -150,23 +150,23 @@ namespace UserData.UserForms
             rowId = DataGridViewActions.DataTableRowId(this, e.RowIndex);
 
             Dictionary<string, string> userData = new Dictionary<string, string>();
-            foreach (DataRow row in user.UsersDataTable.Rows)
-            {
-                if (Convert.ToInt32(row["Id"]) == rowId)
-                {
-                    userData["Id"] = row["Id"].ToString();
-                    userData.Add(Vars.UserName, row[Vars.UserName].ToString());
-                    userData.Add(Vars.UserLastName, row[Vars.UserLastName].ToString());
-                    userData.Add(Vars.UserPassword, row[Vars.UserPassword].ToString());
-                    userData.Add(Vars.UserEMail, row[Vars.UserEMail].ToString());
-                    userData.Add(Vars.UserPhone, row[Vars.UserPhone].ToString());
-                    userData.Add(Vars.UserGroup, row[Vars.UserGroup].ToString());
-                    userData.Add(Vars.UserAdmin, row[Vars.UserAdmin].ToString());
-                }
-            }
+            //foreach (DataRow row in user.UsersDataTable.Rows)
+            //{
+            //    if (Convert.ToInt32(row["Id"]) == rowId)
+            //    {
+            //        userData["Id"] = row["Id"].ToString();
+            //        userData.Add(Vars.UserName, row[Vars.UserName].ToString());
+            //        userData.Add(Vars.UserLastName, row[Vars.UserLastName].ToString());
+            //        userData.Add(Vars.UserPassword, row[Vars.UserPassword].ToString());
+            //        userData.Add(Vars.UserEMail, row[Vars.UserEMail].ToString());
+            //        userData.Add(Vars.UserPhone, row[Vars.UserPhone].ToString());
+            //        userData.Add(Vars.UserGroup, row[Vars.UserGroup].ToString());
+            //        userData.Add(Vars.UserAdmin, row[Vars.UserAdmin].ToString());
+            //    }
+            //}
             //user.UserPersonalData(userData);
             DataSource = null;
-            DataSource = ReadValidUsers();
+            //DataSource = ReadValidUsers();
         }
 
         private void DataGridViewTextBoxColumnAdjast(DataGridViewTextBoxColumn columnName, string PropertyName, int DispIndex)
@@ -175,28 +175,28 @@ namespace UserData.UserForms
             columnName.DataPropertyName = PropertyName;
             columnName.DisplayIndex = DispIndex;
         }
-        internal DataTable ReadValidUsers()
-        {
-            //user.UsersData = UsersTableActions.ExecuteReaderToDataTable(user,
-                    //$"select * from {Vars.TableName}");
-            DataTable table = user.UsersDataTable.Clone();
-            foreach (DataRow dataRow in user.UsersDataTable.Rows)
-            {
-                if (dataRow[Vars.UserName].ToString() != null && dataRow[Vars.UserName].ToString() != "")
-                {
-                    DataRow row = table.NewRow();
-                    row["Id"] = dataRow["Id"];
-                    row[Vars.UserName] = dataRow[Vars.UserName];
-                    row[Vars.UserLastName] = dataRow[Vars.UserLastName];
-                    row[Vars.UserEMail] = dataRow[Vars.UserEMail];
-                    row[Vars.UserPhone] = dataRow[Vars.UserPhone];
-                    row[Vars.UserGroup] = dataRow[Vars.UserGroup];
-                    row[Vars.UserAdmin] = dataRow[Vars.UserAdmin];
-                    row[Vars.UserPassword] = dataRow[Vars.UserPassword];
-                    table.Rows.Add(row);
-                }
-            }
-            return table;
-        }
+        //internal DataTable ReadValidUsers()
+        //{
+        //    //user.UsersData = UsersTableActions.ExecuteReaderToDataTable(user,
+        //            //$"select * from {Vars.TableName}");
+        //    //DataTable table = user.UsersDataTable.Clone();
+        //    //foreach (DataRow dataRow in user.UsersDataTable.Rows)
+        //    //{
+        //    //    if (dataRow[Vars.UserName].ToString() != null && dataRow[Vars.UserName].ToString() != "")
+        //    //    {
+        //    //        DataRow row = table.NewRow();
+        //    //        row["Id"] = dataRow["Id"];
+        //    //        row[Vars.UserName] = dataRow[Vars.UserName];
+        //    //        row[Vars.UserLastName] = dataRow[Vars.UserLastName];
+        //    //        row[Vars.UserEMail] = dataRow[Vars.UserEMail];
+        //    //        row[Vars.UserPhone] = dataRow[Vars.UserPhone];
+        //    //        row[Vars.UserGroup] = dataRow[Vars.UserGroup];
+        //    //        row[Vars.UserAdmin] = dataRow[Vars.UserAdmin];
+        //    //        row[Vars.UserPassword] = dataRow[Vars.UserPassword];
+        //    //        table.Rows.Add(row);
+        //    //    }
+        //    //}
+        //    return table;
+        //}
     }
 }
