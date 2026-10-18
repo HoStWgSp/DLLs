@@ -36,8 +36,8 @@ namespace UserData.UserForms
                 { Vars.UserEMail, eMailGroupBox.Controls["textBox"].Text },
                 { Vars.UserPhone, phoneGroupBox.Controls["maskedTextBox"].Text },
                 { Vars.UserGroup, groupGroupBox.Controls["comboBox"].Text} ,
-                { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text},
-                { Vars.UserAdmin, "0"}
+                { Vars.UserPassword, passwordGroupBox.Controls["textBox"].Text}
+                
             };
 
             //if (user.Admin)

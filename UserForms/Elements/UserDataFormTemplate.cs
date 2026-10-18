@@ -13,7 +13,6 @@ namespace UserData.UserForms.Elements
     internal class UserDataFormTemplate : Form
     {
         string[] groupsList {  get; set; }
-        Icon formIcon;
         internal bool Admin {  get; private set; }
 
         internal Panel panel;
@@ -23,16 +22,17 @@ namespace UserData.UserForms.Elements
         internal GroupBox2TextBox nameGroupBox;
         internal GroupBoxTextBox lastNameGroupBox, passwordGroupBox, eMailGroupBox, addressGroupBox;
         internal GroupBoxMaskedTextBox phoneNumberGroupBox;
-        public GroupBoxComboBox groupsGroupBox;
+        internal GroupBoxComboBox groupsGroupBox;
         internal CheckBox adminCheckBox;
         internal Button button;
 
-        public UserDataFormTemplate (Icon formIcon, string[] groupsList, string labelText, string buttonText, bool admin)
+        public UserDataFormTemplate (Icon formIcon, string[] groups, string labelText, string buttonText, bool admin)
         {
-            this.formIcon = formIcon;
-            this.groupsList = groupsList;
-            Admin = admin;
+            // Иконка формы
             Icon = formIcon;
+            // Создаем массив строк из словаря
+            groupsList = groups;
+            Admin = admin;
             StartPosition = FormStartPosition.CenterParent;
             AutoSize = false;
             MinimizeBox = false;
@@ -102,13 +102,12 @@ namespace UserData.UserForms.Elements
             if (admin)
             {
                 panel.Controls.Add(groupsGroupBox);
-                panel.Controls.Add(adminCheckBox);
+                groupsGroupBox.comboBox.Text = groupsList[0].ToString();
+                groupsGroupBox.comboBox.Enabled = false;
 
-                adminCheckBox.Location = new Point(75, 455);
-
-                errorLabel.Location = new Point(41, 479);
-                button.Location = new Point(92, 499);
-                panel.Height = 569;
+                errorLabel.Location = new Point(41, 455);
+                button.Location = new Point(92, 479);
+                panel.Height = 545;
             }
 
             panel.Controls.Add(loginLabel);

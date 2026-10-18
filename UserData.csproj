@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataGridViewActions.cs" />
+    <Compile Include="DictionaryActs.cs" />
     <Compile Include="MyElements\MyGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -78,7 +79,9 @@
     <Compile Include="UserForms\AddNewUser.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\AddNewUserForm.cs" />
+    <Compile Include="UserForms\AddNewUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UserForms\Elements\Checks.cs" />
     <Compile Include="UserForms\Elements\GroupBox2TextBox.cs">
       <SubType>Component</SubType>

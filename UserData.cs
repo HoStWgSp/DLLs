@@ -1,23 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using UserData.UserForms;
-using System.Windows.Forms;
-using System.Drawing;
-using DataBase;
-using UserData.UserForms.Elements;
+﻿using DataBase;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using UserData.UserForms;
+using UserData.UserForms.Elements;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace UserData
 {
     public class UserData
     {
         // Объект ДБ
-        private static DB dataBase;
+        internal static DB dataBase;
         // Объект User
-        public User User { get; private set; } = new User();
-
-        internal bool UsersTableAvailability {  get; private set; }
+        public User User { get; internal set; }
 
         //public DataTable UsersDataTable { get; internal set; }
 
@@ -34,8 +34,38 @@ namespace UserData
         //public Dictionary<string, string> NewUserData { get; internal set; }
         //public Dictionary<string, string> UsersccData { get; internal set; }
 
-        public bool TableExsist { get; private set; } = true;
         //internal bool Admin { get; set; } = false;
+
+        public UserData(DB db)
+        {
+            // копирует объект БД
+            dataBase = db;
+            // Создаем экземпляр User
+            User = new User();
+        }
+
+        /// <summary>
+        /// Проверяет наличие таблицы с данными пользователей. Возвращает true, если есть
+        /// </summary>
+        public bool UsersDataTableAvailable() { return dataBase.TableCheck(Vars.TableName); }
+
+        /// <summary>
+        /// Создает таблицу с данными пользователей. Возвращает true при удачном создании
+        /// </summary>
+        public bool NewUserDataTableCreation() { return UsersTableActions.NewTableCreation(dataBase); } 
+
+        /// <summary>
+        /// Добавление владельца компании
+        /// </summary>
+        public void AddOwner(string[] groups, string formTaxt)
+        {
+            AddNewUserForm addNewUserForm = new AddNewUserForm(this, groups, true);
+
+        }
+
+
+
+
 
 
         // ------------------------------------------------------------------
@@ -45,23 +75,32 @@ namespace UserData
         /// Если не существует, то предлагает создать.
         /// На выходе переменная TableExsist.
         /// </summary>
-        public UserData(DB db)
+        public UserData(DB db, Dictionary<int, string> groups)
         {
-            // копирует объект БД
-            dataBase = db;
-            // Проверяет существование таблицы
-            if (!dataBase.TableCheck(Vars.TableName))
-            {
-                // Если нет, то создаем
-                if (!UsersTableActions.NewTableCreation(db))
-                    MessageBox.Show(Vars.TableNotCreated);
-                else
-                {
-                    AlertAndConfirm.AlertConfirmForm alertAndConfirm = new AlertAndConfirm.AlertConfirmForm();
-                    alertAndConfirm.Button1Text = "Создать";
-                    alertAndConfirm.Confirmation("dsfa", 300, 200);
-                }
-            }
+            //// Список с уровнями привилегий
+            //Groups = groups;
+            ////Testos();
+            //// копирует объект БД
+            //dataBase = db;
+            //// Проверяет существование таблицы
+            //if (!dataBase.TableCheck(Vars.TableName))
+            //{
+            //    // Если нет, то создаем
+            //    if (!UsersTableActions.NewTableCreation(db))
+            //        MessageBox.Show(Vars.TableNotCreated);
+            //    else
+            //    {
+            //        AlertAndConfirm.AlertConfirmForm alertAndConfirm = new AlertAndConfirm.AlertConfirmForm();
+            //        alertAndConfirm.Button1Text = "Заполнить";
+            //        alertAndConfirm.Confirmation("Это первый рапуск программы. Для продолжения пожалуйста заполните данные " +
+            //            "владельца компании!", 350, 120);
+
+            //        if (!alertAndConfirm.Confirm)
+            //            return;
+
+            //        AddNewUserForm addNewUserForm = new AddNewUserForm(this, true);
+            //    }
+            //}
 
             //UserActions = new UserActions(this);
 
@@ -72,6 +111,11 @@ namespace UserData
             //UsersData = dataBase.ReadDataTable(Vars.TableName);
 
             //UserAuthorization(true);
+        }
+
+        private void Testos()
+        {
+            //AddNewUserForm addNewUserForm = new AddNewUserForm(this);
         }
 
         /// <summary>

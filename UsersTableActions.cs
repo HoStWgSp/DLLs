@@ -23,15 +23,15 @@ namespace UserData
         {
             User user = new User();
 
-            //if (!db.NewTableCreation($"CREATE TABLE {Vars.TableName} " +
-                //$"(Id INT AUTO_INCREMENT NOT NULL,{GetUsersColumns()}"))
-            //{
+            if (!db.NewTableCreation($"CREATE TABLE {Vars.TableName} " +
+                $"(Id INT AUTO_INCREMENT NOT NULL,{GetUsersColumns()}"))
+            {
                 if (!db.NewTableCreation($"CREATE TABLE dbo.{Vars.TableName} " +
                 $"(Id INT IDENTITY(1,1) NOT NULL,{GetUsersColumns()}"))
                 { MessageBox.Show("Не удалось создать таблицу с пользователями."); return false; }
                 else return true;
-            //}
-            //else return true;
+            }
+            else return true;
 
 
                 //user.UserPassword = "admin";
@@ -51,15 +51,14 @@ namespace UserData
 
                 string GetUsersColumns()
                 {
-                    return $"{nameof(user.UserPassword)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"{nameof(user.UserAdmin)} CHAR(1) NOT NULL," +
-                            $"{nameof(user.UserName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"{nameof(user.UserMiddleName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"{nameof(user.UserLastName)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"{nameof(user.UserEmail)} NVARCHAR({Vars.UserEMailL}) NOT NULL," +
-                            $"{nameof(user.UserPhoneNumber)} NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
-                            $"{nameof(user.UserAddress)} NVARCHAR({Vars.UserAddressL}) NOT NULL," +
-                            $"{nameof(user.UserGroup)} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                    return $"{Vars.UserPassword} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"{Vars.UserName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"{Vars.UserMiddleName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"{Vars.UserLastName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                            $"{Vars.UserEMail} NVARCHAR({Vars.UserEMailL}) NOT NULL," +
+                            $"{Vars.UserPhone} NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
+                            $"{Vars.UserAddress} NVARCHAR({Vars.UserAddressL}) NOT NULL," +
+                            $"{Vars.UserGroup} NVARCHAR({Vars.UserTextL}) NOT NULL," +
                             $"primary key (id))";
                 }
         }
@@ -74,18 +73,16 @@ namespace UserData
         {
             return db.AddTableRow($"INSERT INTO {Vars.TableName} " +
                 $"(" +
-                $"{nameof(user.UserPassword)}, " +
-                $"{nameof(user.UserAdmin)}, " +
-                $"{nameof(user.UserName)}, " +
-                $"{nameof(user.UserMiddleName)}, " +
-                $"{nameof(user.UserLastName)}, " +
-                $"{nameof(user.UserEmail)}, " +
-                $"{nameof(user.UserPhoneNumber)}, " +
-                $"{nameof(user.UserAddress)}, " +
-                $"{nameof(user.UserGroup)}" +
+                $"{Vars.UserPassword}, " +
+                $"{Vars.UserName}, " +
+                $"{Vars.UserMiddleName}, " +
+                $"{Vars.UserLastName}, " +
+                $"{Vars.UserEMail}, " +
+                $"{Vars.UserPhone}, " +
+                $"{Vars.UserAddress}, " +
+                $"{Vars.UserGroup}" +
                 $") VALUES (" +
                 $"N'{user.UserPassword}', " +
-                $"N'{user.UserAdmin}', " +
                 $"N'{user.UserName}', " +
                 $"N'{user.UserMiddleName}', " +
                 $"N'{user.UserLastName}', " +
@@ -112,15 +109,14 @@ namespace UserData
         internal static bool ChangeUserData(DB db, User user)
         {
             return db.ChangeTableRow($"UPDATE {Vars.TableName} SET " +
-                $"{nameof(user.UserPassword)}=N'{user.UserPassword}'," +
-                $"{nameof(user.UserAdmin)}=N'{user.UserAdmin}'," +
-                $"{nameof(user.UserName)}=N'{user.UserName}'," +
-                $"{nameof(user.UserMiddleName)}=N'{user.UserMiddleName}'," +
-                $"{nameof(user.UserLastName)}=N'{user.UserLastName}'," +
-                $"{nameof(user.UserEmail)}=N'{user.UserEmail}'," +
-                $"{nameof(user.UserPhoneNumber)}=N'{user.UserPhoneNumber}'," +
-                $"{nameof(user.UserAddress)}=N'{user.UserAddress}'," +
-                $"{nameof(user.UserGroup)}='{user.UserGroup}' " +
+                $"{Vars.UserPassword}=N'{user.UserPassword}'," +
+                $"{Vars.UserName}=N'{user.UserName}'," +
+                $"{Vars.UserMiddleName}=N'{user.UserMiddleName}'," +
+                $"{Vars.UserLastName}=N'{user.UserLastName}'," +
+                $"{Vars.UserEMail}=N'{user.UserEmail}'," +
+                $"{Vars.UserPhone}=N'{user.UserPhoneNumber}'," +
+                $"{Vars.UserAddress}=N'{user.UserAddress}'," +
+                $"{Vars.UserGroup}='{user.UserGroup}' " +
                 $"WHERE ID={user.Id}");
         }
 

@@ -4,16 +4,15 @@ namespace UserData
     internal class Vars
     {
         public static string TableName = "Users",
-            UserNickName = "1",
-            UserName = "2",
-            UserMiddleName = "3",
-            UserLastName = "4",
-            UserPassword = "5",
-            UserEMail = "6",
-            UserPhone = "7",
-            UserGroup = "8",
-            UserAdmin = "9",
-            UserAddress= "10";
+            UserNickName = "C1",
+            UserName = "C2",
+            UserMiddleName = "C3",
+            UserLastName = "C4",
+            UserPassword = "C5",
+            UserEMail = "C6",
+            UserPhone = "C7",
+            UserGroup = "C8",
+            UserAddress= "C9";
 
 
         public static int UserTextL = 30,
@@ -62,5 +61,6 @@ namespace UserData
             UserList = "Список пользователей",
             UserNorRegistred = "Не удалось зарегистрировать пользователя.",
             UserNotExsistConfirmation = "Пользователь с данным именем не существует. Хотите зарегистрироваться?";
+
     }
 }

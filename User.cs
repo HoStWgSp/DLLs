@@ -10,7 +10,6 @@ namespace UserData
     {
         public int Id { get; set; }
         public string UserPassword { internal get; set; }
-        public string UserAdmin {  get; set; }
         public string UserName { get; set; }
         public string UserMiddleName {  get; set; }
         public string UserLastName {  get; set; }
