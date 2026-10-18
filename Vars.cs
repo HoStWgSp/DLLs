@@ -9,7 +9,7 @@ namespace AlertAndConfirm
     internal class Vars
     {
         public static string
-            Alert = "Alert",
+            Alert = "Предупреждение",
             Cancel = "Отмена",
             ConfirmWrite = "Подтвердить запись";
     }
