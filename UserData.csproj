@@ -82,8 +82,17 @@
     <Compile Include="UserForms\AddNewUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UserForms\Elements\Abstracts\GroupBoxTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\AddressGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserForms\Elements\Checks.cs" />
-    <Compile Include="UserForms\Elements\GroupBox2TextBox.cs">
+    <Compile Include="UserForms\Elements\EMailGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\NameMiddleNameTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\Elements\GroupBoxComboBox.cs">
@@ -92,11 +101,17 @@
     <Compile Include="UserForms\Elements\GroupBoxMaskedTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\Elements\GroupBoxTextBox.cs">
+    <Compile Include="UserForms\Elements\LastNameGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\PasswordGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\Elements\UserDataFormTemplate.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\Elements\UserNameGroupBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\PasswordConfirmationForm.cs">
       <SubType>Form</SubType>

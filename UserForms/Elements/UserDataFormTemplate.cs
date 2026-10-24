@@ -19,8 +19,11 @@ namespace UserData.UserForms.Elements
 
         internal Label loginLabel,
             errorLabel;
-        internal GroupBox2TextBox nameGroupBox;
-        internal GroupBoxTextBox lastNameGroupBox, passwordGroupBox, eMailGroupBox, addressGroupBox;
+        internal NameMiddleNameTextBox nameGroupBox;
+        internal LastNameGroupBox lastNameGroupBox;
+        internal PasswordGroupBox passwordGroupBox;
+        internal EMailGroupBox eMailGroupBox;
+        internal AddressGroupBox addressGroupBox;
         internal GroupBoxMaskedTextBox phoneNumberGroupBox;
         internal GroupBoxComboBox groupsGroupBox;
         internal CheckBox adminCheckBox;
@@ -48,22 +51,17 @@ namespace UserData.UserForms.Elements
                 Text = labelText
             };
 
-            nameGroupBox = new GroupBox2TextBox(Vars.Name + ", " + Vars.MiddleName + ":", Properties.Resources.User, 41, 45,
-                Vars.Name, Vars.MiddleName, Vars.UserTextL);
+            nameGroupBox = new NameMiddleNameTextBox(41, 45);
 
-            lastNameGroupBox = new GroupBoxTextBox(Vars.LastName + ":", Properties.Resources.User, 41, 105,
-                Vars.LastName, Vars.UserTextL);
+            lastNameGroupBox = new LastNameGroupBox(41, 105);
 
-            passwordGroupBox = new GroupBoxTextBox(Vars.Password + ":", Properties.Resources.Password,
-                41, 165, Vars.Password, Vars.UserTextL);
+            passwordGroupBox = new PasswordGroupBox(41, 165);
 
-            phoneNumberGroupBox = new GroupBoxMaskedTextBox(Vars.Phone + ":", Properties.Resources.Phone, 41, 225, "+0(000) 000-00-00");
+            /phoneNumberGroupBox = new GroupBoxMaskedTextBox(Vars.Phone + ":", Properties.Resources.Phone, 41, 225, "+0(000) 000-00-00");
 
-            eMailGroupBox = new GroupBoxTextBox(Vars.EMail + ":", Properties.Resources.EMail, 41, 285,
-                Vars.EMail, Vars.UserEMailL);
+            eMailGroupBox = new EMailGroupBox(41, 285);
 
-            addressGroupBox = new GroupBoxTextBox(Vars.Address, Properties.Resources.Address, 41, 345,
-                Vars.Address, 500);
+            addressGroupBox = new AddressGroupBox(41, 345);
 
             groupsGroupBox = new GroupBoxComboBox(Vars.Group, Properties.Resources.Group, 41, 405,
                 groupsList);
@@ -144,14 +142,15 @@ namespace UserData.UserForms.Elements
                 button.PerformClick();
             }
         }
+
         internal bool TextBoxesEmptyOrWaterMarked()
         {
-            if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox1, errorLabel, Vars.Name, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return true;
-            if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox2, errorLabel, Vars.MiddleName, Vars.TextBoxEmpty + " " + Vars.MiddleName + "!")) return true;
-            if (Checks.TextBoxEmptyOrWaterMarked(lastNameGroupBox.textBox,errorLabel, Vars.LastName, Vars.TextBoxEmpty + " " + Vars.LastName + "!")) return true;
+            if (nameGroupBox.TextBox1Empty) { errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Name + "!"; return true; }
+            if (lastNameGroupBox.TextBoxEmpty) { errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.LastName + "!"; return true; }
+
             if (PhoneMaskedTextBoxOrNotCompleted()) return true;
             if (EMailTextBoxEmptyOrWaterMarked()) return true;
-            if (Checks.TextBoxEmptyOrWaterMarked(addressGroupBox.textBox, errorLabel, Vars.Address, Vars.TextBoxEmpty + " " + Vars.Address + "!")) return true;
+            //if (Checks.TextBoxEmptyOrWaterMarked(addressGroupBox.textBox, errorLabel, Vars.Address, Vars.TextBoxEmpty + " " + Vars.Address + "!")) return true;
             if (Admin)
                 if (GroupComboBoxNotSelected()) return true;
             errorLabel.Text = "";

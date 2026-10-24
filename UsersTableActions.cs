@@ -33,22 +33,6 @@ namespace UserData
             }
             else return true;
 
-
-                //user.UserPassword = "admin";
-                //user.UserAdmin = "1";
-                //user.UserName = "admin";
-                //user.UserMiddleName = " ";
-                //user.UserLastName = " ";
-                //user.UserEmail = " ";
-                //user.UserPhoneNumber = " ";
-                //user.UserAddress = " ";
-                //user.UserGroup = " ";
-
-                //if (!AddNewUser(db, user))
-                //    { MessageBox.Show("Таблица Users создана! Добавить администратора не удалось!"); return true; }
-
-                //MessageBox.Show("Таблица Users создана! Добавлена учетная запись администратора. Login - admin. Password - admin."); return true;
-
                 string GetUsersColumns()
                 {
                     return $"{Vars.UserPassword} NVARCHAR({Vars.UserTextL}) NOT NULL," +

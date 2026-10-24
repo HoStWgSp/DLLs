@@ -8,31 +8,30 @@ using System.Windows.Forms;
 
 namespace UserData.UserForms.Elements
 {
-    internal class GroupBox2TextBox : GroupBox
+    internal class NameMiddleNameTextBox : GroupBox
     {
         private Label label;
-        public TextBox textBox1, textBox2;
+        internal TextBox textBox1, textBox2;
         private string watermark1Text, watermark2Text;
         private bool textBox1WatermarkTextKeyPressed = false;
         private bool textBox2WatermarkTextKeyReleased = false;
 
-        public GroupBox2TextBox(string groupBoxText, Image image, int X, int Y,
-            string textBox1WatermarkText, string textBox2WatermarkText, int textBoxMaxLength)
+        public NameMiddleNameTextBox(int X, int Y)
         {
-            watermark1Text = textBox1WatermarkText;
-            watermark2Text = textBox2WatermarkText;
+            watermark1Text = Vars.Name;
+            watermark2Text = Vars.MiddleName;
 
             ClientSize = new Size(303, 50);
-            Text = groupBoxText;
+            Text = Vars.Name + ", " + Vars.MiddleName + ":";
+            Name = Text;
             Location = new Point(X, Y);
-            Name = groupBoxText;
 
             label = new Label()
             {
                 AutoSize = false,
                 Size = new Size(32, 32),
                 Location = new Point(2, 15),
-                Image = image,
+                Image = Properties.Resources.User,
                 Name = "label"
             };
             Controls.Add(label);
@@ -41,8 +40,8 @@ namespace UserData.UserForms.Elements
             {
                 Name = "textBox",
                 Font = new Font("Calibri", 15, FontStyle.Regular),
-                Text = textBox1WatermarkText,
-                MaxLength = textBoxMaxLength,
+                Text = watermark1Text,
+                MaxLength = Vars.UserTextL,
                 Width = 133,
                 Location = new Point(34, 15),
                 ForeColor = SystemColors.GrayText
@@ -55,8 +54,8 @@ namespace UserData.UserForms.Elements
             {
                 Name = "textBox2",
                 Font = new Font("Calibri", 15, FontStyle.Regular),
-                Text = textBox2WatermarkText,
-                MaxLength = textBoxMaxLength,
+                Text = watermark2Text,
+                MaxLength = Vars.UserTextL,
                 Width = 133,
                 Location = new Point(168, 15),
                 ForeColor = SystemColors.GrayText
@@ -113,5 +112,10 @@ namespace UserData.UserForms.Elements
                 textBox2WatermarkTextKeyReleased = false;
             }
         }
+
+        /// <summary>
+        /// Проверяет заполнен ли TextBox. Если не заполнен возвращает true
+        /// </summary>
+        internal bool TextBox1Empty { get { return Checks.TextBoxEmptyOrWaterMarked(textBox1, Vars.Name); } }
     }
 }

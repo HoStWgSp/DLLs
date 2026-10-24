@@ -18,7 +18,7 @@ namespace UserData.UserForms
         private Panel panel;
 
         private Label label, errorLabel;
-        private GroupBoxTextBox password1, password2;
+        private PasswordGroupBox password1, password2;
         private Button button;
         
         public PasswordConfirmationForm(string password, Icon formIcon)
@@ -39,14 +39,12 @@ namespace UserData.UserForms
                 Location = new Point(42, 5),
                 Text = Vars.PasswordConfirmation
             };
-            password1 = new GroupBoxTextBox(Vars.Password + ":", Properties.Resources.Password, 41, 45,
-                Vars.Password, Vars.UserTextL);
+            password1 = new PasswordGroupBox(41, 45);
 
             password1.textBox.ForeColor = SystemColors.WindowText;
             password1.textBox.Text = password;
 
-            password2 = new GroupBoxTextBox(Vars.PasswordConfirmation + ":", Properties.Resources.Password, 41, 105,
-                Vars.PasswordConfirmation, Vars.UserTextL);
+            password2 = new PasswordGroupBox(41, 105);
 
             errorLabel = new Label()
             {
@@ -89,8 +87,8 @@ namespace UserData.UserForms
         }
         internal void Button_Click(object sender, EventArgs e)
         {
-            if (Checks.TextBoxEmptyOrWaterMarked(password1.textBox, errorLabel, Vars.Password, Vars.TextBoxEmpty + " " + Vars.Password + "!")) return;
-            if (Checks.TextBoxEmptyOrWaterMarked(password2.textBox, errorLabel, Vars.PasswordConfirmation, Vars.TextBoxEmpty + " " + Vars.PasswordConfirmation + "!")) return;
+            //if (Checks.TextBoxEmptyOrWaterMarked(password1.textBox, errorLabel, Vars.Password, Vars.TextBoxEmpty + " " + Vars.Password + "!")) return;
+            //if (Checks.TextBoxEmptyOrWaterMarked(password2.textBox, errorLabel, Vars.PasswordConfirmation, Vars.TextBoxEmpty + " " + Vars.PasswordConfirmation + "!")) return;
 
             if (password1.textBox.Text != password2.textBox.Text)
             {

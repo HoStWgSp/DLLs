@@ -1,18 +1,20 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Crmf;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
-namespace UserData.UserForms.Elements
+namespace UserData.UserForms.Elements.Abstracts
 {
-    internal class GroupBoxTextBox : GroupBox
+    internal abstract class GroupBoxTextBox : GroupBox
     {
         private string watermarkText;
         private Label label;
-        public TextBox textBox;
+        internal TextBox textBox;
         private bool textBoxWatermarkTextKeyPressed = false;
         public GroupBoxTextBox(string groupBoxText, Image image, int X, int Y, string textBoxWatermarkText, int textBoxMaxLength)
         {

@@ -4,6 +4,7 @@ using UserData.UserForms.Elements;
 using System.Data;
 using System;
 using UserData.MyElements;
+using System.Drawing.Printing;
 
 namespace UserData.UserForms
 {
@@ -15,8 +16,8 @@ namespace UserData.UserForms
 
         private Label loginLabel,
             errorLabel;
-        private GroupBoxTextBox nameGroupBox,
-            passwordGroupBox;
+        private UserNameGroupBox userNameGroupBox;
+        private PasswordGroupBox passwordGroupBox;
         private Button button;
 
         internal bool Authorized { get; private set; } = false;
@@ -41,11 +42,9 @@ namespace UserData.UserForms
                 Text = Vars.Authorization
             };
 
-            nameGroupBox = new GroupBoxTextBox(Vars.User + ":", Properties.Resources.User, 41,45,
-                Vars.NameAndLastName, Vars.UserTextL);
+            userNameGroupBox = new UserNameGroupBox(41,45);
 
-            passwordGroupBox = new GroupBoxTextBox(Vars.Password + ":", Properties.Resources.Password,
-                41, 105, Vars.Password, Vars.UserTextL);
+            passwordGroupBox = new PasswordGroupBox(41, 105);
             passwordGroupBox.textBox.PasswordChar = '*';
 
             errorLabel = new Label()
@@ -73,7 +72,7 @@ namespace UserData.UserForms
             panel.Size = new Size(384, 241);
 
             panel.Controls.Add(loginLabel);
-            panel.Controls.Add(nameGroupBox);
+            panel.Controls.Add(userNameGroupBox);
             panel.Controls.Add(passwordGroupBox);
             panel.Controls.Add(errorLabel);
             panel.Controls.Add(button);
@@ -82,14 +81,14 @@ namespace UserData.UserForms
 
             ClientSize = new Size(panel.Width, panel.Height);
 
-            nameGroupBox.textBox.SelectionStart = 0;
+            userNameGroupBox.textBox.SelectionStart = 0;
 
             ShowDialog();
         }
         internal void Button_Click(object sender, EventArgs e)
         {
-            if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox, errorLabel, Vars.NameAndLastName, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return;
-            if (Checks.TextBoxEmptyOrWaterMarked(passwordGroupBox.textBox, errorLabel, Vars.Password, Vars.TextBoxEmpty + " " + Vars.Password + "!")) return;
+            //if (Checks.TextBoxEmptyOrWaterMarked(nameGroupBox.textBox, errorLabel, Vars.NameAndLastName, Vars.TextBoxEmpty + " " + Vars.Name + "!")) return;
+            //if (Checks.TextBoxEmptyOrWaterMarked(passwordGroupBox.textBox, errorLabel, Vars.Password, Vars.TextBoxEmpty + " " + Vars.Password + "!")) return;
 
             //DataRow userDataRow = Aauthorization();
 

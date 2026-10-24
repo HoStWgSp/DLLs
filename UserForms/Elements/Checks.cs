@@ -18,12 +18,11 @@ namespace UserData.UserForms.Elements
         /// <param name="watermarkText"></param>
         /// <param name="errorText"></param>
         /// <returns></returns>
-        public static bool TextBoxEmptyOrWaterMarked(TextBox textBox, Label errorLabel, string watermarkText, string errorText)
+        public static bool TextBoxEmptyOrWaterMarked(TextBox textBox, string watermarkText)
         {
             if (textBox.Text != watermarkText &&
                 textBox.Text != "") return false;
             textBox.ForeColor = Color.Red;
-            errorLabel.Text = errorText;
             return true;
         }
     }
