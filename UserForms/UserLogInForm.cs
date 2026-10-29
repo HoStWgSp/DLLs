@@ -45,7 +45,7 @@ namespace UserData.UserForms
             userNameGroupBox = new UserNameGroupBox(41,45);
 
             passwordGroupBox = new PasswordGroupBox(41, 105);
-            passwordGroupBox.textBox.PasswordChar = '*';
+            passwordGroupBox.PasswordChar = '*';
 
             errorLabel = new Label()
             {
@@ -81,7 +81,7 @@ namespace UserData.UserForms
 
             ClientSize = new Size(panel.Width, panel.Height);
 
-            userNameGroupBox.textBox.SelectionStart = 0;
+            userNameGroupBox.SelectionStart = 0;
 
             ShowDialog();
         }

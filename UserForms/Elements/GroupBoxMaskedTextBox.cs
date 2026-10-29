@@ -11,7 +11,7 @@ namespace UserData.UserForms.Elements
     internal class GroupBoxMaskedTextBox : GroupBox
     {
         private Label label;
-        public MaskedTextBox maskedTextBox;
+        internal MaskedTextBox maskedTextBox;
 
         public GroupBoxMaskedTextBox(string groupBoxText, Image image, int X, int Y, string mask)
         {

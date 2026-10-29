@@ -84,6 +84,6 @@ namespace UserData.UserForms.Elements
         /// <summary>
         /// Проверяет заполнен ли TextBox. Если не заполнен возвращает true
         /// </summary>
-        internal bool TextBoxEmpty { get { return Checks.TextBoxEmptyOrWaterMarked(textBox, Vars.LastName); } }
+        //internal bool TextBoxEmpty { get { return Checks.TextBoxEmptyOrWaterMarked(textBox, Vars.LastName); } }
     }
 }

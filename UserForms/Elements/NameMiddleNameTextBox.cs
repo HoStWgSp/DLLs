@@ -11,7 +11,7 @@ namespace UserData.UserForms.Elements
     internal class NameMiddleNameTextBox : GroupBox
     {
         private Label label;
-        internal TextBox textBox1, textBox2;
+        private TextBox textBox1, textBox2;
         private string watermark1Text, watermark2Text;
         private bool textBox1WatermarkTextKeyPressed = false;
         private bool textBox2WatermarkTextKeyReleased = false;
@@ -116,6 +116,19 @@ namespace UserData.UserForms.Elements
         /// <summary>
         /// Проверяет заполнен ли TextBox. Если не заполнен возвращает true
         /// </summary>
-        internal bool TextBox1Empty { get { return Checks.TextBoxEmptyOrWaterMarked(textBox1, Vars.Name); } }
+        internal bool TextBox1Comlete { get { return Checks.TextBoxComplete(textBox1, Vars.Name); } }
+        internal string TextBox1Text { get { return textBox1.Text; } set { textBox1.Text = value; } }
+        internal string TextBox2Text 
+        {
+            get 
+            {
+                if (textBox2.Text == watermark2Text || textBox2.Text == null || textBox2.Text == "") 
+                    return "";
+                return textBox2.Text; 
+            }
+            set { textBox2.Text = value; }
+        }
+        internal int TextBox1SelectionStart { set { textBox1.SelectionStart = value; } }
+        internal TextBox TextBox1ActiveControl { get { return textBox1; } }
     }
 }

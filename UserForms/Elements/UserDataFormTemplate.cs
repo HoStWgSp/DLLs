@@ -24,9 +24,8 @@ namespace UserData.UserForms.Elements
         internal PasswordGroupBox passwordGroupBox;
         internal EMailGroupBox eMailGroupBox;
         internal AddressGroupBox addressGroupBox;
-        internal GroupBoxMaskedTextBox phoneNumberGroupBox;
+        internal PhoneNumberGroupBox phoneNumberGroupBox;
         internal GroupBoxComboBox groupsGroupBox;
-        internal CheckBox adminCheckBox;
         internal Button button;
 
         public UserDataFormTemplate (Icon formIcon, string[] groups, string labelText, string buttonText, bool admin)
@@ -57,21 +56,13 @@ namespace UserData.UserForms.Elements
 
             passwordGroupBox = new PasswordGroupBox(41, 165);
 
-            /phoneNumberGroupBox = new GroupBoxMaskedTextBox(Vars.Phone + ":", Properties.Resources.Phone, 41, 225, "+0(000) 000-00-00");
+            phoneNumberGroupBox = new PhoneNumberGroupBox(41, 225);
 
             eMailGroupBox = new EMailGroupBox(41, 285);
 
             addressGroupBox = new AddressGroupBox(41, 345);
 
-            groupsGroupBox = new GroupBoxComboBox(Vars.Group, Properties.Resources.Group, 41, 405,
-                groupsList);
-
-            adminCheckBox = new CheckBox()
-            {
-                Name = "checkBox",
-                Text = Vars.Administrator,
-                Width = groupsGroupBox.comboBox.Width
-            };
+            groupsGroupBox = new GroupBoxComboBox(41, 405, groupsList);
 
             errorLabel = new Label()
             {
@@ -81,7 +72,7 @@ namespace UserData.UserForms.Elements
                 Font = new Font("Calibri", 8, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 ForeColor = Color.Red,
-                Location = new Point(41, 395)
+                Location = new Point(41, 455)
             };
 
             button = new Button()
@@ -90,22 +81,17 @@ namespace UserData.UserForms.Elements
                 Size = new Size(200, 40),
                 Text = buttonText,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Location = new Point(92, 415)
+                Location = new Point(92, 479)
             };
             button.Click += Button_Click;
 
             panel = new Panel();
-            panel.Size = new Size(384, 485);
+            panel.Size = new Size(384, 545);
 
             if (admin)
             {
-                panel.Controls.Add(groupsGroupBox);
-                groupsGroupBox.comboBox.Text = groupsList[0].ToString();
-                groupsGroupBox.comboBox.Enabled = false;
-
-                errorLabel.Location = new Point(41, 455);
-                button.Location = new Point(92, 479);
-                panel.Height = 545;
+                groupsGroupBox.ComboBoxText = groupsList[0].ToString();
+                groupsGroupBox.ComboBoxEnable = false;
             }
 
             panel.Controls.Add(loginLabel);
@@ -115,6 +101,7 @@ namespace UserData.UserForms.Elements
             panel.Controls.Add(phoneNumberGroupBox);
             panel.Controls.Add(eMailGroupBox);
             panel.Controls.Add(addressGroupBox);
+            panel.Controls.Add(groupsGroupBox);
             panel.Controls.Add(errorLabel);
             panel.Controls.Add(button);
 
@@ -122,80 +109,85 @@ namespace UserData.UserForms.Elements
 
             ClientSize = new Size(panel.Width, panel.Height);
 
-            nameGroupBox.textBox1.KeyDown += TextBox_KeyDown;
-            nameGroupBox.textBox2.KeyDown += TextBox_KeyDown;
-            lastNameGroupBox.textBox.KeyDown += TextBox_KeyDown;
-            passwordGroupBox.textBox.KeyDown += TextBox_KeyDown;
-            phoneNumberGroupBox.maskedTextBox.KeyDown += TextBox_KeyDown;
-            eMailGroupBox.textBox.KeyDown += TextBox_KeyDown;
-            addressGroupBox.textBox.KeyDown += TextBox_KeyDown;
-            groupsGroupBox.comboBox.KeyDown += TextBox_KeyDown;
+            //nameGroupBox.textBox1.KeyDown += TextBox_KeyDown;
+            //nameGroupBox.textBox2.KeyDown += TextBox_KeyDown;
+            //lastNameGroupBox.textBox.KeyDown += TextBox_KeyDown;
+            //passwordGroupBox.textBox.KeyDown += TextBox_KeyDown;
+            //phoneNumberGroupBox.maskedTextBox.KeyDown += TextBox_KeyDown;
+            //eMailGroupBox.textBox.KeyDown += TextBox_KeyDown;
+            //addressGroupBox.textBox.KeyDown += TextBox_KeyDown;
+            //groupsGroupBox.comboBox.KeyDown += TextBox_KeyDown;
 
-            ActiveControl = nameGroupBox.textBox1;
-            nameGroupBox.textBox1.SelectionStart = 0;
+            ActiveControl = nameGroupBox.TextBox1ActiveControl;
+            nameGroupBox.TextBox1SelectionStart = 0;
         }
-        internal void TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyData == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                button.PerformClick();
-            }
-        }
+        //internal void TextBox_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.KeyData == Keys.Enter)
+        //    {
+        //        e.SuppressKeyPress = true;
+        //        button.PerformClick();
+        //    }
+        //}
 
-        internal bool TextBoxesEmptyOrWaterMarked()
+        internal bool TextBoxesFillCorrect()
         {
-            if (nameGroupBox.TextBox1Empty) { errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Name + "!"; return true; }
-            if (lastNameGroupBox.TextBoxEmpty) { errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.LastName + "!"; return true; }
+            if (!nameGroupBox.TextBox1Comlete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Name}!"; return false; }
 
-            if (PhoneMaskedTextBoxOrNotCompleted()) return true;
-            if (EMailTextBoxEmptyOrWaterMarked()) return true;
-            //if (Checks.TextBoxEmptyOrWaterMarked(addressGroupBox.textBox, errorLabel, Vars.Address, Vars.TextBoxEmpty + " " + Vars.Address + "!")) return true;
-            if (Admin)
-                if (GroupComboBoxNotSelected()) return true;
-            errorLabel.Text = "";
-            return false;
-        }
-        private bool PhoneMaskedTextBoxOrNotCompleted()
-        {
-            if (phoneNumberGroupBox.maskedTextBox.MaskCompleted &&
-                phoneNumberGroupBox.maskedTextBox.Text != "+ (   )    -  -") return false;
-            phoneNumberGroupBox.maskedTextBox.ForeColor = Color.Red;
-            errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Phone + "!";
+            if (!lastNameGroupBox.TextBoxComplete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.LastName}!"; return false; }
+
+            if (!passwordGroupBox.TextBoxComplete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Password}!"; return false; }
+
+            if (!phoneNumberGroupBox.PhoneMaskCompleted) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Phone}!"; return false; }
+
+            if (!eMailGroupBox.EMailCorrect) { errorLabel.Text = Vars.EmailIncorrect + "!"; return false; }
+            
+            if (!addressGroupBox.TextBoxComplete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Address}!"; return false; }
+
+            if (!groupsGroupBox.GroupComboBoxSelected) { errorLabel.Text = Vars.GroupNotChoosen; return false; }
+
             return true;
         }
-        private bool EMailTextBoxEmptyOrWaterMarked()
-        {
-            if (eMailGroupBox.textBox.Text == Vars.EMail ||
-                eMailGroupBox.textBox.Text == "")
-            {
-                eMailGroupBox.textBox.ForeColor = Color.Red;
-                errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.EMail + "!";
-                return true;
-            }
-            else
-            {
-                try
-                {
-                    MailAddress addr = new MailAddress(eMailGroupBox.textBox.Text);
-                }
-                catch
-                {
-                    eMailGroupBox.textBox.ForeColor = Color.Red;
-                    errorLabel.Text = Vars.EmailIncorrect + "!";
-                    return true;
-                }
-            }
-            return false;
-        }
-        private bool GroupComboBoxNotSelected()
-        {
-            if (!groupsGroupBox.comboBox.Enabled) return false;
-            if (groupsGroupBox.comboBox.Text != "" &&
-                groupsGroupBox.comboBox.Text != null) return false;
-            errorLabel.Text = Vars.GroupNotChoosen;
-            return true;
-        }
+        //private bool PhoneMaskedTextBoxOrNotCompleted()
+        //{
+        //    if (phoneNumberGroupBox.maskedTextBox.MaskCompleted &&
+        //        phoneNumberGroupBox.maskedTextBox.Text != "+ (   )    -  -") return false;
+        //    phoneNumberGroupBox.maskedTextBox.ForeColor = Color.Red;
+        //    errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Phone + "!";
+        //    return true;
+        //}
+        //private bool EMailTextBoxEmptyOrWaterMarked()
+        //{
+        //    if (eMailGroupBox.textBox.Text == Vars.EMail ||
+        //        eMailGroupBox.textBox.Text == "")
+        //    {
+        //        eMailGroupBox.textBox.ForeColor = Color.Red;
+        //        errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.EMail + "!";
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            MailAddress addr = new MailAddress(eMailGroupBox.textBox.Text);
+        //        }
+        //        catch
+        //        {
+        //            eMailGroupBox.textBox.ForeColor = Color.Red;
+        //            errorLabel.Text = Vars.EmailIncorrect + "!";
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
+        //private bool GroupComboBoxNotSelected()
+        //{
+        //    if (!groupsGroupBox.comboBox.Enabled) return false;
+        //    if (groupsGroupBox.comboBox.Text != "" &&
+        //        groupsGroupBox.comboBox.Text != null) return false;
+        //    errorLabel.Text = Vars.GroupNotChoosen;
+        //    return true;
+        //}
         internal virtual void Button_Click(object sender, EventArgs e) { }
     
     }

@@ -15,7 +15,7 @@ namespace UserData
     public class UserData
     {
         // Объект ДБ
-        internal static DB dataBase;
+        internal DB dataBase;
         // Объект User
         public User User { get; internal set; }
 
@@ -60,7 +60,6 @@ namespace UserData
         public void AddOwner(string[] groups, string formTaxt)
         {
             AddNewUserForm addNewUserForm = new AddNewUserForm(this, groups, true);
-
         }
 
 

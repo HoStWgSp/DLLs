@@ -10,12 +10,8 @@ namespace UserData.UserForms.Elements
     internal class PasswordGroupBox : GroupBoxTextBox
     {
         public PasswordGroupBox(int X, int Y) :
-            base(Vars.Password + ":", Properties.Resources.Password, X, Y, Vars.Password, Vars.UserTextL) { }
-
-
-        /// <summary>
-        /// Проверяет заполнен ли TextBox. Если не заполнен возвращает true
-        /// </summary>
-        internal bool TextBoxEmpty { get { return Checks.TextBoxEmptyOrWaterMarked(textBox, Vars.Password); } }
+            base(Vars.Password + ":", Properties.Resources.Password, X, Y, Vars.Password, Vars.UserTextL)
+        {
+        }
     }
 }

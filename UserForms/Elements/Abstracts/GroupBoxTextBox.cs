@@ -14,7 +14,7 @@ namespace UserData.UserForms.Elements.Abstracts
     {
         private string watermarkText;
         private Label label;
-        internal TextBox textBox;
+        private TextBox textBox;
         private bool textBoxWatermarkTextKeyPressed = false;
         public GroupBoxTextBox(string groupBoxText, Image image, int X, int Y, string textBoxWatermarkText, int textBoxMaxLength)
         {
@@ -73,5 +73,15 @@ namespace UserData.UserForms.Elements.Abstracts
                 textBoxWatermarkTextKeyPressed = false;
             }
         }
+        /// <summary>
+        /// Проверяет заполнена ли строка
+        /// </summary>
+        internal bool TextBoxComplete { get { return Checks.TextBoxComplete(textBox, watermarkText); } }
+
+        internal string TextBoxText {  get { return textBox.Text; } set { textBox.Text = value; } }
+        internal Color TextBoxTextColor { set { textBox.ForeColor = value; } }
+        internal int SelectionStart { set { textBox.SelectionStart = value; } }
+        internal char PasswordChar {  set { textBox.PasswordChar = value; } }
+        internal TextBox TextBoxActiveControl { get { return textBox; } } 
     }
 }

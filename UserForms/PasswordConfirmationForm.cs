@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using UserData.MyElements;
 using UserData.UserForms.Elements;
 
 namespace UserData.UserForms
@@ -41,8 +36,8 @@ namespace UserData.UserForms
             };
             password1 = new PasswordGroupBox(41, 45);
 
-            password1.textBox.ForeColor = SystemColors.WindowText;
-            password1.textBox.Text = password;
+            password1.TextBoxTextColor = SystemColors.WindowText;
+            password1.TextBoxText = password;
 
             password2 = new PasswordGroupBox(41, 105);
 
@@ -80,23 +75,20 @@ namespace UserData.UserForms
 
             ClientSize = new Size(panel.Width, panel.Height);
 
-            ActiveControl = password2.textBox;
-            password2.textBox.SelectionStart = 0;
+            ActiveControl = password2.TextBoxActiveControl;
+            password2.SelectionStart = 0;
 
             ShowDialog();
         }
         internal void Button_Click(object sender, EventArgs e)
         {
-            //if (Checks.TextBoxEmptyOrWaterMarked(password1.textBox, errorLabel, Vars.Password, Vars.TextBoxEmpty + " " + Vars.Password + "!")) return;
-            //if (Checks.TextBoxEmptyOrWaterMarked(password2.textBox, errorLabel, Vars.PasswordConfirmation, Vars.TextBoxEmpty + " " + Vars.PasswordConfirmation + "!")) return;
-
-            if (password1.textBox.Text != password2.textBox.Text)
+            if (password1.TextBoxText != password2.TextBoxText)
             {
-                password1.textBox.ForeColor = Color.Red;
-                password2.textBox.ForeColor = Color.Red;
+                password1.TextBoxTextColor = Color.Red;
+                password2.TextBoxTextColor = Color.Red;
                 errorLabel.Text = Vars.PasswordsNotMached + "!";
             }
-            else { Password = password1.textBox.Text; PasswordConfirmed = true; Close(); }
+            else { Password = password1.TextBoxText; PasswordConfirmed = true; Close(); }
         }
     }
 }
