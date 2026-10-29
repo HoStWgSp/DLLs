@@ -58,6 +58,7 @@ namespace DataBase.Interfaces
         /// <returns></returns>
         int FindRowIdInTable(string requestString);
 
+
         /// <summary>
         /// Возвращает данные столбца строки по номеру строки
         /// </summary>
