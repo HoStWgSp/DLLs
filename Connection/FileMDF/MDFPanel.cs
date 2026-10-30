@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataBase.Elements;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -11,10 +12,12 @@ namespace DataBase.Connection.FileMDF
 {
     internal class MDFPanel : MainPanel
     {
-        private DB DataBase;
-        public MDFPanel(DB dataBase)
+        private DBConnection DataBase;
+        private DBStartForm dBStartForm;
+        public MDFPanel(DBConnection dataBase, DBStartForm dBStartForm)
         {
             DataBase = dataBase;
+            this.dBStartForm = dBStartForm;
             button = new Button();
             button.Location = new Point(10, 10);
             button.Text = Vars.FileChoise;
@@ -33,7 +36,7 @@ namespace DataBase.Connection.FileMDF
             if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
 
             // Подключаемся к БД в файле
-            DataBase.DataProvider = new SQLOpenConnection(
+            DataBase.DataProvider = new SQL(
                 $"Data Source=(LocalDB)\\MSSQLLocalDB;" +
                 $"AttachDbFilename={openFileDialog.FileName};" +
                 $"Integrated Security=True"
@@ -42,7 +45,7 @@ namespace DataBase.Connection.FileMDF
             // Если подключение не состоялос, выводим сообщение
             if (!DataBase.DataProvider.DataBaseConnection)  { MessageBox.Show(Vars.MDFConnectionFailed); return; }
             // Закрываем окно выбора файла с БД
-            DataBase.Close();
+            dBStartForm.Close();
         }
     }
 }

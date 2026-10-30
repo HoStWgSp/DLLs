@@ -14,7 +14,7 @@ using MySql.Data.MySqlClient;
 namespace DataBase.Connection.MySQL
 
 {
-    public class MySQLOpenConnection : IDataProvider
+    internal class MySQLOpenConnection : IDataProvider
     {
         MySqlConnection mySqlConnection;
 
@@ -36,7 +36,6 @@ namespace DataBase.Connection.MySQL
             }
             catch { DataBaseConnection = false; }
         }
-
         public List<string> GetTablesNamesFromDataBase()
         {
             return null;
@@ -45,10 +44,9 @@ namespace DataBase.Connection.MySQL
         {
             return new DataTable();
         }
-
-        public bool ExecuteReader(string tableName)
+        public bool ExecuteReader(string requestString)
         {
-            MySqlCommand mySqlCommand = new MySqlCommand($"SELECT Id FROM {tableName}", mySqlConnection);
+            MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
             try
             {
                 MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
@@ -60,7 +58,7 @@ namespace DataBase.Connection.MySQL
                 return false;
             }
         }
-
+        public bool TableCheck(string tableName) { return false; }
         public bool ExecuteNonQuery(string requestString) 
         {
             MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
@@ -74,7 +72,6 @@ namespace DataBase.Connection.MySQL
                 return false;
             }
         }
-
         public int BaseTableRowCount(string tableName)
         {
             MySqlCommand mySqlCommand = new MySqlCommand($"select count(*) from {tableName}", mySqlConnection);
@@ -94,11 +91,6 @@ namespace DataBase.Connection.MySQL
         {
             return "";
         }
-
-
-
-
-
         public DataTable GetDataFromTable(string requestString)
         {
             MySqlCommand mySqlCommand = new MySqlCommand(requestString, mySqlConnection);
@@ -111,7 +103,8 @@ namespace DataBase.Connection.MySQL
             dt.Load(dr);
             return dt;
         }
-
-        
+        public bool TableEmpty(string tableName) { return false; }
+        public bool NewTableCreation(string creationString) { return ExecuteNonQuery(creationString); }
+        public bool AddTableRow(string requestString) { return ExecuteNonQuery(requestString); }
     }
 }

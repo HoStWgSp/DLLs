@@ -12,98 +12,10 @@ namespace DataBase
     /// <summary>
     /// Подключается к БД.
     /// </summary>
-    public class DB : Form
+    public class DB : DBConnection
     {
-        // Список доступных версий Баз данных
-        internal string[] DBList = new string[] { Vars.mdfFile, Vars.MySQL };
+        public DB(string connectionString = "", Icon icon = null) :base(connectionString, icon) { }
         
-        // Создаем объект подключения к БД
-        internal IDataProvider DataProvider { get; set; }
-
-        // Подключаемся к базе данных
-        public DB(string connectionString = "", Icon icon = null)
-        {
-            // Выставляем иконку для окна
-            Icon = icon;
-
-            // Если строка подключения отсутствует
-            if (connectionString == "" || connectionString == null)
-                // Запускаем форму выбора файла БД или подключения к БД
-                DBStartForm();
-
-            // Если строка есть
-            else
-                // Проверяем подключение
-                ConnectionsCheck(connectionString);
-        }
-
-        //-------------------------------------------------------------
-        // Создаем объект панели
-        internal Connection.MainPanel mainPanel;
-
-        // Создаем ComboBox
-        internal ComboBox DBcomboBox;
-
-        /// <summary>
-        /// Форма для выбора типа БД
-        /// </summary>
-        private void DBStartForm()
-        {
-            Size = new Size(300, 200);
-            MinimizeBox = false;
-            MaximizeBox = false;
-
-            Label DBLabel = new Label()
-            {
-                Text = Vars.DBLabelText,
-                Location = new Point(2, 3),
-                AutoSize = true,
-                Font = Fonts.SearchLabelFont()
-            };
-
-            DBcomboBox = new ComboBox()
-            {
-                Location = new Point(DBLabel.Width + DBLabel.Location.X + 2, 3),
-                Text = Vars.mdfFile
-            };
-            DBcomboBox.Items.AddRange(DBList);
-            DBcomboBox.SelectedIndexChanged += DBcomboBox_SelectedIndexChanged;
-
-            // Загружает панель для выбора файла .mdf
-            mainPanel = new Connection.FileMDF.MDFPanel(this) { Location = new Point(0, 30) };
-
-            Controls.Add(DBLabel);
-            Controls.Add(DBcomboBox);
-            Controls.Add(mainPanel);
-
-            ShowDialog();
-        }
-        private void DBcomboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Controls.Remove(mainPanel);
-            if (DBcomboBox.Text == Vars.mdfFile) { mainPanel = new Connection.FileMDF.MDFPanel(this);}
-            if (DBcomboBox.Text == Vars.MySQL) { mainPanel = new Connection.MySQL.MySQLPanel(this); }
-            mainPanel.Location = new Point(0, 30);
-            Controls.Add(mainPanel);
-        }
-
-        //-------------------------------------------------------------
-
-        /// <summary>
-        /// Проверяет подключения к БД. Если нет подключения ни к одной БД, выводит сообщение
-        /// </summary>
-        private void ConnectionsCheck(string connectionString)
-        {
-            DataProvider = new Connection.FileMDF.SQLOpenConnection(connectionString);
-            if (DataProvider.DataBaseConnection) return;
-
-            DataProvider = new Connection.MySQL.MySQLOpenConnection(connectionString);
-            if (DataProvider.DataBaseConnection) return;
-
-            MessageBox.Show(Vars.DBConnectionFailed);
-            DBStartForm();
-        }
-
         //-------------------------------------------------------------
 
         /// <summary>
@@ -119,62 +31,61 @@ namespace DataBase
         /// <summary>
         /// Создает список имен всех таблиц в базе данных по алфавиту
         /// </summary>
-        public List<string> TablesNames { get { List<string> list = DataProvider.GetTablesNamesFromDataBase(); list.Sort(); return list; } }
+        //public List<string> TablesNames { get { List<string> list = DataProvider.GetTablesNamesFromDataBase(); list.Sort(); return list; } }
 
         /// <summary>
         /// Получает таблицу из базы данных и возвращает ее в DataTable
         /// </summary>
-        public DataTable GetFullTableFromDataBase(string tableName) { return DataProvider.GetFullTableFromDataBase(tableName); }
+        //public DataTable GetFullTableFromDataBase(string tableName) { return DataProvider.GetFullTableFromDataBase(tableName); }
         
-
         /// <summary>
         /// Проверяет наличие таблицы
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public bool TableCheck(string tableName) { return DataProvider.ExecuteReader(tableName); }
+        public bool TableCheck(string tableName) { return DataProvider.TableCheck(tableName); }
 
         /// <summary>
         /// Создает новую таблицу
         /// </summary>
         /// <param name="creationString"></param>
         /// <returns></returns>
-        public bool NewTableCreation(string creationString) { return DataProvider.ExecuteNonQuery(creationString); }
+        public bool NewTableCreation(string creationString) { return DataProvider.NewTableCreation(creationString); }
 
         /// <summary>
         /// Добавляет новую строку в таблицу
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        public bool AddTableRow(string requestString) { return DataProvider.ExecuteNonQuery(requestString); }
+        public bool AddTableRow(string requestString) { return DataProvider.AddTableRow(requestString); }
                 
-        public DataTable GetDataFromTable(string requestString) { return DataProvider.GetDataFromTable(requestString); }
+        //public DataTable GetDataFromTable(string requestString) { return DataProvider.GetDataFromTable(requestString); }
 
         /// <summary>
         /// Читает таблицу из БД и записывает в DataTable
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public DataTable GetDataTable(string tableName) { return DataProvider.GetDataFromTable($"select * from {tableName}"); }
+        //public DataTable GetDataTable(string tableName) { return DataProvider.GetDataFromTable($"select * from {tableName}"); }
 
         /// <summary>
         /// Заменяет данные в строке
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        public bool ChangeTableRow(string requestString) { return DataProvider.ExecuteNonQuery(requestString); }
+        //public bool ChangeTableRow(string requestString) { return DataProvider.ExecuteNonQuery(requestString); }
 
         /// <summary>
         /// Удаляет таблицу из базы данных
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
-        public bool DropDataBaseTable(string tableName) { return DataProvider.ExecuteNonQuery($"DROP TABLE {tableName}"); }
+        //public bool DropDataBaseTable(string tableName) { return DataProvider.ExecuteNonQuery($"DROP TABLE {tableName}"); }
 
         /// <summary>
         /// Считает сколько строк в таблице
         /// </summary>
-        public int BaseTableRowCount(string tableName) { return DataProvider.BaseTableRowCount(tableName); }
+        //public int BaseTableRowCount(string tableName) { return DataProvider.BaseTableRowCount(tableName); }
 
         /// <summary>
         /// Возвращает номер строки которая первая совпадает с поиском
@@ -190,9 +101,6 @@ namespace DataBase
         /// <param name="rowId"></param>
         /// <param name="columnName"></param>
         /// <returns></returns>
-        public string GetStringFromTable(string tableName, int rowId, string columnName)
-        {
-            return DataProvider.GetStringById(tableName, rowId, columnName);
-        }
+        //public string GetStringFromTable(string tableName, int rowId, string columnName) { return DataProvider.GetStringById(tableName, rowId, columnName); }
     }
 }

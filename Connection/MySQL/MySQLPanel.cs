@@ -1,4 +1,5 @@
-﻿using DataBase.Interfaces;
+﻿using DataBase.Elements;
+using DataBase.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +9,8 @@ namespace DataBase.Connection.MySQL
 {
     internal class MySQLPanel : MainPanel
     {
-        DB dataBase;
+        DBConnection dataBase;
+        DBStartForm dBStartForm;
 
         Label serverLabel,
             dataBaseLabel,
@@ -24,12 +26,13 @@ namespace DataBase.Connection.MySQL
             uidTextBox,
             passwordTextBox;
 
-        public MySQLPanel(DB dataBase)
+        public MySQLPanel(DBConnection dataBase, DBStartForm dBStartForm)
         {
             this.dataBase = dataBase;
+            this.dBStartForm = dBStartForm;
             //BackColor = Color.Green;
 
-            Size = new Size(dataBase.ClientSize.Width, dataBase.ClientSize.Height - 30);
+            Size = new Size(dBStartForm.ClientSize.Width, dBStartForm.ClientSize.Height - 30);
 
             serverLabel = new Label()
             {
@@ -114,7 +117,7 @@ namespace DataBase.Connection.MySQL
             button.Click += Button_Click;
         }
 
-        private void Button_Click(object sender, EventArgs e)
+        void Button_Click(object sender, EventArgs e)
         {
             string connectionString = $"Server={serverTextBox.Text}; Database={dataBaseTextBox.Text}; Uid={uidTextBox.Text}; " +
                 $"Pwd={passwordTextBox.Text}";
@@ -126,7 +129,7 @@ namespace DataBase.Connection.MySQL
                 MessageBox.Show(Vars.MySQLOpenConnectionFailed);
                 return;
             }
-            dataBase.Close();
+            dBStartForm.Close();
         }
     }
 }
