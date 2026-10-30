@@ -55,11 +55,12 @@ namespace UserData
         public bool NewUserDataTableCreation() { return UsersTableActions.NewTableCreation(dataBase); } 
 
         /// <summary>
-        /// Добавление владельца компании
+        /// Добавление пользователя
         /// </summary>
-        public void AddOwner(string[] groups, string formTaxt)
+        public bool AddUser (string userGroup, string formTaxt)
         {
-            AddNewUserForm addNewUserForm = new AddNewUserForm(this, groups, true);
+            AddNewUserForm addNewUserForm = new AddNewUserForm(this, new string[] { userGroup });//, true);
+            return addNewUserForm.UserAdded;
         }
 
 

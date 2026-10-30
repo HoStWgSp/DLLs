@@ -13,7 +13,7 @@ namespace UserData.UserForms.Elements
     internal class UserDataFormTemplate : Form
     {
         string[] groupsList {  get; set; }
-        internal bool Admin {  get; private set; }
+        //internal bool Admin {  get; private set; }
 
         internal Panel panel;
 
@@ -28,13 +28,13 @@ namespace UserData.UserForms.Elements
         internal GroupBoxComboBox groupsGroupBox;
         internal Button button;
 
-        public UserDataFormTemplate (Icon formIcon, string[] groups, string labelText, string buttonText, bool admin)
+        public UserDataFormTemplate (Icon formIcon, string[] groups, string labelText, string buttonText)
         {
             // Иконка формы
             Icon = formIcon;
             // Создаем массив строк из словаря
             groupsList = groups;
-            Admin = admin;
+            //Admin = admin;
             StartPosition = FormStartPosition.CenterParent;
             AutoSize = false;
             MinimizeBox = false;
@@ -88,7 +88,7 @@ namespace UserData.UserForms.Elements
             panel = new Panel();
             panel.Size = new Size(384, 545);
 
-            if (admin)
+            if (groups.Length == 1)//admin)
             {
                 groupsGroupBox.ComboBoxText = groupsList[0].ToString();
                 groupsGroupBox.ComboBoxEnable = false;
@@ -109,27 +109,14 @@ namespace UserData.UserForms.Elements
 
             ClientSize = new Size(panel.Width, panel.Height);
 
-            //nameGroupBox.textBox1.KeyDown += TextBox_KeyDown;
-            //nameGroupBox.textBox2.KeyDown += TextBox_KeyDown;
-            //lastNameGroupBox.textBox.KeyDown += TextBox_KeyDown;
-            //passwordGroupBox.textBox.KeyDown += TextBox_KeyDown;
-            //phoneNumberGroupBox.maskedTextBox.KeyDown += TextBox_KeyDown;
-            //eMailGroupBox.textBox.KeyDown += TextBox_KeyDown;
-            //addressGroupBox.textBox.KeyDown += TextBox_KeyDown;
-            //groupsGroupBox.comboBox.KeyDown += TextBox_KeyDown;
-
             ActiveControl = nameGroupBox.TextBox1ActiveControl;
             nameGroupBox.TextBox1SelectionStart = 0;
         }
-        //internal void TextBox_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.KeyData == Keys.Enter)
-        //    {
-        //        e.SuppressKeyPress = true;
-        //        button.PerformClick();
-        //    }
-        //}
 
+        /// <summary>
+        /// Проверяет все ли поля заполнены корректно
+        /// </summary>
+        /// <returns></returns>
         internal bool TextBoxesFillCorrect()
         {
             if (!nameGroupBox.TextBox1Comlete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Name}!"; return false; }
@@ -148,47 +135,6 @@ namespace UserData.UserForms.Elements
 
             return true;
         }
-        //private bool PhoneMaskedTextBoxOrNotCompleted()
-        //{
-        //    if (phoneNumberGroupBox.maskedTextBox.MaskCompleted &&
-        //        phoneNumberGroupBox.maskedTextBox.Text != "+ (   )    -  -") return false;
-        //    phoneNumberGroupBox.maskedTextBox.ForeColor = Color.Red;
-        //    errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.Phone + "!";
-        //    return true;
-        //}
-        //private bool EMailTextBoxEmptyOrWaterMarked()
-        //{
-        //    if (eMailGroupBox.textBox.Text == Vars.EMail ||
-        //        eMailGroupBox.textBox.Text == "")
-        //    {
-        //        eMailGroupBox.textBox.ForeColor = Color.Red;
-        //        errorLabel.Text = Vars.TextBoxEmpty + " " + Vars.EMail + "!";
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            MailAddress addr = new MailAddress(eMailGroupBox.textBox.Text);
-        //        }
-        //        catch
-        //        {
-        //            eMailGroupBox.textBox.ForeColor = Color.Red;
-        //            errorLabel.Text = Vars.EmailIncorrect + "!";
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
-        //private bool GroupComboBoxNotSelected()
-        //{
-        //    if (!groupsGroupBox.comboBox.Enabled) return false;
-        //    if (groupsGroupBox.comboBox.Text != "" &&
-        //        groupsGroupBox.comboBox.Text != null) return false;
-        //    errorLabel.Text = Vars.GroupNotChoosen;
-        //    return true;
-        //}
         internal virtual void Button_Click(object sender, EventArgs e) { }
-    
     }
 }

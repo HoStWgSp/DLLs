@@ -1,61 +1,51 @@
 ﻿using DataBase;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.Windows.Forms;
-using UserData.MyElements;
-using UserData.UserForms;
 
 namespace UserData
 {
     internal class UsersTableActions
     {
-        
-
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
         internal static bool NewTableCreation(DB db)
         {
-            User user = new User();
-
+            // Пробуем создать новую таблицу пользователей
             if (!db.NewTableCreation($"CREATE TABLE {Vars.TableName} " +
                 $"(Id INT AUTO_INCREMENT NOT NULL,{GetUsersColumns()}"))
             {
                 if (!db.NewTableCreation($"CREATE TABLE dbo.{Vars.TableName} " +
                 $"(Id INT IDENTITY(1,1) NOT NULL,{GetUsersColumns()}"))
-                { MessageBox.Show("Не удалось создать таблицу с пользователями."); return false; }
-                else return true;
-            }
-            else return true;
-
-                string GetUsersColumns()
-                {
-                    return $"{Vars.UserPassword} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"{Vars.UserName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"{Vars.UserMiddleName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"{Vars.UserLastName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"{Vars.UserEMail} NVARCHAR({Vars.UserEMailL}) NOT NULL," +
-                            $"{Vars.UserPhone} NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
-                            $"{Vars.UserAddress} NVARCHAR({Vars.UserAddressL}) NOT NULL," +
-                            $"{Vars.UserGroup} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                            $"primary key (id))";
+                { 
+                    MessageBox.Show(Vars.TableNotCreated); 
+                    return false; 
                 }
+                else 
+                    return true;
+            }
+            else 
+                return true;
+
+            string GetUsersColumns()
+            {
+                return $"{Vars.UserPassword} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                        $"{Vars.UserName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                        $"{Vars.UserMiddleName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                        $"{Vars.UserLastName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                        $"{Vars.UserEMail} NVARCHAR({Vars.UserEMailL}) NOT NULL," +
+                        $"{Vars.UserPhone} NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
+                        $"{Vars.UserAddress} NVARCHAR({Vars.UserAddressL}) NOT NULL," +
+                        $"{Vars.UserGroup} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                        $"primary key (id))";
+            }
         }
 
         /// <summary>
         /// Добавляет пользователя в таблицу
         /// </summary>
-        /// <param name="dataBase"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
         internal static bool AddNewUser(DB db, User user)
         {
-            return db.AddTableRow($"INSERT INTO {Vars.TableName} " +
+            if (db.AddTableRow($"INSERT INTO {Vars.TableName} " +
                 $"(" +
                 $"{Vars.UserPassword}, " +
                 $"{Vars.UserName}, " +
@@ -74,7 +64,12 @@ namespace UserData
                 $"N'{user.UserPhoneNumber}', " +
                 $"N'{user.UserAddress}', " +
                 $"N'{user.UserGroup}'" +
-                $")");
+                $")")) 
+                // Если пользователь добавлен
+                return true;
+            // Если не удалось добавить пользователя
+            MessageBox.Show(Vars.UserNorRegistred);
+            return false; 
         }
 
         /// <summary>
@@ -90,19 +85,19 @@ namespace UserData
         /// <param name="rowId"></param>
         /// <param name="userData"></param>
         /// <returns></returns>
-        internal static bool ChangeUserData(DB db, User user)
-        {
-            return db.ChangeTableRow($"UPDATE {Vars.TableName} SET " +
-                $"{Vars.UserPassword}=N'{user.UserPassword}'," +
-                $"{Vars.UserName}=N'{user.UserName}'," +
-                $"{Vars.UserMiddleName}=N'{user.UserMiddleName}'," +
-                $"{Vars.UserLastName}=N'{user.UserLastName}'," +
-                $"{Vars.UserEMail}=N'{user.UserEmail}'," +
-                $"{Vars.UserPhone}=N'{user.UserPhoneNumber}'," +
-                $"{Vars.UserAddress}=N'{user.UserAddress}'," +
-                $"{Vars.UserGroup}='{user.UserGroup}' " +
-                $"WHERE ID={user.Id}");
-        }
+        //internal static bool ChangeUserData(DB db, User user)
+        //{
+        //    return db.ChangeTableRow($"UPDATE {Vars.TableName} SET " +
+        //        $"{Vars.UserPassword}=N'{user.UserPassword}'," +
+        //        $"{Vars.UserName}=N'{user.UserName}'," +
+        //        $"{Vars.UserMiddleName}=N'{user.UserMiddleName}'," +
+        //        $"{Vars.UserLastName}=N'{user.UserLastName}'," +
+        //        $"{Vars.UserEMail}=N'{user.UserEmail}'," +
+        //        $"{Vars.UserPhone}=N'{user.UserPhoneNumber}'," +
+        //        $"{Vars.UserAddress}=N'{user.UserAddress}'," +
+        //        $"{Vars.UserGroup}='{user.UserGroup}' " +
+        //        $"WHERE ID={user.Id}");
+        //}
 
 
 

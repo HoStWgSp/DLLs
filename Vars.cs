@@ -3,6 +3,7 @@ namespace UserData
 {
     internal class Vars
     {
+        // Данные для таблицы с пользователями
         public static string TableName = "Users",
             UserNickName = "C1",
             UserName = "C2",
@@ -14,13 +15,13 @@ namespace UserData
             UserGroup = "C8",
             UserAddress= "C9";
 
-
+        // Длины строк для заполнения TextBox
         public static int UserTextL = 30,
             UserEMailL = 50,
             UserPhoneL = 17,
             UserAddressL = 500;
 
-
+        // Переменные со строками
         public static string Add = "Добавить",
             Administrator = "Является администратором",
             AddNewUser = "Добавление нового пользователя",

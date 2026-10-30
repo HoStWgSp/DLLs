@@ -1,12 +1,5 @@
-﻿using Org.BouncyCastle.Utilities.Encoders;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using UserData.UserForms.Elements;
 
 namespace UserData.UserForms
@@ -14,9 +7,10 @@ namespace UserData.UserForms
     internal class AddNewUserForm : UserDataFormTemplate
     {
         private UserData userData;
+        internal bool UserAdded { get; private set; } = false;
 
-        public AddNewUserForm(UserData userData, string[] groups, bool addAdmin = false):
-            base(userData.formIcon, groups, Vars.NewUser, Vars.Add, addAdmin)
+        public AddNewUserForm(UserData userData, string[] groups):
+            base(userData.formIcon, groups, Vars.NewUser, Vars.Add)
         {
             this.userData = userData;
             ShowDialog();
@@ -50,6 +44,8 @@ namespace UserData.UserForms
             };
 
             if (!UsersTableActions.AddNewUser(userData.dataBase, newUser)) return;
+
+            UserAdded = true;
 
             newUser.Id = userData.dataBase.FindRowIdInTable(
                 $"SELECT Id " +
