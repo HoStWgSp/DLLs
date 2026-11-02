@@ -23,27 +23,6 @@ namespace DataBase.Interfaces
         //List<string> GetTablesNamesFromDataBase();
 
         /// <summary>
-        /// Получает таблицу из базы данных по имени и возвращает ее в DataTable
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        //DataTable GetFullTableFromDataBase(string tableName);
-
-        /// <summary>
-        /// Читает таблицу из БД и записывает в DataTable
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        //DataTable GetDataFromTable(string requestString);
-
-        /// <summary>
-        /// Возвращает количество строк в таблице
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        //int BaseTableRowCount(string tableName);
-
-        /// <summary>
         /// Возвращает данные столбца строки по номеру строки
         /// </summary>
         /// <param name="tableName"></param>
@@ -76,5 +55,24 @@ namespace DataBase.Interfaces
         /// <param name="requestString"></param>
         /// <returns></returns>
         int FindRowIdInTable(string requestString);
+
+        /// <summary>
+        /// Возвращает количество строк в таблице
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        int TableRowCount(string tableName);
+
+        /// <summary>
+        /// Получает полную таблицу из базы данных по имени и возвращает ее в DataTable
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        DataTable GetFullTableFromDataBase(string tableName);
+
+        /// <summary>
+        /// Возвращает строку из таблицы по определенному запросу
+        /// </summary>
+        DataRow GetRowFromTable(string requestString);
     }
 }

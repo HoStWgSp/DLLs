@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DataBase.Connection.FileMDF
 {
@@ -13,19 +14,10 @@ namespace DataBase.Connection.FileMDF
     {
 
         internal SQL(string connectionString):base(connectionString) { }
-        
+
         //public List<string> GetTablesNamesFromDataBase()
         //=> (from DataRow row in sqlConnection.GetSchema("Tables").Rows.Cast<DataRow>()
         //    select row["TABLE_NAME"].ToString()).ToList();
-        //public DataTable GetFullTableFromDataBase(string tableName)
-        //{
-        //    SqlCommand sqlCommand = new SqlCommand($"select * from {tableName}", sqlConnection);
-        //    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-        //    DataTable dataTable = new DataTable();
-        //    sqlDataAdapter.Fill(dataTable);
-
-        //    return dataTable;
-        //}
         //public int BaseTableRowCount(string tableName)
         //{
         //    SqlCommand SqlCommand = new SqlCommand($"select count(*) from {tableName}", sqlConnection);
@@ -70,5 +62,31 @@ namespace DataBase.Connection.FileMDF
         public bool TableCheck(string tableName) { return ExecuteReader($"SELECT * FROM {tableName}"); }
         public bool NewTableCreation(string creationString) { return ExecuteNonQuery(creationString); }
         public bool AddTableRow(string requestString) { return ExecuteNonQuery(requestString); }
+        public int TableRowCount(string tableName)
+        {
+            SqlCommand SqlCommand = new SqlCommand($"select count(*) from {tableName}", sqlConnection);
+            try { return (int)SqlCommand.ExecuteScalar(); }
+            catch { return 0; }
+        }
+        public DataTable GetFullTableFromDataBase(string tableName)
+        {
+            SqlCommand sqlCommand = new SqlCommand($"select * from {tableName}", sqlConnection);
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+            DataTable dataTable = new DataTable();
+            sqlDataAdapter.Fill(dataTable);
+
+            return dataTable;
+        }
+        public DataRow GetRowFromTable(string requestString)
+        {
+            SqlCommand sqlCommand = new SqlCommand(requestString, sqlConnection);
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+            DataTable dataTable = new DataTable();
+            sqlDataAdapter.Fill(dataTable);
+
+            if (dataTable.Rows.Count == 0 ) return null;
+
+            return dataTable.Rows[0];
+        }
     }
 }

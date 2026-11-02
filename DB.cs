@@ -58,7 +58,29 @@ namespace DataBase
         /// <param name="requestString"></param>
         /// <returns></returns>
         public bool AddTableRow(string requestString) { return DataProvider.AddTableRow(requestString); }
-                
+
+        /// <summary>
+        /// Возвращает номер строки которая первая совпадает с поиском
+        /// </summary>
+        /// <param name="requestString"></param>
+        /// <returns></returns>
+        public int FindRowIdInTable(string requestString) { return DataProvider.FindRowIdInTable(requestString); }
+
+        /// <summary>
+        /// Считает сколько строк в таблице
+        /// </summary>
+        public int TableRowCount(string tableName) { return DataProvider.TableRowCount(tableName); }
+
+        /// <summary>
+        /// Копирует всю таблицу из БД в DataTable
+        /// </summary>
+        public DataTable GetTable(string tableName) { return DataProvider.GetFullTableFromDataBase(tableName); }
+
+        /// <summary>
+        /// Находит одну строку из таблицы БД
+        /// </summary>
+        public DataRow GetRow(string requestString) { return DataProvider.GetRowFromTable(requestString); }
+
         //public DataTable GetDataFromTable(string requestString) { return DataProvider.GetDataFromTable(requestString); }
 
         /// <summary>
@@ -81,18 +103,6 @@ namespace DataBase
         /// <param name="requestString"></param>
         /// <returns></returns>
         //public bool DropDataBaseTable(string tableName) { return DataProvider.ExecuteNonQuery($"DROP TABLE {tableName}"); }
-
-        /// <summary>
-        /// Считает сколько строк в таблице
-        /// </summary>
-        //public int BaseTableRowCount(string tableName) { return DataProvider.BaseTableRowCount(tableName); }
-
-        /// <summary>
-        /// Возвращает номер строки которая первая совпадает с поиском
-        /// </summary>
-        /// <param name="requestString"></param>
-        /// <returns></returns>
-        public int FindRowIdInTable(string requestString) { return DataProvider.FindRowIdInTable(requestString); }
 
         /// <summary>
         /// Возвращает данные столбца строки по номеру строки

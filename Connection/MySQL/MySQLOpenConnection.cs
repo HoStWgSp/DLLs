@@ -21,6 +21,8 @@ namespace DataBase.Connection.MySQL
         public bool DataBaseConnection { get; }
         public string DataBaseConnectionString { get; }
 
+        public DataRow GetRowFromTable(string requestString) { return null; }
+
         /// <summary>
         /// Создает объект соединения с Базой Данных.
         /// После создания объекта доступны 2 переменных.
@@ -72,7 +74,7 @@ namespace DataBase.Connection.MySQL
                 return false;
             }
         }
-        public int BaseTableRowCount(string tableName)
+        public int TableRowCount(string tableName)
         {
             MySqlCommand mySqlCommand = new MySqlCommand($"select count(*) from {tableName}", mySqlConnection);
             try { return (int)mySqlCommand.ExecuteScalar(); }
