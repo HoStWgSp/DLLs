@@ -8,13 +8,13 @@ namespace UserData
         /// <summary>
         /// Создает таблицу Users
         /// </summary>
-        internal static bool NewTableCreation(DB db)
+        internal static bool NewTableCreation(DB db, string tableName)
         {
             // Пробуем создать новую таблицу пользователей
-            if (!db.NewTableCreation($"CREATE TABLE {Vars.TableName} " +
+            if (!db.NewTableCreation($"CREATE TABLE {tableName} " +
                 $"(Id INT AUTO_INCREMENT NOT NULL,{GetUsersColumns()}"))
             {
-                if (!db.NewTableCreation($"CREATE TABLE dbo.{Vars.TableName} " +
+                if (!db.NewTableCreation($"CREATE TABLE dbo.{tableName} " +
                 $"(Id INT IDENTITY(1,1) NOT NULL,{GetUsersColumns()}"))
                 { 
                     MessageBox.Show(Vars.TableNotCreated); 
@@ -29,6 +29,7 @@ namespace UserData
             string GetUsersColumns()
             {
                 return $"{Vars.UserPassword} NVARCHAR({Vars.UserTextL}) NOT NULL," +
+                        $"{Vars.UserNickName} NVARCHAR({Vars.UserTextL*2+1}) NOT NULL," +
                         $"{Vars.UserName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
                         $"{Vars.UserMiddleName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
                         $"{Vars.UserLastName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
@@ -43,11 +44,12 @@ namespace UserData
         /// <summary>
         /// Добавляет пользователя в таблицу
         /// </summary>
-        internal static bool AddNewUser(DB db, User user)
+        internal static bool AddNewUser(UserData userData, User user)
         {
-            if (db.AddTableRow($"INSERT INTO {Vars.TableName} " +
+            if (userData.DB.AddTableRow($"INSERT INTO {userData.tableName} " +
                 $"(" +
                 $"{Vars.UserPassword}, " +
+                $"{Vars.UserNickName}, " +
                 $"{Vars.UserName}, " +
                 $"{Vars.UserMiddleName}, " +
                 $"{Vars.UserLastName}, " +
@@ -57,6 +59,7 @@ namespace UserData
                 $"{Vars.UserGroup}" +
                 $") VALUES (" +
                 $"N'{user.UserPassword}', " +
+                $"N'{user.UserLastName} {user.UserName}', " +
                 $"N'{user.UserName}', " +
                 $"N'{user.UserMiddleName}', " +
                 $"N'{user.UserLastName}', " +

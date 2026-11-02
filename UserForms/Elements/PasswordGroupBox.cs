@@ -13,5 +13,7 @@ namespace UserData.UserForms.Elements
             base(Vars.Password + ":", Properties.Resources.Password, X, Y, Vars.Password, Vars.UserTextL)
         {
         }
+
+        
     }
 }

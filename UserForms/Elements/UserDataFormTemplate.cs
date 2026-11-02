@@ -55,6 +55,7 @@ namespace UserData.UserForms.Elements
             lastNameGroupBox = new LastNameGroupBox(41, 105);
 
             passwordGroupBox = new PasswordGroupBox(41, 165);
+            passwordGroupBox.PasswordChar = '*';
 
             phoneNumberGroupBox = new PhoneNumberGroupBox(41, 225);
 

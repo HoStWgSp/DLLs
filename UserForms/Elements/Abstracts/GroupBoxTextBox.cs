@@ -16,6 +16,7 @@ namespace UserData.UserForms.Elements.Abstracts
         private Label label;
         private TextBox textBox;
         private bool textBoxWatermarkTextKeyPressed = false;
+        private char passwordChar = '\0';
         public GroupBoxTextBox(string groupBoxText, Image image, int X, int Y, string textBoxWatermarkText, int textBoxMaxLength)
         {
             watermarkText = textBoxWatermarkText;
@@ -56,6 +57,7 @@ namespace UserData.UserForms.Elements.Abstracts
                 textBox.ForeColor = SystemColors.GrayText;
                 textBox.Text = watermarkText;
                 textBoxWatermarkTextKeyPressed = false;
+                textBox.PasswordChar = '\0';
             }
         }
         internal void TextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -65,12 +67,14 @@ namespace UserData.UserForms.Elements.Abstracts
             {
                 textBox.Text = "";
                 textBoxWatermarkTextKeyPressed = true;
+                textBox.PasswordChar = passwordChar;
             }
             if (e.KeyChar.ToString() == "\b" && textBox.Text.Length == 1)
             {
                 textBox.ForeColor = SystemColors.GrayText;
                 textBox.Text = watermarkText;
                 textBoxWatermarkTextKeyPressed = false;
+                textBox.PasswordChar = '\0';
             }
         }
         /// <summary>
@@ -81,7 +85,14 @@ namespace UserData.UserForms.Elements.Abstracts
         internal string TextBoxText {  get { return textBox.Text; } set { textBox.Text = value; } }
         internal Color TextBoxTextColor { set { textBox.ForeColor = value; } }
         internal int SelectionStart { set { textBox.SelectionStart = value; } }
-        internal char PasswordChar {  set { textBox.PasswordChar = value; } }
+        internal char PasswordChar 
+        {  
+            set 
+            {
+                passwordChar = value;
+                //textBox.PasswordChar = passwordChar; 
+            } 
+        }
         internal TextBox TextBoxActiveControl { get { return textBox; } } 
     }
 }

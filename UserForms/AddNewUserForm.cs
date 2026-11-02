@@ -43,18 +43,18 @@ namespace UserData.UserForms
                 UserPhoneNumber = phoneNumberGroupBox.maskedTextBox.Text
             };
 
-            if (!UsersTableActions.AddNewUser(userData.dataBase, newUser)) return;
+            if (!UsersTableActions.AddNewUser(userData, newUser)) return;
 
             UserAdded = true;
 
-            newUser.Id = userData.dataBase.FindRowIdInTable(
+            newUser.UserId = userData.DB.FindRowIdInTable(
                 $"SELECT Id " +
-                $"FROM {Vars.TableName} " +
-                $"WHERE {Vars.UserName} = '{newUser.UserName}' " +
-                $"AND {Vars.UserMiddleName} = '{newUser.UserMiddleName}' " +
-                $"AND {Vars.UserLastName} = '{newUser.UserLastName}' " +
-                $"AND {Vars.UserEMail} = '{newUser.UserEmail}' " +
-                $"AND {Vars.UserPhone} = '{newUser.UserPhoneNumber}'");
+                $"FROM {userData.tableName} " +
+                $"WHERE {Vars.UserName} = N'{newUser.UserName}' " +
+                $"AND {Vars.UserMiddleName} = N'{newUser.UserMiddleName}' " +
+                $"AND {Vars.UserLastName} = N'{newUser.UserLastName}' " +
+                $"AND {Vars.UserEMail} = N'{newUser.UserEmail}' " +
+                $"AND {Vars.UserPhone} = N'{newUser.UserPhoneNumber}'");
             
             userData.User = newUser;
 

@@ -4,8 +4,7 @@ namespace UserData
     internal class Vars
     {
         // Данные для таблицы с пользователями
-        public static string TableName = "Users",
-            UserNickName = "C1",
+        public static string UserNickName = "C1",
             UserName = "C2",
             UserMiddleName = "C3",
             UserLastName = "C4",
@@ -44,6 +43,7 @@ namespace UserData
             NameAndLastName = "Имя Фамилия",
             NewUser = "Новый пользователь",
             NewUserData = "Данные нового пользователя",
+            NickName = "Логин",
             Password = "Пароль",
             PasswordsNotMached = "Пароли не совпадают",
             PasswordNotConfirmed = "Новый пароль не подтвержден",
@@ -56,6 +56,7 @@ namespace UserData
             TextBoxEmpty = "Заполните поле",
             TableNotCreated = "Не удалось создать таблицу с пользователями.",
             User = "Пользователь",
+            UserAbsent = "Пользователь не найден!",
             User2 = "пользователя",
             UserData = Data + " " + User2,
             UserPasswordChange = "Вы уверены, что хотите сменить пароль?",

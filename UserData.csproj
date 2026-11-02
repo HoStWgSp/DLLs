@@ -107,6 +107,9 @@
     <Compile Include="UserForms\Elements\LastNameGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UserForms\Elements\NickNameGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserForms\Elements\PasswordGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>

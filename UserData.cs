@@ -15,31 +15,21 @@ namespace UserData
     public class UserData
     {
         // Объект ДБ
-        internal DB dataBase;
+        internal DB DB { get; private set; }
         // Объект User
         public User User { get; internal set; }
-
-        //public DataTable UsersDataTable { get; internal set; }
-
-        //internal UserActions UserActions { get; private set; }
-
-        //internal UserListForm userListForm;
 
         internal Icon formIcon;
         public Icon FormIcon { set { formIcon = value; } }
 
-        //internal string[] groupsList;
-        //public List<string> GroupsList { set { groupsList = value.ToArray(); } }
+        internal string tableName;
 
-        //public Dictionary<string, string> NewUserData { get; internal set; }
-        //public Dictionary<string, string> UsersccData { get; internal set; }
-
-        //internal bool Admin { get; set; } = false;
-
-        public UserData(DB db)
+        public UserData(DB db, string tableName)
         {
             // копирует объект БД
-            dataBase = db;
+            DB = db;
+            // Сохраняет имя таблицы с пользователями
+            this.tableName = tableName;
             // Создаем экземпляр User
             User = new User();
         }
@@ -47,12 +37,12 @@ namespace UserData
         /// <summary>
         /// Проверяет наличие таблицы с данными пользователей. Возвращает true, если есть
         /// </summary>
-        public bool UsersDataTableAvailable() { return dataBase.TableCheck(Vars.TableName); }
+        public bool UsersDataTableAvailable() { return DB.TableCheck(tableName); }
 
         /// <summary>
         /// Создает таблицу с данными пользователей. Возвращает true при удачном создании
         /// </summary>
-        public bool NewUserDataTableCreation() { return UsersTableActions.NewTableCreation(dataBase); } 
+        public bool NewUserDataTableCreation() { return UsersTableActions.NewTableCreation(DB, tableName); } 
 
         /// <summary>
         /// Добавление пользователя
