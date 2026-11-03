@@ -12,10 +12,13 @@ namespace UserData.UserForms.Elements
 {
     internal class LastNameGroupBox : GroupBoxTextBox 
     {
-        public LastNameGroupBox(int X, int Y) :
-            base(Vars.LastName + ":", Properties.Resources.User, X, Y, Vars.LastName, Vars.UserTextL)
+        public LastNameGroupBox(int X, int Y)
         {
-
+            GroupBoxText = Vars.LastName + ":";
+            LabelImage = Properties.Resources.User;
+            GroupBoxLocation = new Point(X, Y);
+            WatermarkText = Vars.LastName;
+            TextBoxMaxLength = Vars.UserTextL;
         }
         //private string watermarkText;
         //private Label label;

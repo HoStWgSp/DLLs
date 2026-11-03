@@ -5,27 +5,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace UserData.UserForms.Elements.Abstracts
 {
     internal abstract class GroupBoxMaskedTextBox : GroupBox
     {
+        /// <summary>
+        /// Устанавливает заглавие GroupBox
+        /// </summary>
+        internal string GroupBoxText { set { Text = value; } }
+        /// <summary>
+        /// Устанавливает картинку перед TextBox
+        /// </summary>
+        internal Image LabelImage { set { label.Image = value; } }
+        /// <summary>
+        /// Устанавливает положение GroupBox
+        /// </summary>
+        internal Point GroupBoxLocation { set { Location = value; } }
+        /// <summary>
+        /// Устанавливает маску в MaskedTextBox
+        /// </summary>
+        internal string MaskedTextBoxMaks { set { maskedTextBox.Mask = value; } }
+
+
+
         private Label label;
         internal MaskedTextBox maskedTextBox;
 
-        public GroupBoxMaskedTextBox(string groupBoxText, Image image, int X, int Y, string mask)
+        public GroupBoxMaskedTextBox()
         {
             ClientSize = new Size(303, 50);
-            Text = groupBoxText;
-            Location = new Point(X, Y);
-            Name = groupBoxText;
 
             label = new Label()
             {
                 AutoSize = false,
                 Size = new Size(32, 32),
                 Location = new Point(2, 15),
-                Image = image,
                 Name = "label"
             };
             Controls.Add(label);
@@ -33,7 +49,6 @@ namespace UserData.UserForms.Elements.Abstracts
             maskedTextBox = new MaskedTextBox()
             {
                 Name = "maskedTextBox",
-                Mask = mask,
                 Font = new Font("Calibri", 15, FontStyle.Regular),
                 Width = 267,
                 Location = new Point(34, 15)

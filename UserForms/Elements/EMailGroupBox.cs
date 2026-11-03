@@ -11,10 +11,13 @@ namespace UserData.UserForms.Elements
 {
     internal class EMailGroupBox : GroupBoxTextBox
     {
-        public EMailGroupBox(int X, int Y):
-            base (Vars.EMail + ":", Properties.Resources.EMail,X,Y, Vars.EMail, Vars.UserEMailL)
+        public EMailGroupBox(int X, int Y)
         {
-
+            GroupBoxText = Vars.EMail + ":";
+            LabelImage = Properties.Resources.EMail;
+            GroupBoxLocation = new Point(X, Y);
+            WatermarkText = Vars.EMail;
+            TextBoxMaxLength = Vars.UserEMailL;
         }
         /// <summary>
         /// проверяет указана ли почта

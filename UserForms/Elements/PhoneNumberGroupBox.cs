@@ -10,10 +10,12 @@ namespace UserData.UserForms.Elements
 {
     internal class PhoneNumberGroupBox : GroupBoxMaskedTextBox
     {
-        public PhoneNumberGroupBox(int X, int Y):
-            base(Vars.Phone + ":", Properties.Resources.Phone, X, Y, "+0(000) 000-00-00")
+        public PhoneNumberGroupBox(int X, int Y)
         {
-
+            GroupBoxText = Vars.Phone + ":";
+            LabelImage = Properties.Resources.Phone;
+            GroupBoxLocation = new Point(X, Y);
+            MaskedTextBoxMaks = "+0(000) 000-00-00";
         }
         /// <summary>
         /// Проверяет указан ли телефон. 

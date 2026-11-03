@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserData.UserForms.Elements.Abstracts;
+using System.Drawing;
 
 namespace UserData.UserForms.Elements
 {
     internal class NickNameGroupBox : GroupBoxTextBox
     {
-        public NickNameGroupBox(int X, int Y) :
-            base(Vars.NickName + ":", Properties.Resources.User, X, Y, $"{Vars.LastName} {Vars.Name}", Vars.UserTextL)
+        public NickNameGroupBox(int X, int Y)
         {
-
+            GroupBoxText = Vars.NickName + ":";
+            LabelImage = Properties.Resources.User;
+            GroupBoxLocation = new Point(X, Y);
+            WatermarkText = $"{Vars.LastName} {Vars.Name}";
+            TextBoxMaxLength = Vars.UserTextL;
         }
     }
 }

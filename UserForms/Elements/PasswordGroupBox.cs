@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +10,13 @@ namespace UserData.UserForms.Elements
 {
     internal class PasswordGroupBox : GroupBoxTextBox
     {
-        public PasswordGroupBox(int X, int Y) :
-            base(Vars.Password + ":", Properties.Resources.Password, X, Y, Vars.Password, Vars.UserTextL)
+        public PasswordGroupBox(int X, int Y)
         {
+            GroupBoxText = Vars.Password + ":";
+            LabelImage = Properties.Resources.Password;
+            GroupBoxLocation = new Point(X, Y);
+            WatermarkText = Vars.Password;
+            TextBoxMaxLength = Vars.UserTextL;
         }
-
-        
     }
 }

@@ -101,9 +101,6 @@
     <Compile Include="UserForms\Elements\GroupBoxComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\Elements\GroupBoxMaskedTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UserForms\Elements\LastNameGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>

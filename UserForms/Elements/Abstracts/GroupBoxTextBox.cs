@@ -1,37 +1,69 @@
-﻿using Org.BouncyCastle.Asn1.Crmf;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace UserData.UserForms.Elements.Abstracts
 {
     internal abstract class GroupBoxTextBox : GroupBox
     {
+        /// <summary>
+        /// Устанавливает заглавие GroupBox
+        /// </summary>
+        internal string GroupBoxText { set { Text = value; } }
+        /// <summary>
+        /// Устанавливает картинку перед TextBox
+        /// </summary>
+        internal Image LabelImage { set { label.Image = value; } }
+        /// <summary>
+        /// Устанавливает положение GroupBox
+        /// </summary>
+        internal Point GroupBoxLocation { set { Location = value; } }
+        /// <summary>
+        /// Устанавливает текст как водный знак в TextBox
+        /// </summary>
+        internal string WatermarkText { set { watermarkText = value; textBox.Text = value; } }
         private string watermarkText;
+        /// <summary>
+        /// Устанавливает максимальное количество символов в TextBox
+        /// </summary>
+        internal int TextBoxMaxLength { set { textBox.MaxLength  = value; } }
+        /// <summary>
+        /// Читает или записывает текст в/из TextBox
+        /// </summary>
+        internal string TextBoxText { get { return textBox.Text; } set { textBox.Text = value; } }
+        /// <summary>
+        /// Устанавливает цвет текста в TextBox
+        /// </summary>
+        internal Color TextBoxTextColor { set { textBox.ForeColor = value; } }
+        /// <summary>
+        /// Устанавливает положение курсора в TextBox при загрузке
+        /// </summary>
+        internal int SelectionStart { set { textBox.SelectionStart = value; } }
+        /// <summary>
+        /// Включает или выключает замену символов на *
+        /// </summary>
+        internal bool PasswordChar { set { if (value) passwordChar = '*'; else passwordChar = '\0'; } }
+        private char passwordChar = '\0';
+        /// <summary>
+        /// Очистить TextBox
+        /// </summary>
+        internal bool TextBoxClear { set { if (value) TextBoxWatermarked(); } }
+
+        internal TextBox TextBoxActiveControl { get { return textBox; } }
+
+
         private Label label;
         private TextBox textBox;
         private bool textBoxWatermarkTextKeyPressed = false;
-        private char passwordChar = '\0';
-        public GroupBoxTextBox(string groupBoxText, Image image, int X, int Y, string textBoxWatermarkText, int textBoxMaxLength)
+        public GroupBoxTextBox()
         {
-            watermarkText = textBoxWatermarkText;
-
             ClientSize = new Size(303, 50);
-            Text = groupBoxText;
-            Location = new Point(X, Y);
-            Name = groupBoxText;
 
             label = new Label()
             {
                 AutoSize = false,
                 Size = new Size(32, 32),
                 Location = new Point(2, 15),
-                Image = image,
                 Name = "label"
             };
             Controls.Add(label);
@@ -40,8 +72,6 @@ namespace UserData.UserForms.Elements.Abstracts
             {
                 Name = "textBox",
                 Font = new Font("Calibri", 15, FontStyle.Regular),
-                Text = textBoxWatermarkText,
-                MaxLength = textBoxMaxLength,
                 Width = 267,
                 Location = new Point(34, 15),
                 ForeColor = SystemColors.GrayText
@@ -70,29 +100,22 @@ namespace UserData.UserForms.Elements.Abstracts
                 textBox.PasswordChar = passwordChar;
             }
             if (e.KeyChar.ToString() == "\b" && textBox.Text.Length == 1)
-            {
-                textBox.ForeColor = SystemColors.GrayText;
-                textBox.Text = watermarkText;
-                textBoxWatermarkTextKeyPressed = false;
-                textBox.PasswordChar = '\0';
-            }
+                TextBoxWatermarked();
         }
         /// <summary>
         /// Проверяет заполнена ли строка
         /// </summary>
         internal bool TextBoxComplete { get { return Checks.TextBoxComplete(textBox, watermarkText); } }
 
-        internal string TextBoxText {  get { return textBox.Text; } set { textBox.Text = value; } }
-        internal Color TextBoxTextColor { set { textBox.ForeColor = value; } }
-        internal int SelectionStart { set { textBox.SelectionStart = value; } }
-        internal char PasswordChar 
-        {  
-            set 
-            {
-                passwordChar = value;
-                //textBox.PasswordChar = passwordChar; 
-            } 
+        /// <summary>
+        /// Записывает водный знак в TextBox
+        /// </summary>
+        private void TextBoxWatermarked()
+        {
+            textBox.ForeColor = SystemColors.GrayText;
+            textBox.Text = watermarkText;
+            textBoxWatermarkTextKeyPressed = false;
+            textBox.PasswordChar = '\0';
         }
-        internal TextBox TextBoxActiveControl { get { return textBox; } } 
     }
 }

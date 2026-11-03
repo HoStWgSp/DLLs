@@ -45,7 +45,7 @@ namespace UserData.UserForms
             nickNameGroupBox = new NickNameGroupBox(41,45);
 
             passwordGroupBox = new PasswordGroupBox(41, 105);
-            passwordGroupBox.PasswordChar = '*';
+            passwordGroupBox.PasswordChar = true;
 
             errorLabel = new Label()
             {
@@ -97,6 +97,8 @@ namespace UserData.UserForms
             if (userDataRow == null)
             {
                 MessageBox.Show(Vars.UserAbsent);
+                nickNameGroupBox.TextBoxClear = true;
+                passwordGroupBox.TextBoxClear = true;
                 return;
             }
 
