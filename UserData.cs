@@ -18,6 +18,7 @@ namespace UserData
         internal DB DB { get; private set; }
         // Объект User
         public User User { get; internal set; }
+        public bool UserDataClear { set { User = new User(); } }
 
         internal Icon formIcon;
         public Icon FormIcon { set { formIcon = value; } }
