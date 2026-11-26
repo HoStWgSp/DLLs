@@ -35,12 +35,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
-      <HintPath>..\..\Business\packages\BouncyCastle.Cryptography.2.6.2\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\Business\bin\Debug\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -176,10 +170,6 @@
     <None Include="Resources\Group.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlertAndConfirmation\AlertAndConfirm.csproj">
-      <Project>{07c2971b-14d7-4285-8738-38b9683d363e}</Project>
-      <Name>AlertAndConfirm</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataBase\DataBase.csproj">
       <Project>{8d0161ae-1e25-4c4b-a891-63b2f3910908}</Project>
       <Name>DataBase</Name>
