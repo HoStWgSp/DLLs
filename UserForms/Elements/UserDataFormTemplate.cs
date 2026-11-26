@@ -17,8 +17,7 @@ namespace UserData.UserForms.Elements
 
         internal Panel panel;
 
-        internal Label loginLabel,
-            errorLabel;
+        internal Label loginLabel, errorLabel;
         internal NameMiddleNameTextBox nameGroupBox;
         internal LastNameGroupBox lastNameGroupBox;
         internal PasswordGroupBox passwordGroupBox;
@@ -28,7 +27,7 @@ namespace UserData.UserForms.Elements
         internal GroupBoxComboBox groupsGroupBox;
         internal Button button;
 
-        public UserDataFormTemplate (Icon formIcon, string[] groups, string labelText, string buttonText)
+        public UserDataFormTemplate(Icon formIcon, string[] groups, string labelText, string buttonText)
         {
             // Иконка формы
             Icon = formIcon;
@@ -54,8 +53,7 @@ namespace UserData.UserForms.Elements
 
             lastNameGroupBox = new LastNameGroupBox(41, 105);
 
-            passwordGroupBox = new PasswordGroupBox(41, 165);
-            passwordGroupBox.PasswordChar = true;
+            passwordGroupBox = new PasswordGroupBox(41, 165) { PasswordChar = true };
 
             phoneNumberGroupBox = new PhoneNumberGroupBox(41, 225);
 
@@ -86,10 +84,9 @@ namespace UserData.UserForms.Elements
             };
             button.Click += Button_Click;
 
-            panel = new Panel();
-            panel.Size = new Size(384, 545);
+            panel = new Panel() { Size = new Size(384, 545) };
 
-            if (groups.Length == 1)//admin)
+            if (groups.Length == 1)
             {
                 groupsGroupBox.ComboBoxText = groupsList[0].ToString();
                 groupsGroupBox.ComboBoxEnable = false;

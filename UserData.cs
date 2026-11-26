@@ -48,9 +48,14 @@ namespace UserData
         /// <summary>
         /// Добавление пользователя
         /// </summary>
-        public bool AddUser (string userGroup, string formTaxt)
+        public bool AddUser(string userGroup, string formText)
         {
             AddNewUserForm addNewUserForm = new AddNewUserForm(this, new string[] { userGroup });//, true);
+            return addNewUserForm.UserAdded;
+        }
+        public bool AddUser(string[] groups, string formText)
+        {
+            AddNewUserForm addNewUserForm = new AddNewUserForm(this, groups);//, true);
             return addNewUserForm.UserAdded;
         }
 
