@@ -11,9 +11,11 @@ using DataBase.Interfaces;
 using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
+
 namespace DataBase.Connection.MySQL
 
 {
+    
     internal class MySQLOpenConnection : IDataProvider
     {
         MySqlConnection mySqlConnection;
