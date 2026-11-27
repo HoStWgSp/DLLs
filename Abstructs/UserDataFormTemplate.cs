@@ -19,8 +19,8 @@ namespace UserData.Abstructs
         internal Panel panel;
 
         internal Label loginLabel, errorLabel;
-        internal NameMiddleNameTextBox nameGroupBox;
         internal LastNameGroupBox lastNameGroupBox;
+        internal NameMiddleNameTextBox nameGroupBox;
         internal PasswordGroupBox passwordGroupBox;
         internal EMailGroupBox eMailGroupBox;
         internal AddressGroupBox addressGroupBox;
@@ -94,8 +94,8 @@ namespace UserData.Abstructs
             }
 
             panel.Controls.Add(loginLabel);
-            panel.Controls.Add(nameGroupBox);
             panel.Controls.Add(lastNameGroupBox);
+            panel.Controls.Add(nameGroupBox);
             panel.Controls.Add(passwordGroupBox);
             panel.Controls.Add(phoneNumberGroupBox);
             panel.Controls.Add(eMailGroupBox);

@@ -14,8 +14,7 @@ namespace UserData.UserForms
 
         private Panel panel;
 
-        private Label loginLabel,
-            errorLabel;
+        private Label loginLabel, errorLabel;
         private NickNameGroupBox nickNameGroupBox;
         private PasswordGroupBox passwordGroupBox;
         private Button button;
@@ -44,8 +43,8 @@ namespace UserData.UserForms
 
             nickNameGroupBox = new NickNameGroupBox(41,45);
 
-            passwordGroupBox = new PasswordGroupBox(41, 105);
-            passwordGroupBox.PasswordChar = true;
+            passwordGroupBox = new PasswordGroupBox(41, 105) { PasswordChar = true };
+            //passwordGroupBox.PasswordChar = true;
 
             errorLabel = new Label()
             {
@@ -68,9 +67,8 @@ namespace UserData.UserForms
             };
             button.Click += Button_Click;
 
-            panel = new Panel();
-            panel.Size = new Size(384, 241);
-
+            panel = new Panel() { Size = new Size(384, 241) };
+            
             panel.Controls.Add(loginLabel);
             panel.Controls.Add(nickNameGroupBox);
             panel.Controls.Add(passwordGroupBox);
