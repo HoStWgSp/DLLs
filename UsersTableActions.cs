@@ -12,26 +12,26 @@ namespace UserData
         /// </summary>
         internal static bool NewTableCreation(DB db, string tableName)
         {
-            List<Tuple<string, string, int, string>> tuples = new List<Tuple<string, string, int, string>>
+            List<Tuple<string, string, string>> tuples = new List<Tuple<string, string, string>>
             {
-                new Tuple<string, string, int, string>(
-                    Vars.UserPassword, "NVARCHAR", Vars.UserTextL, "NOT NULL"),
-                new Tuple<string, string, int, string>(
-                    Vars.UserNickName, "NVARCHAR", Vars.UserTextL*2+1, "NOT NULL"),
-                new Tuple<string, string, int, string>(
-                    Vars.UserName, "NVARCHAR", Vars.UserTextL, "NOT NULL"),
-                new Tuple<string, string, int, string>(
-                    Vars.UserMiddleName, "NVARCHAR", Vars.UserTextL, "NOT NULL"),
-                new Tuple<string, string, int, string>(
-                    Vars.UserLastName, "NVARCHAR", Vars.UserTextL, "NOT NULL"),
-                new Tuple<string, string, int, string>(
-                    Vars.UserEMail, "NVARCHAR", Vars.UserEMailL, "NOT NULL"),
-                new Tuple<string, string, int, string>(
-                    Vars.UserPhone, "NVARCHAR", Vars.UserPhoneL, "NOT NULL"),
-                new Tuple<string, string, int, string>(
-                    Vars.UserAddress, "NVARCHAR", Vars.UserAddressL, "NOT NULL"),
-                new Tuple<string, string, int, string>(
-                    Vars.UserGroup, "NVARCHAR", Vars.UserTextL, "NOT NULL")
+                new Tuple<string, string, string>(
+                    Vars.UserPassword, $"NVARCHAR({Vars.UserTextL})", "NOT NULL"),
+                new Tuple<string, string, string>(
+                    Vars.UserNickName, $"NVARCHAR({Vars.UserTextL*2+1})", "NOT NULL"),
+                new Tuple<string, string, string>(
+                    Vars.UserName, $"NVARCHAR({Vars.UserTextL})", "NOT NULL"),
+                new Tuple<string, string, string>(
+                    Vars.UserMiddleName, $"NVARCHAR({Vars.UserTextL})", "NOT NULL"),
+                new Tuple<string, string, string>(
+                    Vars.UserLastName, $"NVARCHAR({Vars.UserTextL})", "NOT NULL"),
+                new Tuple<string, string, string>(
+                    Vars.UserEMail, $"NVARCHAR({Vars.UserEMailL})", "NOT NULL"),
+                new Tuple<string, string, string>(
+                    Vars.UserPhone, $"NVARCHAR({Vars.UserPhoneL})", "NOT NULL"),
+                new Tuple<string, string, string>(
+                    Vars.UserAddress, $"NVARCHAR({Vars.UserAddressL})", "NOT NULL"),
+                new Tuple<string, string, string>(
+                    Vars.UserGroup, $"NVARCHAR({Vars.UserTextL})", "NOT NULL")
             };
 
             if (!db.NewTableCreation(tableName, tuples))
