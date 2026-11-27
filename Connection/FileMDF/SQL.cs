@@ -62,7 +62,7 @@ namespace DataBase.Connection.FileMDF
         public bool TableCheck(string tableName) { return ExecuteReader($"SELECT * FROM {tableName}"); }
         public bool NewTableCreation(string creationString) { return ExecuteNonQuery(creationString); }
 
-        public bool NewTableCreation(string tableName, List<Tuple<string, string, int, string>> tuples) 
+        public bool NewTableCreation(string tableName, List<Tuple<string, string, string>> tuples) 
         {
             string str = $"CREATE TABLE dbo.{tableName} (" +
                 $"Id INT IDENTITY(1,1) NOT NULL,";
@@ -70,7 +70,7 @@ namespace DataBase.Connection.FileMDF
             int i = tuples.Count;
             for (int j = 0; j < i; j++)
             {
-                str = str + $"{tuples[j].Item1} {tuples[j].Item2}({tuples[j].Item3}) {tuples[j].Item4},";
+                str = str + $"{tuples[j].Item1} {tuples[j].Item2} {tuples[j].Item3},";
             }
 
             str = str + "primary key(id))";

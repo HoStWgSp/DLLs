@@ -110,7 +110,7 @@ namespace DataBase.Connection.MySQL
         public bool TableEmpty(string tableName) { return false; }
      
 
-        public bool NewTableCreation(string tableName, List<Tuple<string, string, int, string>> tuples)
+        public bool NewTableCreation(string tableName, List<Tuple<string, string, string>> tuples)
         {
             string str = $"CREATE TABLE {tableName} " +
                 $"(Id INT AUTO_INCREMENT NOT NULL,";
@@ -118,7 +118,7 @@ namespace DataBase.Connection.MySQL
             int i = tuples.Count;
             for (int j = 0; j < i; j++)
             {
-                str = str + $"{tuples[j].Item1} {tuples[j].Item2}({tuples[j].Item3}) {tuples[j].Item4},";
+                str = str + $"{tuples[j].Item1} {tuples[j].Item2} {tuples[j].Item3},";
             }
 
             str = str + "primary key(id))";

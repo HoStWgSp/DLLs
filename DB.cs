@@ -51,7 +51,7 @@ namespace DataBase
         /// <param name="creationString"></param>
         /// <returns></returns>
         //public bool NewTableCreation(string creationString) { return DataProvider.NewTableCreation(creationString); }
-        public bool NewTableCreation(string tableName, List<Tuple<string, string, int, string>> tuples) 
+        public bool NewTableCreation(string tableName, List<Tuple<string, string, string>> tuples) 
         {            
             return DataProvider.NewTableCreation(tableName, tuples); 
         }

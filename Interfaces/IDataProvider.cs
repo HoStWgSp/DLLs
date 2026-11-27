@@ -42,7 +42,7 @@ namespace DataBase.Interfaces
         /// <summary>
         /// Создает таблицу
         /// </summary>
-        bool NewTableCreation(string tableName, List<Tuple<string, string, int, string>> tuples);
+        bool NewTableCreation(string tableName, List<Tuple<string, string, string>> tuples);
 
         /// <summary>
         /// Добавляет строку в таблицу
