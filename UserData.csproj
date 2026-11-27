@@ -70,16 +70,13 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="User.cs" />
-    <Compile Include="UserForms\AddNewUser.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UserForms\AddNewUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\Elements\Abstracts\GroupBoxMaskedTextBox.cs">
+    <Compile Include="Abstructs\GroupBoxMaskedTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\Elements\Abstracts\GroupBoxTextBox.cs">
+    <Compile Include="Abstructs\GroupBoxTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\Elements\AddressGroupBox.cs">
@@ -107,7 +104,7 @@
     <Compile Include="UserForms\Elements\PhoneNumberGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserForms\Elements\UserDataFormTemplate.cs">
+    <Compile Include="Abstructs\UserDataFormTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserForms\Elements\UserNameGroupBox.cs">
@@ -115,13 +112,6 @@
     </Compile>
     <Compile Include="UserForms\PasswordConfirmationForm.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UserForms\UserDataForm.cs" />
-    <Compile Include="UserForms\UserListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UserForms\UserDataPanel.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserForms\UserLogInForm.cs">
       <SubType>Form</SubType>

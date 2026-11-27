@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UserData.MyElements;
+using UserData.UserForms.Elements;
 
-namespace UserData.UserForms.Elements
+namespace UserData.Abstructs
 {
-    internal class UserDataFormTemplate : Form
+    internal abstract class UserDataFormTemplate : Form
     {
         string[] groupsList {  get; set; }
         //internal bool Admin {  get; private set; }
@@ -49,9 +50,9 @@ namespace UserData.UserForms.Elements
                 Text = labelText
             };
 
-            nameGroupBox = new NameMiddleNameTextBox(41, 45);
+            lastNameGroupBox = new LastNameGroupBox(41, 45);
 
-            lastNameGroupBox = new LastNameGroupBox(41, 105);
+            nameGroupBox = new NameMiddleNameTextBox(41, 105);
 
             passwordGroupBox = new PasswordGroupBox(41, 165) { PasswordChar = true };
 
@@ -107,8 +108,8 @@ namespace UserData.UserForms.Elements
 
             ClientSize = new Size(panel.Width, panel.Height);
 
-            ActiveControl = nameGroupBox.TextBox1ActiveControl;
-            nameGroupBox.TextBox1SelectionStart = 0;
+            ActiveControl = lastNameGroupBox.TextBoxActiveControl;
+            lastNameGroupBox.SelectionStart = 0;
         }
 
         /// <summary>
@@ -117,17 +118,17 @@ namespace UserData.UserForms.Elements
         /// <returns></returns>
         internal bool TextBoxesFillCorrect()
         {
-            if (!nameGroupBox.TextBox1Comlete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Name}!"; return false; }
-
             if (!lastNameGroupBox.TextBoxComplete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.LastName}!"; return false; }
+
+            if (!nameGroupBox.TextBox1Comlete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Name}!"; return false; }
 
             if (!passwordGroupBox.TextBoxComplete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Password}!"; return false; }
 
             if (!phoneNumberGroupBox.PhoneMaskCompleted) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Phone}!"; return false; }
 
-            if (!eMailGroupBox.EMailCorrect) { errorLabel.Text = Vars.EmailIncorrect + "!"; return false; }
+            //if (!eMailGroupBox.EMailCorrect) { errorLabel.Text = Vars.EmailIncorrect + "!"; return false; }
             
-            if (!addressGroupBox.TextBoxComplete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Address}!"; return false; }
+            //if (!addressGroupBox.TextBoxComplete) { errorLabel.Text = $"{Vars.TextBoxEmpty} {Vars.Address}!"; return false; }
 
             if (!groupsGroupBox.GroupComboBoxSelected) { errorLabel.Text = Vars.GroupNotChoosen; return false; }
 

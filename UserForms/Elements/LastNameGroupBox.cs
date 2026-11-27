@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UserData.UserForms.Elements.Abstracts;
+using UserData.Abstracts;
 
 
 namespace UserData.UserForms.Elements
@@ -20,6 +20,8 @@ namespace UserData.UserForms.Elements
             WatermarkText = Vars.LastName;
             TextBoxMaxLength = Vars.UserTextL;
         }
+
+
         //private string watermarkText;
         //private Label label;
         //internal TextBox textBox;

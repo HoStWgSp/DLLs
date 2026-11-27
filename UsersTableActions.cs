@@ -1,4 +1,6 @@
 ﻿using DataBase;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace UserData
@@ -10,35 +12,35 @@ namespace UserData
         /// </summary>
         internal static bool NewTableCreation(DB db, string tableName)
         {
-            // Пробуем создать новую таблицу пользователей
-            if (!db.NewTableCreation($"CREATE TABLE {tableName} " +
-                $"(Id INT AUTO_INCREMENT NOT NULL,{GetUsersColumns()}"))
+            List<Tuple<string, string, int, string>> tuples = new List<Tuple<string, string, int, string>>
             {
-                if (!db.NewTableCreation($"CREATE TABLE dbo.{tableName} " +
-                $"(Id INT IDENTITY(1,1) NOT NULL,{GetUsersColumns()}"))
-                { 
-                    MessageBox.Show(Vars.TableNotCreated); 
-                    return false; 
-                }
-                else 
-                    return true;
-            }
-            else 
-                return true;
+                new Tuple<string, string, int, string>(
+                    Vars.UserPassword, "NVARCHAR", Vars.UserTextL, "NOT NULL"),
+                new Tuple<string, string, int, string>(
+                    Vars.UserNickName, "NVARCHAR", Vars.UserTextL*2+1, "NOT NULL"),
+                new Tuple<string, string, int, string>(
+                    Vars.UserName, "NVARCHAR", Vars.UserTextL, "NOT NULL"),
+                new Tuple<string, string, int, string>(
+                    Vars.UserMiddleName, "NVARCHAR", Vars.UserTextL, "NOT NULL"),
+                new Tuple<string, string, int, string>(
+                    Vars.UserLastName, "NVARCHAR", Vars.UserTextL, "NOT NULL"),
+                new Tuple<string, string, int, string>(
+                    Vars.UserEMail, "NVARCHAR", Vars.UserEMailL, "NOT NULL"),
+                new Tuple<string, string, int, string>(
+                    Vars.UserPhone, "NVARCHAR", Vars.UserPhoneL, "NOT NULL"),
+                new Tuple<string, string, int, string>(
+                    Vars.UserAddress, "NVARCHAR", Vars.UserAddressL, "NOT NULL"),
+                new Tuple<string, string, int, string>(
+                    Vars.UserGroup, "NVARCHAR", Vars.UserTextL, "NOT NULL")
+            };
 
-            string GetUsersColumns()
-            {
-                return $"{Vars.UserPassword} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"{Vars.UserNickName} NVARCHAR({Vars.UserTextL*2+1}) NOT NULL," +
-                        $"{Vars.UserName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"{Vars.UserMiddleName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"{Vars.UserLastName} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"{Vars.UserEMail} NVARCHAR({Vars.UserEMailL}) NOT NULL," +
-                        $"{Vars.UserPhone} NVARCHAR({Vars.UserPhoneL}) NOT NULL," +
-                        $"{Vars.UserAddress} NVARCHAR({Vars.UserAddressL}) NOT NULL," +
-                        $"{Vars.UserGroup} NVARCHAR({Vars.UserTextL}) NOT NULL," +
-                        $"primary key (id))";
-            }
+            if (!db.NewTableCreation(tableName, tuples))
+                {
+                MessageBox.Show(Vars.TableNotCreated);
+                return false;
+                }
+            else
+                return true;
         }
 
         /// <summary>
@@ -46,30 +48,29 @@ namespace UserData
         /// </summary>
         internal static bool AddNewUser(UserData userData, User user)
         {
-            if (userData.DB.AddTableRow($"INSERT INTO {userData.tableName} " +
-                $"(" +
-                $"{Vars.UserPassword}, " +
-                $"{Vars.UserNickName}, " +
-                $"{Vars.UserName}, " +
-                $"{Vars.UserMiddleName}, " +
-                $"{Vars.UserLastName}, " +
-                $"{Vars.UserEMail}, " +
-                $"{Vars.UserPhone}, " +
-                $"{Vars.UserAddress}, " +
-                $"{Vars.UserGroup}" +
-                $") VALUES (" +
-                $"N'{user.UserPassword}', " +
-                $"N'{user.UserLastName} {user.UserName}', " +
-                $"N'{user.UserName}', " +
-                $"N'{user.UserMiddleName}', " +
-                $"N'{user.UserLastName}', " +
-                $"N'{user.UserEmail}', " +
-                $"N'{user.UserPhoneNumber}', " +
-                $"N'{user.UserAddress}', " +
-                $"N'{user.UserGroup}'" +
-                $")")) 
-                // Если пользователь добавлен
-                return true;
+            List<Tuple<string, string>> tuples = new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>(
+                    Vars.UserPassword, user.UserPassword),
+                new Tuple<string, string>(
+                    Vars.UserNickName, $"{user.UserLastName} {user.UserName}"),
+                new Tuple<string, string>(
+                    Vars.UserName, user.UserName),
+                new Tuple<string, string>(
+                    Vars.UserMiddleName, user.UserMiddleName),
+                new Tuple<string, string>(
+                    Vars.UserLastName, user.UserLastName),
+                new Tuple<string, string>(
+                    Vars.UserEMail, user.UserEmail),
+                new Tuple<string, string>(
+                    Vars.UserPhone, user.UserPhoneNumber),
+                new Tuple<string, string>(
+                    Vars.UserAddress, user.UserAddress),
+                new Tuple<string, string>(
+                    Vars.UserGroup, user.UserGroup),
+            };
+            if (userData.DB.AddTableRow(userData.tableName, tuples)) return true;
+
             // Если не удалось добавить пользователя
             MessageBox.Show(Vars.UserNorRegistred);
             return false; 

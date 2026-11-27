@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace UserData.UserForms.Elements.Abstracts
+namespace UserData.Abstracts
 {
     internal abstract class GroupBoxMaskedTextBox : GroupBox
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using UserData.UserForms.Elements;
 
-namespace UserData.UserForms.Elements.Abstracts
+namespace UserData.Abstracts
 {
     internal abstract class GroupBoxTextBox : GroupBox
     {

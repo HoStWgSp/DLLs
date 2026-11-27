@@ -130,7 +130,6 @@ namespace UserData
         /// <returns></returns>
         public bool UserAuthorization()
         {
-            //UsersDataTable = UsersTableActions.ReadUsersDataTable();
             UserLogInForm userLogInForm = new UserLogInForm(this);
             return userLogInForm.Authorized;
         }

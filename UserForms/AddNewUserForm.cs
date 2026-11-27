@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Drawing;
+using UserData.Abstructs;
 using UserData.UserForms.Elements;
 
 namespace UserData.UserForms
 {
-    internal class AddNewUserForm : UserDataFormTemplate
+    internal class AddNewUserForm : UserDataFormTemplate 
     {
         private UserData userData;
         internal bool UserAdded { get; private set; } = false;

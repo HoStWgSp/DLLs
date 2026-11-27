@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserData.UserForms.Elements.Abstracts;
+using UserData.Abstracts;
 
 namespace UserData.UserForms.Elements
 {
