@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,13 +42,14 @@ namespace DataBase.Interfaces
         /// <summary>
         /// Создает таблицу
         /// </summary>
-        bool NewTableCreation(string creationString);
+        bool NewTableCreation(string tableName, List<Tuple<string, string, int, string>> tuples);
 
         /// <summary>
         /// Добавляет строку в таблицу
         /// </summary>
         /// <param name="requestS
         bool AddTableRow(string requestString);
+        bool AddTableRow(string tableName, List<Tuple<string, string>> tuples);
 
         /// <summary>
         /// Возвращает номер строки которая первая совпадает с поиском

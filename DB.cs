@@ -50,15 +50,19 @@ namespace DataBase
         /// </summary>
         /// <param name="creationString"></param>
         /// <returns></returns>
-        public bool NewTableCreation(string creationString) { return DataProvider.NewTableCreation(creationString); }
-
+        //public bool NewTableCreation(string creationString) { return DataProvider.NewTableCreation(creationString); }
+        public bool NewTableCreation(string tableName, List<Tuple<string, string, int, string>> tuples) 
+        {            
+            return DataProvider.NewTableCreation(tableName, tuples); 
+        }
         /// <summary>
         /// Добавляет новую строку в таблицу
         /// </summary>
         /// <param name="requestString"></param>
         /// <returns></returns>
         public bool AddTableRow(string requestString) { return DataProvider.AddTableRow(requestString); }
-
+        public bool AddTableRow(string tableName, List<Tuple<string, string>> tuples) 
+        { return DataProvider.AddTableRow(tableName, tuples); }
         /// <summary>
         /// Возвращает номер строки которая первая совпадает с поиском
         /// </summary>

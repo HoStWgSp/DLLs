@@ -61,7 +61,43 @@ namespace DataBase.Connection.FileMDF
         //public bool TableEmpty(string tableName) { return false; }
         public bool TableCheck(string tableName) { return ExecuteReader($"SELECT * FROM {tableName}"); }
         public bool NewTableCreation(string creationString) { return ExecuteNonQuery(creationString); }
+
+        public bool NewTableCreation(string tableName, List<Tuple<string, string, int, string>> tuples) 
+        {
+            string str = $"CREATE TABLE dbo.{tableName} (" +
+                $"Id INT IDENTITY(1,1) NOT NULL,";
+
+            int i = tuples.Count;
+            for (int j = 0; j < i; j++)
+            {
+                str = str + $"{tuples[j].Item1} {tuples[j].Item2}({tuples[j].Item3}) {tuples[j].Item4},";
+            }
+
+            str = str + "primary key(id))";
+            return ExecuteNonQuery(str); 
+        }
         public bool AddTableRow(string requestString) { return ExecuteNonQuery(requestString); }
+        public bool AddTableRow(string tableName, List<Tuple<string, string>> tuples) {
+
+            string str = $"INSERT INTO {tableName} (";
+
+            int i = tuples.Count;
+
+            for (int j = 0; j < i - 1; j++)
+            {
+                str += $"{tuples[j].Item1}, ";
+            }
+            str += $"{tuples[i - 1].Item1}) VALUES (";
+            for (int j = 0; j < i - 1; j++)
+            {
+                str += $"N'{tuples[j].Item2}', ";
+            }
+            str += $"N'{tuples[i - 1].Item2}')";
+            return ExecuteNonQuery(str);
+        }
+
+
+
         public int TableRowCount(string tableName)
         {
             SqlCommand SqlCommand = new SqlCommand($"select count(*) from {tableName}", sqlConnection);
