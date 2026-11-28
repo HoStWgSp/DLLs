@@ -52,9 +52,7 @@ namespace DataBase
         /// <returns></returns>
         //public bool NewTableCreation(string creationString) { return DataProvider.NewTableCreation(creationString); }
         public bool NewTableCreation(string tableName, List<Tuple<string, string, string>> tuples) 
-        {            
-            return DataProvider.NewTableCreation(tableName, tuples); 
-        }
+        { return DataProvider.NewTableCreation(tableName, tuples); }
         /// <summary>
         /// Добавляет новую строку в таблицу
         /// </summary>
